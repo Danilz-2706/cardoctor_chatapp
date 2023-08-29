@@ -10,38 +10,20 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
+import '../../cardoctor_chatapp.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/receiver_card.dart';
 import '../../widget/sender_card.dart';
-import '../chat_list/chat_list_screen.dart';
 import '../contains.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  final String avatar;
-  final String name;
-  final String cluseterID;
-  final String apiKey;
-  final String apiSecret;
-  final String user1Id;
-  final String user2Id;
-  final int getNotifySelf;
-  final int getPresence;
-  final String jwt;
+  final ChatAppCarDoctorUtilOption data;
 
   const ChatDetailScreen({
     Key? key,
-    required this.avatar,
-    required this.name,
-    required this.cluseterID,
-    required this.apiKey,
-    required this.apiSecret,
-    required this.user1Id,
-    required this.user2Id,
-    required this.getNotifySelf,
-    required this.getPresence,
-    required this.jwt,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -51,20 +33,9 @@ class ChatDetailScreen extends StatefulWidget {
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late final IOWebSocketChannel channel;
   late ScrollController scrollController;
-  late String? _privateChannelName;
-  late String? _url;
-  late String? _urlWithNoti;
-  late String? _urlWithAuth;
   final List<SendMessageResponse> listMessage = [];
 
   final String idUserFrom = "CarDoctor348GARAGE_OWNER";
-  void scrollListToEnd() async {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.easeOut,
-    );
-  }
 
   late TextEditingController controller;
 
@@ -102,17 +73,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => scrollListToEnd());
     controller = TextEditingController();
-    _privateChannelName = 'private_chat_${widget.user1Id}_${widget.user2Id}';
-    _url =
-        'wss://${widget.cluseterID}.piesocket.com/v3/1?api_key=${widget.cluseterID}';
-    _urlWithNoti = '$_url&notify_self=${widget.getNotifySelf}';
-    _urlWithAuth = '$_url&jwt=${widget.jwt}';
 
     channel = IOWebSocketChannel.connect(
-      Uri.parse(
-          'wss://free.blr2.piesocket.com/v3/1?api_key=5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX&notify_self=1'),
+      Uri.parse('wss://' +
+          widget.data.cluseterID +
+          '.piesocket.com/v3/' +
+          widget.data.groupName +
+          '?api_key=' +
+          widget.data.apiKey +
+          '&notify_self=1'),
     );
     connectWebsocket();
   }
@@ -171,7 +141,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               package: Consts.packageName,
             ),
             Text(
-              widget.name ?? '',
+              widget.data.groupName ?? '',
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -207,7 +177,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     : ListView.builder(
                         reverse: true,
                         itemCount: listMessage.length,
-                        // controller: scrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           if (index > 0 &&
@@ -262,15 +231,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       await getImage();
                       print(filesList);
                       //
-                      var message = SendMessageRequest(
-                        originalMessage: '',
-                        attachmentType: TypeSend.images.name,
-                        linkPreview:
-                            "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                        username: idUserFrom,
-                        groupName: '',
-                      );
-                      addMessage(message);
+                      // var message = SendMessageRequest(
+                      //   originalMessage: '',
+                      //   attachmentType: TypeSend.images.name,
+                      //   linkPreview:
+                      //       "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
+                      //   username: idUserFrom,
+                      //   groupName: '',
+                      // );
+                      // addMessage(message);
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
