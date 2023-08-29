@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../../widget/custom_appbar.dart';
 import '../../widget/search_list_simple_item_popup.dart';
 import '../chat_detail/chat_detail_screen.dart';
 import '../contains.dart';
@@ -44,23 +45,34 @@ class ChatListScreen extends StatelessWidget {
   final int getNotifySelf;
   final int getPresence;
   final String jwt;
-  final PreferredSize? appBar;
-  const ChatListScreen(
-      {super.key,
-      required this.cluseterID,
-      required this.apiKey,
-      required this.apiSecret,
-      required this.user1Id,
-      required this.user2Id,
-      required this.getNotifySelf,
-      required this.getPresence,
-      required this.jwt,
-      this.appBar});
+  const ChatListScreen({
+    super.key,
+    required this.cluseterID,
+    required this.apiKey,
+    required this.apiSecret,
+    required this.user1Id,
+    required this.user2Id,
+    required this.getNotifySelf,
+    required this.getPresence,
+    required this.jwt,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar: appBar(
+        context,
+        title: 'Danh sách liên hệ',
+        backgroundColor: const Color(0xFFF6F6F6),
+        rightWidget: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          child: Image.asset(
+            'assets/imgs/ic_gallary.png',
+            width: 32,
+            height: 32,
+          ),
+        ),
+      ),
       backgroundColor: kBgColors,
       body: SafeArea(
         child: Column(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:web_socket_channel/io.dart';
 
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
+import '../../widget/custom_appbar.dart';
 import '../../widget/receiver_card.dart';
 import '../../widget/sender_card.dart';
 import '../chat_list/chat_list_screen.dart';
@@ -27,7 +29,6 @@ class ChatDetailScreen extends StatefulWidget {
   final int getNotifySelf;
   final int getPresence;
   final String jwt;
-  final PreferredSize? appBar;
 
   const ChatDetailScreen({
     Key? key,
@@ -41,7 +42,6 @@ class ChatDetailScreen extends StatefulWidget {
     required this.getNotifySelf,
     required this.getPresence,
     required this.jwt,
-    this.appBar,
   }) : super(key: key);
 
   @override
@@ -160,7 +160,28 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: widget.appBar,
+      appBar: appBar(
+        context,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/imgs/ic_button_send.png',
+              width: 32,
+              height: 32,
+              package: Consts.packageName,
+            ),
+            Text(
+              widget.name ?? '',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .h5Bold
+                  .copyWith(color: kColorDark1),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xFFF6F6F6),
+      ),
       backgroundColor: kBgColors,
       body: SafeArea(
         child: Column(
