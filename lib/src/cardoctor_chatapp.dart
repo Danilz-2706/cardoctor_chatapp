@@ -20,16 +20,16 @@ class ChatAppCarDoctorUtilOption {
   });
 }
 
-class ChatAppCarDoctorUtil {
-  final ChatAppCarDoctorUtilOption option;
-  final Function(dynamic) press;
+// class ChatAppCarDoctorUtil {
+//   final ChatAppCarDoctorUtilOption option;
+//   final Function(dynamic) press;
 
-  ChatAppCarDoctorUtil(this.option, this.press);
+//   ChatAppCarDoctorUtil(this.option, this.press);
 
-  Future open(BuildContext context) {
-    return NavigationUtils.rootNavigatePageWithArguments(
-      context,
-      ChatDetailScreen(data: option),
-    );
-  }
-}
+//   Future open(BuildContext context) {
+//     return NavigationUtils.rootNavigatePageWithArguments(
+//       context,
+//       ChatDetailScreen(data: option),
+//     );
+//   }
+// }

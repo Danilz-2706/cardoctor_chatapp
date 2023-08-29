@@ -20,10 +20,11 @@ import '../contains.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
-
+  final Function(SendMessageRequest) press;
   const ChatDetailScreen({
     Key? key,
     required this.data,
+    required this.press,
   }) : super(key: key);
 
   @override
@@ -301,7 +302,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           username: idUserFrom,
                           groupName: '',
                         );
-                        addMessage(message);
+                        // addMessage(message);
+                        widget.press(message);
 
                         setState(() {
                           controller.text = '';
