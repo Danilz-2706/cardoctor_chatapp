@@ -1,23 +1,14 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'send_message_request.g.dart';
-
-@JsonSerializable()
 class SendMessageRequest {
-  @JsonKey(name: 'originalMessage')
   String? originalMessage;
 
-  @JsonKey(name: 'attachmentType')
   String? attachmentType;
 
-  @JsonKey(name: 'linkPreview')
   String? linkPreview;
 
-  @JsonKey(name: 'groupName')
   String? groupName;
 
-  @JsonKey(name: 'username')
   String? username;
+  int? type;
 
   SendMessageRequest({
     this.originalMessage,
@@ -25,9 +16,33 @@ class SendMessageRequest {
     this.linkPreview,
     this.groupName,
     this.username,
+    this.type,
   });
 
-  factory SendMessageRequest.fromJson(Map<String, dynamic> json) =>
-      _$SendMessageRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$SendMessageRequestToJson(this);
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'originalMessage': originalMessage,
+      'attachmentType': attachmentType,
+      'linkPreview': linkPreview,
+      'groupName': groupName,
+      'username': username,
+      'type': type,
+    };
+  }
+
+  factory SendMessageRequest.fromMap(Map<String, dynamic> map) {
+    return SendMessageRequest(
+      originalMessage: map['originalMessage'] != null
+          ? map['originalMessage'] as String
+          : null,
+      attachmentType: map['attachmentType'] != null
+          ? map['attachmentType'] as String
+          : null,
+      linkPreview:
+          map['linkPreview'] != null ? map['linkPreview'] as String : null,
+      groupName: map['groupName'] != null ? map['groupName'] as String : null,
+      username: map['username'] != null ? map['username'] as String : null,
+      type: map['type'] != null ? map['type'] as int : null,
+    );
+  }
 }

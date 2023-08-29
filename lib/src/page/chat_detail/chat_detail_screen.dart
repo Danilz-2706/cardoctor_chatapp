@@ -20,7 +20,7 @@ import '../contains.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
-  final Function(SendMessageRequest) press;
+  final Function(Map<String, dynamic>) press;
   const ChatDetailScreen({
     Key? key,
     required this.data,
@@ -102,7 +102,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               print(message);
               setState(() {
                 listMessage.insert(
-                    0, SendMessageResponse.fromJson(json.decode(message)));
+                    0, SendMessageResponse.fromMap(json.decode(message)));
               });
             },
             cancelOnError: true,
@@ -120,13 +120,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
   }
 
-  Future addMessage(SendMessageRequest message) async {
-    try {
-      channel.sink.add(json.encode(message));
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future addMessage(SendMessageRequest message) async {
+  //   try {
+  //     channel.sink.add(json.encode(message));
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -230,17 +230,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   GestureDetector(
                     onTap: () async {
                       await getImage();
-                      print(filesList);
-                      //
-                      // var message = SendMessageRequest(
-                      //   originalMessage: '',
-                      //   attachmentType: TypeSend.images.name,
-                      //   linkPreview:
-                      //       "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                      //   username: idUserFrom,
-                      //   groupName: '',
-                      // );
+                      var message = SendMessageRequest(
+                        originalMessage: '',
+                        attachmentType: TypeSend.images.name,
+                        linkPreview:
+                            "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
+                        username: idUserFrom,
+                        groupName: widget.data.groupName,
+                      );
                       // addMessage(message);
+                      widget.press(message.toMap());
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
@@ -296,14 +295,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       if (controller.text != '') {
                         var message = SendMessageRequest(
                           originalMessage: controller.text,
-                          attachmentType: TypeSend.images.name,
+                          attachmentType: '',
                           linkPreview:
                               "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
                           username: idUserFrom,
-                          groupName: '',
+                          groupName: widget.data.groupName,
                         );
                         // addMessage(message);
-                        widget.press(message);
+                        widget.press(message.toMap());
 
                         setState(() {
                           controller.text = '';
