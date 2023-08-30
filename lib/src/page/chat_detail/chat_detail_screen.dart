@@ -246,6 +246,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               color: Colors.white,
+              height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -265,7 +266,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
-                      height: 24,
                       package: Consts.packageName,
                     ),
                   ),
@@ -276,7 +276,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',
-                      height: 24,
                       package: Consts.packageName,
                     ),
                   ),
