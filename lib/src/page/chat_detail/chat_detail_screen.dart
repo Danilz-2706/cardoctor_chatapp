@@ -36,8 +36,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late ScrollController scrollController;
   final List<SendMessageResponse> listMessage = [];
 
-  final String idUserFrom = "CarDoctor348GARAGE_OWNER";
-
   late TextEditingController controller;
 
   List<File> filesList = [];
@@ -99,7 +97,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
+              print("socket");
               print(message);
+
               setState(() {
                 listMessage.insert(
                     0, SendMessageResponse.fromMap(json.decode(message)));
@@ -181,8 +181,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           if (index > 0 &&
-                              listMessage[index].username == idUserFrom &&
-                              listMessage[index - 1].username == idUserFrom) {
+                              listMessage[index].username ==
+                                  widget.data.idUserFrom &&
+                              listMessage[index - 1].username ==
+                                  widget.data.idUserFrom) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
@@ -190,7 +192,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
-                          if (listMessage[index].username == idUserFrom) {
+                          if (listMessage[index].username ==
+                              widget.data.idUserFrom) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 24),
                               child: SenderCard(
@@ -199,8 +202,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             );
                           }
                           if (index > 0 &&
-                              listMessage[index].username != idUserFrom &&
-                              listMessage[index - 1].username != idUserFrom) {
+                              listMessage[index].username !=
+                                  widget.data.idUserFrom &&
+                              listMessage[index - 1].username !=
+                                  widget.data.idUserFrom) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: ReceiverCard(
@@ -235,7 +240,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         attachmentType: TypeSend.images.name,
                         linkPreview:
                             "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                        username: idUserFrom,
+                        username: widget.data.idUserFrom,
                         groupName: widget.data.groupName,
                       );
                       // addMessage(message);
@@ -298,7 +303,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           attachmentType: '',
                           linkPreview:
                               "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                          username: idUserFrom,
+                          username: widget.data.idUserFrom,
                           groupName: widget.data.groupName,
                         );
                         // addMessage(message);
