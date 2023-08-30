@@ -21,10 +21,12 @@ import '../contains.dart';
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
   final Function(Map<String, dynamic>) press;
+  final Widget? stackWidget;
   const ChatDetailScreen({
     Key? key,
     required this.data,
     required this.press,
+    this.stackWidget,
   }) : super(key: key);
 
   @override
@@ -33,8 +35,9 @@ class ChatDetailScreen extends StatefulWidget {
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late final IOWebSocketChannel channel;
+  FocusNode _focusNode = FocusNode();
   late ScrollController scrollController;
-  late final List<SendMessageResponse> listMessage;
+  List<SendMessageResponse> listMessage = [];
 
   final String idUserFrom = "CarDoctor348GARAGE_OWNER";
 
@@ -71,13 +74,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Future doWithIcon() async {}
   Future doWithFormReviewQuotes() async {}
 
+  void _handleFocusChange() {
+    if (!_focusNode.hasFocus) {
+      print('Người dùng đã không nhấn vào TextInput');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     controller = TextEditingController();
+    List<SendMessageResponse> sample = [];
     for (var e in widget.data.historyChat) {
-      listMessage.add(SendMessageResponse.fromMap(e));
+      sample.add(SendMessageResponse.fromMap(e));
     }
+    setState(() {
+      listMessage.addAll(sample);
+    });
     channel = IOWebSocketChannel.connect(
       Uri.parse('wss://' +
           widget.data.cluseterID +
@@ -89,12 +102,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
     print('Connect socket');
     connectWebsocket();
+    _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
     channel.sink.close();
     controller.dispose();
+    _focusNode.removeListener(_handleFocusChange);
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -226,10 +242,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
               ),
             ),
+            widget.stackWidget ?? const SizedBox(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               color: Colors.white,
-              height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -249,6 +265,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
+                      height: 24,
                       package: Consts.packageName,
                     ),
                   ),
@@ -259,20 +276,27 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',
+                      height: 24,
                       package: Consts.packageName,
                     ),
                   ),
                   Container(
                     width: 204,
+                    height: 44,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
                       color: Color.fromRGBO(246, 246, 246, 1),
                     ),
                     child: TextField(
+                      focusNode: _focusNode,
                       onChanged: (value) {
                         if (value.isNotEmpty) {
                         } else {}
                       },
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color.fromRGBO(176, 176, 176, 1),
+                      ),
                       controller: controller,
                       maxLines: null,
                       minLines: null,
