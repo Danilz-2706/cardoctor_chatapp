@@ -28,6 +28,10 @@ class _SenderCardState extends State<SenderCard> {
     if (widget.data.type == 2) {
       List<FormItem> sample = [];
       var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+      print('haha');
+      print(widget.data.originalMessage!);
+      print('hihi');
+      print(x);
       for (var e in x.value!) {
         sample.add(e);
       }
@@ -104,21 +108,15 @@ class _SenderCardState extends State<SenderCard> {
                   gradient: kLinearColor,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: widget.data.type == 2
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [],
-                      )
-                    : Text(
-                        widget.data.originalMessage ?? 'Lỗi',
-                        textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: kTextWhiteColors,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                child: Text(
+                  widget.data.originalMessage ?? 'Lỗi',
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: kTextWhiteColors,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
           ),
