@@ -1,18 +1,21 @@
+import 'package:cardoctor_chatapp/cardoctor_chatapp.dart';
+import 'package:flutter/material.dart';
+
+import 'utils/navigation_utils.dart';
+
 class ChatAppCarDoctorUtilOption {
   final String apiKey;
   final String apiSecret;
   final String cluseterID;
   final String getNotifySelf;
   final String groupName;
-  final String idUserFrom;
-  final List<dynamic> historyChat;
+  final List<Map<String, dynamic>> historyChat;
   ChatAppCarDoctorUtilOption({
     required this.apiKey,
     required this.apiSecret,
     required this.cluseterID,
     required this.getNotifySelf,
     required this.groupName,
-    required this.idUserFrom,
     required this.historyChat,
   });
 }
