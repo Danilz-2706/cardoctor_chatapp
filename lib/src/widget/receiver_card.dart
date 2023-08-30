@@ -88,27 +88,35 @@ class _ReceiverCardState extends State<ReceiverCard> {
           ),
         if (listForm.isEmpty) const SizedBox(width: 8),
         if (listForm.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              gradient: kLinearColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: List.generate(
-                listForm.length,
-                (index) {
-                  if (listForm[index].type == 'title') {
-                    return TitleForm(listForm: listForm[index]);
-                  }
-                  if (listForm[index].type == 'dropdown') {
-                    return LabelDropDownForm(listForm: listForm[index]);
-                  }
-                  if (listForm[index].type == 'textfield') {
-                    return TextFieldForm(listForm: listForm[index]);
-                  }
-                  return Container();
-                },
+          Align(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 100),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  gradient: kLinearColor,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    listForm.length,
+                    (index) {
+                      if (listForm[index].type == 'title') {
+                        return TitleForm(listForm: listForm[index]);
+                      }
+                      if (listForm[index].type == 'dropdown') {
+                        return LabelDropDownForm(listForm: listForm[index]);
+                      }
+                      if (listForm[index].type == 'textfield') {
+                        return TextFieldForm(listForm: listForm[index]);
+                      }
+                      return Container();
+                    },
+                  ),
+                ),
               ),
             ),
           ),

@@ -68,11 +68,21 @@ class _HomePageState extends State<HomePage> {
         getNotifySelf: '1',
         groupName: 'GR_1693357083059',
         historyChat: []);
-    return ChatDetailScreen(
-      data: data,
-      // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
-      press: (value) {},
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChatDetailScreen(
+          data: data,
+          // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
+          press: (value) {},
+        ),
+      ),
     );
+    // return ChatDetailScreen(
+    //   data: data,
+    //   // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
+    //   press: (value) {},
+    // );
   }
 
   @override

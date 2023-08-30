@@ -242,7 +242,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
               ),
             ),
-            widget.stackWidget ?? const SizedBox(),
+            if (widget.stackWidget != null) widget.stackWidget!,
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               color: Colors.white,
