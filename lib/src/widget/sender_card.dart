@@ -28,10 +28,6 @@ class _SenderCardState extends State<SenderCard> {
     if (widget.data.type == 2) {
       List<FormItem> sample = [];
       var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-      print('haha');
-      print(widget.data.originalMessage!);
-      print('hihi');
-      print(x);
       for (var e in x.value!) {
         sample.add(e);
       }
