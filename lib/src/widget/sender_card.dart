@@ -60,10 +60,20 @@ class _SenderCardState extends State<SenderCard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              gradient: kLinearColor,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  spreadRadius: 0,
+                  blurRadius: 15,
+                  offset: Offset(0, 0),
+                ),
+              ],
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
                 listForm.length,
                 (index) {

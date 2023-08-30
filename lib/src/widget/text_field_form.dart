@@ -1,6 +1,10 @@
+import 'package:cardoctor_chatapp/src/page/contains.dart';
 import 'package:flutter/material.dart';
 
 import '../model/form_text.dart';
+import '../page/contains.dart';
+import '../page/contains.dart';
+import '../page/contains.dart';
 
 class TextFieldForm extends StatelessWidget {
   const TextFieldForm({
@@ -13,7 +17,17 @@ class TextFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.1),
+            spreadRadius: 0,
+            blurRadius: 15,
+            offset: Offset(0, 0),
+          ),
+        ],
         borderRadius: const BorderRadius.all(
           Radius.circular(
             16,

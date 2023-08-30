@@ -13,6 +13,7 @@ class LabelDropDownForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         RichText(
           textAlign: TextAlign.start,
@@ -36,12 +37,21 @@ class LabelDropDownForm extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                spreadRadius: 0,
+                blurRadius: 15,
+                offset: Offset(0, 0),
+              ),
+            ],
           ),
           child: Row(
             children: [

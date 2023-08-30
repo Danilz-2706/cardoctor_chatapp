@@ -61,23 +61,17 @@ var list = [
 class _HomePageState extends State<HomePage> {
   String id = '123';
   Future openListRoomUtils() async {
-    final option = ChatAppCarDoctorUtilOption(
-      groupName: '1',
-      historyChat: [],
-      isGetList: true,
-      listRoom: list,
-      apiKey: '5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX',
-      apiSecret: 'isXVT8s4Y4AMyeIgGGM2V4WXpfYphzwd',
-      cluseterID: 'free.blr2',
-      getNotifySelf: '1',
-    );
-    // final sdkUtil = ChatAppCarDoctorUtil(option,null);
-    // await sdkUtil.open(context);
-    NavigationUtils.rootNavigatePageWithArguments(
-      context,
-      ChatDetailScreen(
-        data: option,
-      ),
+    ChatAppCarDoctorUtilOption data = ChatAppCarDoctorUtilOption(
+        apiKey: '7T3DbecohNyHTtYbLg3gFiw0TtcsCayLfft7eeLM',
+        apiSecret: 'isXVT8s4Y4AMyeIgGGM2V4WXpfYphzwd',
+        cluseterID: 'free.blr2',
+        getNotifySelf: '1',
+        groupName: 'GR_1693357083059',
+        historyChat: []);
+    return ChatDetailScreen(
+      data: data,
+      // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
+      press: (value) {},
     );
   }
 
