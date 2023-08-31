@@ -31,19 +31,14 @@ class _ReceiverCardState extends State<ReceiverCard> {
   @override
   void initState() {
     if (widget.data.type == 2) {
-      if (widget.data.attachmentType == 'image') {
-      } else {
-        List<FormItem> sample = [];
-        var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-        for (var e in x.value!) {
-          sample.add(e);
-        }
-        setState(() {
-          listForm.addAll(sample);
-        });
+      List<FormItem> sample = [];
+      var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+      for (var e in x.value!) {
+        sample.add(e);
       }
-    } else if (widget.data.attachmentType == 'image') {
-      listImages.add(File(widget.data.originalMessage!));
+      setState(() {
+        listForm.addAll(sample);
+      });
     }
 
     super.initState();
