@@ -209,6 +209,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         itemCount: listMessage.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
+                          print("Du lieu" + listMessage[index].toString());
                           if (index > 0 &&
                               listMessage[index].username ==
                                   widget.data.userIDReal &&
