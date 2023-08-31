@@ -66,6 +66,8 @@ class LabelDropDownForm extends StatelessWidget {
                 listForm.value2 ?? '',
                 style: const TextStyle(
                   color: Color.fromRGBO(255, 141, 78, 1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               if (listForm.drop != 'empty')
@@ -73,6 +75,8 @@ class LabelDropDownForm extends StatelessWidget {
                   listForm.drop == 'drop'
                       ? 'assets/imgs/arrow-down.png'
                       : 'assets/imgs/edit.png',
+                  height: 20,
+                  width: 20,
                   package: Consts.packageName,
                 ),
             ],

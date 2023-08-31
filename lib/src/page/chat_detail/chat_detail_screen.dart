@@ -172,10 +172,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             Text(
               widget.dataRoom['convName'] ?? '',
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .h5Bold
-                  .copyWith(color: kColorDark1),
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.h5Bold.copyWith(
+                    color: kColorDark1,
+                    fontSize: 16,
+                  ),
             ),
           ],
         ),
