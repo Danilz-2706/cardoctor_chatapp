@@ -113,18 +113,18 @@ class _SenderCardState extends State<SenderCard> {
                           child: TitleForm(listForm: listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'image') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            imageUrl: listForm[index].text ?? '',
-                          ),
-                        );
-                      }
+                      // if (listForm[index].type == 'image') {
+                      //   return Padding(
+                      //     padding: const EdgeInsets.only(bottom: 16.0),
+                      //     child: CachedNetworkImage(
+                      //       placeholder: (context, url) =>
+                      //           CircularProgressIndicator(),
+                      //       errorWidget: (context, url, error) =>
+                      //           Icon(Icons.error),
+                      //       imageUrl: listForm[index].text ?? '',
+                      //     ),
+                      //   );
+                      // }
                       return Container();
                     },
                   ),
