@@ -29,6 +29,7 @@ class _SenderCardState extends State<SenderCard> {
   @override
   void initState() {
     if (widget.data.type == 2) {
+      print("decode cho nay");
       List<FormItem> sample = [];
       var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
       for (var e in x.value!) {
@@ -37,6 +38,7 @@ class _SenderCardState extends State<SenderCard> {
       setState(() {
         listForm.addAll(sample);
       });
+      print(listForm);
     }
     // else if (widget.data.attachmentType == 'image') {
     //   listImages.add(File(widget.data.originalMessage!));
@@ -113,19 +115,19 @@ class _SenderCardState extends State<SenderCard> {
                           child: TitleForm(listForm: listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'image') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Text("data"),
-                          // CachedNetworkImage(
-                          //   placeholder: (context, url) =>
-                          //       CircularProgressIndicator(),
-                          //   errorWidget: (context, url, error) =>
-                          //       Icon(Icons.error),
-                          //   imageUrl: listForm[index].text ?? '',
-                          // ),
-                        );
-                      }
+                      // if (listForm[index].type == 'image') {
+                      //   return Padding(
+                      //     padding: const EdgeInsets.only(bottom: 16.0),
+                      //     child: Text("data"),
+                      //     // CachedNetworkImage(
+                      //     //   placeholder: (context, url) =>
+                      //     //       CircularProgressIndicator(),
+                      //     //   errorWidget: (context, url, error) =>
+                      //     //       Icon(Icons.error),
+                      //     //   imageUrl: listForm[index].text ?? '',
+                      //     // ),
+                      //   );
+                      // }
                       return Container();
                     },
                   ),
