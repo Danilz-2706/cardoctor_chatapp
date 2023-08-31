@@ -214,40 +214,40 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           print("Du lieu" + listMessage[index].toString());
-                          if (index > 0 &&
-                              listMessage[index].username ==
-                                  widget.data.userIDReal &&
-                              listMessage[index - 1].username ==
-                                  widget.data.userIDReal) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: SenderCard(
-                                data: listMessage[index],
-                              ),
-                            );
-                          }
-                          if (listMessage[index].username ==
-                              widget.data.userIDReal) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 24),
-                              child: SenderCard(
-                                data: listMessage[index],
-                              ),
-                            );
-                          }
-                          if (index > 0 &&
-                              listMessage[index].username !=
-                                  widget.data.userIDReal &&
-                              listMessage[index - 1].username !=
-                                  widget.data.userIDReal) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: ReceiverCard(
-                                onlyOnePerson: true,
-                                data: listMessage[index],
-                              ),
-                            );
-                          }
+                          // if (index > 0 &&
+                          //     listMessage[index].username ==
+                          //         widget.data.userIDReal &&
+                          //     listMessage[index - 1].username ==
+                          //         widget.data.userIDReal) {
+                          //   return Padding(
+                          //     padding: const EdgeInsets.only(bottom: 4),
+                          //     child: SenderCard(
+                          //       data: listMessage[index],
+                          //     ),
+                          //   );
+                          // }
+                          // if (listMessage[index].username ==
+                          //     widget.data.userIDReal) {
+                          //   return Padding(
+                          //     padding: const EdgeInsets.only(bottom: 24),
+                          //     child: SenderCard(
+                          //       data: listMessage[index],
+                          //     ),
+                          //   );
+                          // }
+                          // if (index > 0 &&
+                          //     listMessage[index].username !=
+                          //         widget.data.userIDReal &&
+                          //     listMessage[index - 1].username !=
+                          //         widget.data.userIDReal) {
+                          //   return Padding(
+                          //     padding: const EdgeInsets.only(bottom: 4),
+                          //     child: ReceiverCard(
+                          //       onlyOnePerson: true,
+                          //       data: listMessage[index],
+                          //     ),
+                          //   );
+                          // }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
