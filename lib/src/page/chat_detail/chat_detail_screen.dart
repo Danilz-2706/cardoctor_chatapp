@@ -21,7 +21,7 @@ import '../contains.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
-  final CreateRoomChatResponse dataRoom;
+  final dynamic dataRoom;
   final String idSender;
   final Function(Map<String, dynamic>) press;
   final VoidCallback pressBack;
@@ -170,7 +170,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               package: Consts.packageName,
             ),
             Text(
-              widget.dataRoom.convName ?? '',
+              widget.dataRoom['convName'] ?? '',
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
