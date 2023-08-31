@@ -169,8 +169,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           children: [
             Image.asset(
               'assets/imgs/avatar.png',
-              width: 32,
-              height: 32,
+              width: 28,
+              height: 28,
               package: Consts.packageName,
             ),
             Text(
