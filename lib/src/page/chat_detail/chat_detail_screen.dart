@@ -90,12 +90,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     super.initState();
     controller = TextEditingController();
     List<SendMessageResponse> sample = [];
-    for (var e in widget.data.historyChat) {
-      sample.add(SendMessageResponse.fromMap(e));
+    if (widget.data.historyChat != null) {
+      for (var e in widget.data.historyChat) {
+        print("du lieu: " + e.toString());
+        sample.add(SendMessageResponse.fromMap(e));
+      }
+      setState(() {
+        listMessage.addAll(sample);
+      });
     }
-    setState(() {
-      listMessage.addAll(sample);
-    });
+
     channel = IOWebSocketChannel.connect(
       Uri.parse('wss://' +
           widget.data.cluseterID +
@@ -195,7 +199,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         padding: EdgeInsets.all(24),
                         child: Center(
                           child: Text(
-                            "Gui tin nhan den chuyen gia cua chung toi de nhan tu van nhe!",
+                            "Gửi tin nhắn đến chuyên gia của chúng tôi để tư vấn nhé!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: kTextGreyDarkColors,

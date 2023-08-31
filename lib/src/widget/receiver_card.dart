@@ -106,24 +106,24 @@ class _ReceiverCardState extends State<ReceiverCard> {
                   children: List.generate(
                     listForm.length,
                     (index) {
-                      if (listForm[index].type == 'title') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TitleForm(listForm: listForm[index]),
-                        );
-                      }
-                      if (listForm[index].type == 'dropdown') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: LabelDropDownForm(listForm: listForm[index]),
-                        );
-                      }
-                      if (listForm[index].type == 'textfield') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TextFieldForm(listForm: listForm[index]),
-                        );
-                      }
+                      // if (listForm[index].type == 'title') {
+                      //   return Padding(
+                      //     padding: const EdgeInsets.only(bottom: 8.0),
+                      //     child: TitleForm(listForm: listForm[index]),
+                      //   );
+                      // }
+                      // if (listForm[index].type == 'dropdown') {
+                      //   return Padding(
+                      //     padding: const EdgeInsets.only(bottom: 8.0),
+                      //     child: LabelDropDownForm(listForm: listForm[index]),
+                      //   );
+                      // }
+                      // if (listForm[index].type == 'textfield') {
+                      //   return Padding(
+                      //     padding: const EdgeInsets.only(bottom: 8.0),
+                      //     child: TextFieldForm(listForm: listForm[index]),
+                      //   );
+                      // }
                       return Container();
                     },
                   ),
