@@ -35,9 +35,7 @@ class _SenderCardState extends State<SenderCard> {
       for (var e in x.value!) {
         sample.add(e);
       }
-      setState(() {
-        listForm.addAll(sample);
-      });
+      listForm.addAll(sample);
       print(listForm);
     }
     // else if (widget.data.attachmentType == 'image') {
