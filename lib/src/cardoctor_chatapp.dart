@@ -9,6 +9,7 @@ class ChatAppCarDoctorUtilOption {
   final String cluseterID;
   final String getNotifySelf;
   final String groupName;
+  final int userIDReal;
   final List<Map<String, dynamic>> historyChat;
   ChatAppCarDoctorUtilOption({
     required this.apiKey,
@@ -17,6 +18,7 @@ class ChatAppCarDoctorUtilOption {
     required this.getNotifySelf,
     required this.groupName,
     required this.historyChat,
+    required this.userIDReal,
   });
 }
 

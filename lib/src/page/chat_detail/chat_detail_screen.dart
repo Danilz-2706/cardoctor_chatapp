@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
 import '../../cardoctor_chatapp.dart';
+import '../../model/create_room_chat_response.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
 import '../../widget/custom_appbar.dart';
@@ -20,13 +21,19 @@ import '../contains.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
+  final CreateRoomChatResponse dataRoom;
+  final String idSender;
   final Function(Map<String, dynamic>) press;
+  final VoidCallback pressBack;
   final Widget? stackWidget;
   const ChatDetailScreen({
     Key? key,
     required this.data,
     required this.press,
+    required this.pressBack,
+    required this.dataRoom,
     this.stackWidget,
+    required this.idSender,
   }) : super(key: key);
 
   @override
@@ -38,8 +45,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   FocusNode _focusNode = FocusNode();
   late ScrollController scrollController;
   List<SendMessageResponse> listMessage = [];
-
-  final String idUserFrom = "CarDoctor348GARAGE_OWNER";
 
   late TextEditingController controller;
 
@@ -155,16 +160,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return Scaffold(
       appBar: appBar(
         context,
+        onBackPress: widget.pressBack,
         title: Row(
           children: [
             Image.asset(
-              'assets/imgs/ic_button_send.png',
+              'assets/imgs/ic_gallary.png',
               width: 32,
               height: 32,
               package: Consts.packageName,
             ),
             Text(
-              widget.data.groupName ?? '',
+              widget.dataRoom.convName ?? '',
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -203,8 +209,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           if (index > 0 &&
-                              listMessage[index].username == idUserFrom &&
-                              listMessage[index - 1].username == idUserFrom) {
+                              listMessage[index].userId ==
+                                  widget.data.userIDReal &&
+                              listMessage[index - 1].userId ==
+                                  widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
@@ -212,7 +220,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
-                          if (listMessage[index].username == idUserFrom) {
+                          if (listMessage[index].userId ==
+                              widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 24),
                               child: SenderCard(
@@ -221,8 +230,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             );
                           }
                           if (index > 0 &&
-                              listMessage[index].username != idUserFrom &&
-                              listMessage[index - 1].username != idUserFrom) {
+                              listMessage[index].userId !=
+                                  widget.data.userIDReal &&
+                              listMessage[index - 1].userId !=
+                                  widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: ReceiverCard(
@@ -253,16 +264,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   GestureDetector(
                     onTap: () async {
                       await getImage();
-                      var message = SendMessageRequest(
-                        originalMessage: '',
-                        attachmentType: TypeSend.images.name,
-                        linkPreview:
-                            "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                        username: idUserFrom,
-                        groupName: widget.data.groupName,
-                      );
+                      // var message = SendMessageRequest(
+                      //   originalMessage: '',
+                      //   attachmentType: TypeSend.images.name,
+                      //   linkPreview:
+                      //       "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
+                      //   username: idUserFrom,
+                      //   groupName: widget.data.groupName,
+                      // );
                       // addMessage(message);
-                      widget.press(message.toMap());
+                      // widget.press(message.toMap());
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
@@ -325,9 +336,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         var message = SendMessageRequest(
                           originalMessage: controller.text,
                           attachmentType: '',
-                          linkPreview:
-                              "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                          username: idUserFrom,
+                          linkPreview: "",
+                          username: widget.idSender,
                           groupName: widget.data.groupName,
                         );
                         // addMessage(message);

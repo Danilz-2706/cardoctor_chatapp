@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/form_text.dart';
+import '../page/contains.dart';
 
 class LabelDropDownForm extends StatelessWidget {
   const LabelDropDownForm({
@@ -21,7 +22,6 @@ class LabelDropDownForm extends StatelessWidget {
             text: listForm.label,
             style: const TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w600,
               color: Color.fromRGBO(10, 11, 9, 1),
             ),
             children: [
@@ -29,7 +29,6 @@ class LabelDropDownForm extends StatelessWidget {
                   text: " *",
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
                     color: Color.fromRGBO(10, 11, 9, 1),
                   )),
             ],
@@ -62,6 +61,20 @@ class LabelDropDownForm extends StatelessWidget {
                   color: Color.fromRGBO(107, 109, 108, 1),
                 ),
               ),
+              const Expanded(child: SizedBox()),
+              Text(
+                listForm.value2 ?? '',
+                style: const TextStyle(
+                  color: Color.fromRGBO(255, 141, 78, 1),
+                ),
+              ),
+              if (listForm.drop != 'empty')
+                Image.asset(
+                  listForm.drop == 'drop'
+                      ? 'assets/imgs/arrow-down.png'
+                      : 'assets/imgs/edit.png',
+                  package: Consts.packageName,
+                ),
             ],
           ),
         ),

@@ -96,7 +96,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  gradient: kLinearColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -105,13 +105,22 @@ class _ReceiverCardState extends State<ReceiverCard> {
                     listForm.length,
                     (index) {
                       if (listForm[index].type == 'title') {
-                        return TitleForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TitleForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'dropdown') {
-                        return LabelDropDownForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: LabelDropDownForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'textfield') {
-                        return TextFieldForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextFieldForm(listForm: listForm[index]),
+                        );
                       }
                       return Container();
                     },
@@ -120,17 +129,16 @@ class _ReceiverCardState extends State<ReceiverCard> {
               ),
             ),
           ),
-        if (listForm.isEmpty)
-          Text(
-            widget.data.createdAtStr != null
-                ? DateFormat('HH:mm')
-                    .format(DateTime.parse(widget.data.createdAtStr!))
-                : DateFormat('HH:mm').format(DateTime.now()),
-            style: const TextStyle(
-                color: kTextGreyColors,
-                fontSize: 12,
-                fontWeight: FontWeight.w400),
-          ),
+        Text(
+          widget.data.createdAtStr != null
+              ? DateFormat('HH:mm')
+                  .format(DateTime.parse(widget.data.createdAtStr!))
+              : DateFormat('HH:mm').format(DateTime.now()),
+          style: const TextStyle(
+              color: kTextGreyColors,
+              fontSize: 12,
+              fontWeight: FontWeight.w400),
+        ),
       ],
     );
   }

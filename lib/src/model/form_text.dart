@@ -3,12 +3,16 @@ class FormItem {
   final String? label;
   final String? hintText;
   final String? type;
+  final String? drop;
+  final String? value2;
 
   FormItem({
     this.text,
     this.label,
     this.hintText,
     this.type,
+    this.drop,
+    this.value2,
   });
 
   factory FormItem.fromJson(Map<String, dynamic> json) {
@@ -17,6 +21,8 @@ class FormItem {
       label: json['label'],
       hintText: json['hint-text'],
       type: json['type'],
+      drop: json['drop'],
+      value2: json['value2'],
     );
   }
 }

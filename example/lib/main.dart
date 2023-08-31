@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
         cluseterID: 'free.blr2',
         getNotifySelf: '1',
         groupName: 'GR_1693357083059',
-        historyChat: []);
+        historyChat: [], userIDReal: null);
     Navigator.push(
       context,
       MaterialPageRoute(
