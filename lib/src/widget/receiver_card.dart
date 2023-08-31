@@ -60,10 +60,10 @@ class _ReceiverCardState extends State<ReceiverCard> {
           child: widget.onlyOnePerson
               ? const SizedBox()
               : Image.asset(
-                  "assets/imgs/ic_link.png",
+                  "assets/imgs/avatar.png",
                   package: Consts.packageName,
-                  height: 32,
-                  width: 32,
+                  height: 24,
+                  width: 24,
                   fit: BoxFit.contain,
                 ),
         ),
@@ -111,24 +111,24 @@ class _ReceiverCardState extends State<ReceiverCard> {
                   children: List.generate(
                     listForm.length,
                     (index) {
-                      // if (listForm[index].type == 'title') {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.only(bottom: 8.0),
-                      //     child: TitleForm(listForm: listForm[index]),
-                      //   );
-                      // }
-                      // if (listForm[index].type == 'dropdown') {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.only(bottom: 8.0),
-                      //     child: LabelDropDownForm(listForm: listForm[index]),
-                      //   );
-                      // }
-                      // if (listForm[index].type == 'textfield') {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.only(bottom: 8.0),
-                      //     child: TextFieldForm(listForm: listForm[index]),
-                      //   );
-                      // }
+                      if (listForm[index].type == 'title') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TitleForm(listForm: listForm[index]),
+                        );
+                      }
+                      if (listForm[index].type == 'dropdown') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: LabelDropDownForm(listForm: listForm[index]),
+                        );
+                      }
+                      if (listForm[index].type == 'textfield') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextFieldForm(listForm: listForm[index]),
+                        );
+                      }
                       return Container();
                     },
                   ),
