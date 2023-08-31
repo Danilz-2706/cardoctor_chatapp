@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
@@ -26,17 +27,23 @@ class ReceiverCard extends StatefulWidget {
 
 class _ReceiverCardState extends State<ReceiverCard> {
   List<FormItem> listForm = [];
+  List<File> listImages = [];
   @override
   void initState() {
     if (widget.data.type == 2) {
-      List<FormItem> sample = [];
-      var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-      for (var e in x.value!) {
-        sample.add(e);
+      if (widget.data.attachmentType == 'image') {
+      } else {
+        List<FormItem> sample = [];
+        var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+        for (var e in x.value!) {
+          sample.add(e);
+        }
+        setState(() {
+          listForm.addAll(sample);
+        });
       }
-      setState(() {
-        listForm.addAll(sample);
-      });
+    } else if (widget.data.attachmentType == 'image') {
+      listImages.add(File(widget.data.originalMessage!));
     }
 
     super.initState();

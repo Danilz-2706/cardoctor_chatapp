@@ -54,22 +54,26 @@ class LabelDropDownForm extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(
-                listForm.hintText ?? '',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(107, 109, 108, 1),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  listForm.hintText ?? '',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromRGBO(107, 109, 108, 1),
+                  ),
                 ),
               ),
-              const Expanded(child: SizedBox()),
-              Text(
-                listForm.value2 ?? '',
-                style: const TextStyle(
-                  color: Color.fromRGBO(255, 141, 78, 1),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              if (listForm.drop != 'empty') const Expanded(child: SizedBox()),
+              if (listForm.drop != 'empty')
+                Text(
+                  listForm.value2 ?? '',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(255, 141, 78, 1),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
               if (listForm.drop != 'empty')
                 Image.asset(
                   listForm.drop == 'drop'

@@ -17,11 +17,14 @@ class TextFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12.0),
       width: double.infinity,
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      decoration: const BoxDecoration(
         color: Colors.white,
-        boxShadow: const [
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+        boxShadow: [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.1),
             spreadRadius: 0,
@@ -29,15 +32,6 @@ class TextFieldForm extends StatelessWidget {
             offset: Offset(0, 0),
           ),
         ],
-        borderRadius: const BorderRadius.all(
-          Radius.circular(
-            16,
-          ),
-        ),
-        border: Border.all(
-          width: 0.8,
-          color: const Color.fromRGBO(230, 230, 227, 1),
-        ),
       ),
       child: Text(
         listForm.text ?? '',

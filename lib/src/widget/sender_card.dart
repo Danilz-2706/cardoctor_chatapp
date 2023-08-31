@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/model/form_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +25,7 @@ class SenderCard extends StatefulWidget {
 
 class _SenderCardState extends State<SenderCard> {
   List<FormItem> listForm = [];
+  List<File> listImages = [];
   @override
   void initState() {
     if (widget.data.type == 2) {
@@ -34,6 +37,8 @@ class _SenderCardState extends State<SenderCard> {
       setState(() {
         listForm.addAll(sample);
       });
+    } else if (widget.data.attachmentType == 'image') {
+      listImages.add(File(widget.data.originalMessage!));
     }
 
     super.initState();
@@ -84,13 +89,40 @@ class _SenderCardState extends State<SenderCard> {
                     listForm.length,
                     (index) {
                       if (listForm[index].type == 'title') {
-                        return TitleForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TitleForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'dropdown') {
-                        return LabelDropDownForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: LabelDropDownForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'textfield') {
-                        return TextFieldForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFieldForm(listForm: listForm[index]),
+                        );
+                      }
+                      if (listForm[index].type == 'title') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TitleForm(listForm: listForm[index]),
+                        );
+                      }
+                      if (listForm[index].type == 'image') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            imageUrl: listForm[index].text ?? '',
+                          ),
+                        );
                       }
                       return Container();
                     },
