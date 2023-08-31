@@ -19,7 +19,7 @@ class FormItem {
     return FormItem(
       text: json['text'],
       label: json['label'],
-      hintText: json['hint-text'],
+      hintText: json['hintText'],
       type: json['type'],
       drop: json['drop'],
       value2: json['value2'],
