@@ -36,7 +36,6 @@ class _SenderCardState extends State<SenderCard> {
         sample.add(e);
       }
       listForm.addAll(sample);
-      print(listForm);
     }
     // else if (widget.data.attachmentType == 'image') {
     //   listImages.add(File(widget.data.originalMessage!));
@@ -71,6 +70,7 @@ class _SenderCardState extends State<SenderCard> {
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -90,22 +90,13 @@ class _SenderCardState extends State<SenderCard> {
                     listForm.length,
                     (index) {
                       if (listForm[index].type == 'title') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: TitleForm(listForm: listForm[index]),
-                        );
+                        return TitleForm(listForm: listForm[index]);
                       }
                       if (listForm[index].type == 'dropdown') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: LabelDropDownForm(listForm: listForm[index]),
-                        );
+                        return LabelDropDownForm(listForm: listForm[index]);
                       }
                       if (listForm[index].type == 'textfield') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: TextFieldForm(listForm: listForm[index]),
-                        );
+                        return TextFieldForm(listForm: listForm[index]);
                       }
 
                       // if (listForm[index].type == 'image') {
