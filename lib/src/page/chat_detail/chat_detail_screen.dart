@@ -209,9 +209,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           if (index > 0 &&
-                              listMessage[index].userId ==
+                              listMessage[index].username ==
                                   widget.data.userIDReal &&
-                              listMessage[index - 1].userId ==
+                              listMessage[index - 1].username ==
                                   widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
@@ -220,7 +220,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
-                          if (listMessage[index].userId ==
+                          if (listMessage[index].username ==
                               widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 24),
@@ -230,9 +230,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             );
                           }
                           if (index > 0 &&
-                              listMessage[index].userId !=
+                              listMessage[index].username !=
                                   widget.data.userIDReal &&
-                              listMessage[index - 1].userId !=
+                              listMessage[index - 1].username !=
                                   widget.data.userIDReal) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
