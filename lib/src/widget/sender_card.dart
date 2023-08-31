@@ -37,9 +37,10 @@ class _SenderCardState extends State<SenderCard> {
       setState(() {
         listForm.addAll(sample);
       });
-    } else if (widget.data.attachmentType == 'image') {
-      listImages.add(File(widget.data.originalMessage!));
     }
+    // else if (widget.data.attachmentType == 'image') {
+    //   listImages.add(File(widget.data.originalMessage!));
+    // }
 
     super.initState();
   }
