@@ -109,12 +109,7 @@ class _SenderCardState extends State<SenderCard> {
                           child: TextFieldForm(listForm: listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'title') {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: TitleForm(listForm: listForm[index]),
-                        );
-                      }
+
                       // if (listForm[index].type == 'image') {
                       //   return Padding(
                       //     padding: const EdgeInsets.only(bottom: 16.0),
