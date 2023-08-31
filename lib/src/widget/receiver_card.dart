@@ -30,15 +30,20 @@ class _ReceiverCardState extends State<ReceiverCard> {
   List<File> listImages = [];
   @override
   void initState() {
-    if (widget.data.type == 2) {
-      List<FormItem> sample = [];
-      var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-      for (var e in x.value!) {
-        sample.add(e);
+    try {
+      if (widget.data.type == 2) {
+        List<FormItem> sample = [];
+        var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+        for (var e in x.value!) {
+          sample.add(e);
+        }
+        setState(() {
+          listForm.addAll(sample);
+        });
       }
-      setState(() {
-        listForm.addAll(sample);
-      });
+    } catch (e) {
+      print("Bug ngay text");
+      print(e);
     }
 
     super.initState();
