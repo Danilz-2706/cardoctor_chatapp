@@ -37,6 +37,7 @@ class TextFieldForm extends StatelessWidget {
         style: const TextStyle(
           fontSize: 11,
           color: Color.fromRGBO(49, 49, 49, 1),
+          fontStyle: FontStyle.italic,
         ),
       ),
     );

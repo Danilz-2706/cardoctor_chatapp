@@ -34,7 +34,7 @@ class LabelDropDownForm extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           decoration: const BoxDecoration(
@@ -53,7 +53,7 @@ class LabelDropDownForm extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Container(
+              Expanded(
                 child: Text(
                   listForm.hintText ?? '',
                   style: const TextStyle(
@@ -62,7 +62,6 @@ class LabelDropDownForm extends StatelessWidget {
                   ),
                 ),
               ),
-              if (listForm.drop != 'empty') const Expanded(child: SizedBox()),
               if (listForm.drop != 'empty')
                 Text(
                   listForm.value2 ?? '',
@@ -72,6 +71,7 @@ class LabelDropDownForm extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              if (listForm.drop != 'empty') const SizedBox(width: 8),
               if (listForm.drop != 'empty')
                 Image.asset(
                   listForm.drop == 'drop'

@@ -26,6 +26,7 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) press;
   final VoidCallback pressBack;
   final Widget? stackWidget;
+  final String? nameTitle;
   const ChatDetailScreen({
     Key? key,
     required this.data,
@@ -34,6 +35,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.dataRoom,
     this.stackWidget,
     required this.idSender,
+    this.nameTitle,
   }) : super(key: key);
 
   @override
@@ -165,6 +167,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       appBar: appBar(
         context,
         onBackPress: widget.pressBack,
+        centerTitle: true,
         title: Row(
           children: [
             Image.asset(
@@ -174,7 +177,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               package: Consts.packageName,
             ),
             Text(
-              widget.dataRoom['convName'] ?? '',
+              widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.h5Bold.copyWith(
