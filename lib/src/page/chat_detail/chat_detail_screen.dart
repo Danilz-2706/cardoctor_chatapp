@@ -15,6 +15,7 @@ import '../../model/create_room_chat_response.dart';
 import '../../model/form_text.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
+import '../../widget/appbar.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/receiver_card.dart';
 import '../../widget/sender_card.dart';
@@ -164,40 +165,46 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(
-        context,
-        onBackPress: widget.pressBack,
-        centerTitle: true,
-        rightWidget: const SizedBox(
-          width: 28,
-          height: 28,
-        ),
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/imgs/avatar.png',
-              width: 28,
-              height: 28,
-              package: Consts.packageName,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.h5Bold.copyWith(
-                    color: kColorDark1,
-                  ),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xFFF6F6F6),
-      ),
+      // appBar: appBar(
+      //   context,
+      //   onBackPress: widget.pressBack,
+      //   centerTitle: true,
+      //   rightWidget: const SizedBox(
+      //     width: 28,
+      //     height: 28,
+      //   ),
+      //   title: Row(
+      //     children: [
+      //       Image.asset(
+      //         'assets/imgs/avatar.png',
+      //         width: 28,
+      //         height: 28,
+      //         package: Consts.packageName,
+      //       ),
+      //       const SizedBox(width: 12),
+      //       Text(
+      //         widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
+      //         textAlign: TextAlign.center,
+      //         overflow: TextOverflow.ellipsis,
+      //         style: Theme.of(context).textTheme.h5Bold.copyWith(
+      //               color: kColorDark1,
+      //             ),
+      //       ),
+      //     ],
+      //   ),
+      //   backgroundColor: const Color(0xFFF6F6F6),
+      // ),
       backgroundColor: kBgColors,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            AppBarReview(
+              avatar: 'assets/imgs/avatar.png',
+              press: widget.pressBack,
+              title: widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
+              isList: false,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -265,6 +272,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   widget.data.userIDReal &&
                               listMessage[index - 1].username !=
                                   widget.data.userIDReal) {
+                            List<FormItem> sample = [];
+                            if (listMessage[index].type == 2) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.value!) {
+                                sample.add(e);
+                              }
+                            }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: ReceiverCard(
@@ -272,14 +287,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 data: listMessage[index],
                               ),
                             );
+                          } else {
+                            List<FormItem> sample = [];
+                            if (listMessage[index].type == 2) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.value!) {
+                                sample.add(e);
+                              }
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 24),
+                              child: ReceiverCard(
+                                onlyOnePerson: false,
+                                data: listMessage[index],
+                              ),
+                            );
                           }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: ReceiverCard(
-                              onlyOnePerson: false,
-                              data: listMessage[index],
-                            ),
-                          );
                         },
                       ),
               ),
