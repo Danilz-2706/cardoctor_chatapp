@@ -12,6 +12,7 @@ import 'package:web_socket_channel/io.dart';
 
 import '../../cardoctor_chatapp.dart';
 import '../../model/create_room_chat_response.dart';
+import '../../model/form_text.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
 import '../../widget/custom_appbar.dart';
@@ -133,10 +134,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             (message) {
               print('socketreturn123');
               print(message);
-              setState(() {
-                listMessage.insert(
-                    0, SendMessageResponse.fromMap(json.decode(message)));
-              });
+              listMessage.insert(
+                  0, SendMessageResponse.fromMap(json.decode(message)));
+              setState(() {});
             },
             cancelOnError: true,
             onError: (error) {
@@ -225,19 +225,33 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   widget.data.userIDReal &&
                               listMessage[index - 1].username ==
                                   widget.data.userIDReal) {
+                            List<FormItem> sample = [];
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.value!) {
+                              sample.add(e);
+                            }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
                                 data: listMessage[index],
+                                listForm: sample,
                               ),
                             );
                           }
                           if (listMessage[index].username ==
                               widget.data.userIDReal) {
+                            List<FormItem> sample = [];
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.value!) {
+                              sample.add(e);
+                            }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 24),
+                              padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
                                 data: listMessage[index],
+                                listForm: sample,
                               ),
                             );
                           }

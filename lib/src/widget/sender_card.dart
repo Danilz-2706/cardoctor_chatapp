@@ -14,9 +14,11 @@ import 'title_form.dart';
 
 class SenderCard extends StatefulWidget {
   final SendMessageResponse data;
+  final List<FormItem> listForm;
   const SenderCard({
     super.key,
     required this.data,
+    required this.listForm,
   });
 
   @override
@@ -24,7 +26,7 @@ class SenderCard extends StatefulWidget {
 }
 
 class _SenderCardState extends State<SenderCard> {
-  List<FormItem> listForm = [];
+  // List<FormItem> listForm = [];
   List<File> listImages = [];
   @override
   void initState() {
@@ -33,17 +35,15 @@ class _SenderCardState extends State<SenderCard> {
     // }
 
     super.initState();
-    if (widget.data.type == 2) {
-      print("decode cho nay");
-      List<FormItem> sample = [];
-      var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-      for (var e in x.value!) {
-        sample.add(e);
-      }
-      setState(() {
-        listForm.addAll(sample);
-      });
-    }
+    // if (widget.data.type == 2) {
+    //   print("decode cho nay");
+    //   List<FormItem> sample = [];
+    //   var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+    //   for (var e in x.value!) {
+    //     sample.add(e);
+    //   }
+    //   listForm.addAll(sample);
+    // }
   }
 
   @override
@@ -63,7 +63,7 @@ class _SenderCardState extends State<SenderCard> {
               fontWeight: FontWeight.w400),
         ),
         const SizedBox(width: 8),
-        if (listForm.isNotEmpty)
+        if (widget.listForm.isNotEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(
@@ -88,28 +88,30 @@ class _SenderCardState extends State<SenderCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: List.generate(
-                    listForm.length,
+                    widget.listForm.length,
                     (index) {
-                      if (listForm[index].type == 'title') {
+                      if (widget.listForm[index].type == 'title') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TitleForm(listForm: listForm[index]),
+                          child: TitleForm(listForm: widget.listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'dropdown') {
+                      if (widget.listForm[index].type == 'dropdown') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: LabelDropDownForm(listForm: listForm[index]),
+                          child: LabelDropDownForm(
+                              listForm: widget.listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'textfield') {
+                      if (widget.listForm[index].type == 'textfield') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TextFieldForm(listForm: listForm[index]),
+                          child:
+                              TextFieldForm(listForm: widget.listForm[index]),
                         );
                       }
 
-                      if (listForm[index].type == 'image') {
+                      if (widget.listForm[index].type == 'image') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: CachedNetworkImage(
@@ -117,7 +119,7 @@ class _SenderCardState extends State<SenderCard> {
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
-                            imageUrl: listForm[index].text ?? '',
+                            imageUrl: widget.listForm[index].text ?? '',
                           ),
                         );
                       }
@@ -128,7 +130,7 @@ class _SenderCardState extends State<SenderCard> {
               ),
             ),
           ),
-        if (listForm.isEmpty)
+        if (widget.listForm.isEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(
