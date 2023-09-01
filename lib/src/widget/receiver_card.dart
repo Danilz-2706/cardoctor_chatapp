@@ -15,11 +15,15 @@ import 'label_drop_down.dart';
 class ReceiverCard extends StatefulWidget {
   final SendMessageResponse data;
   final bool onlyOnePerson;
+  final List<String> listImages;
+  final List<FormItem> listForm;
 
   const ReceiverCard({
     Key? key,
     required this.onlyOnePerson,
     required this.data,
+    required this.listImages,
+    required this.listForm,
   }) : super(key: key);
 
   @override
@@ -27,26 +31,24 @@ class ReceiverCard extends StatefulWidget {
 }
 
 class _ReceiverCardState extends State<ReceiverCard> {
-  List<FormItem> listForm = [];
-  List<File> listImages = [];
   @override
   void initState() {
     super.initState();
-    try {
-      if (widget.data.type == 2) {
-        List<FormItem> sample = [];
-        var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-        for (var e in x.value!) {
-          sample.add(e);
-        }
-        setState(() {
-          listForm.addAll(sample);
-        });
-      }
-    } catch (e) {
-      print("Bug ngay text");
-      print(e);
-    }
+    // try {
+    //   if (widget.data.type == 2) {
+    //     List<FormItem> sample = [];
+    //     var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
+    //     for (var e in x.value!) {
+    //       sample.add(e);
+    //     }
+    //     setState(() {
+    //       listForm.addAll(sample);
+    //     });
+    //   }
+    // } catch (e) {
+    //   print("Bug ngay text");
+    //   print(e);
+    // }
   }
 
   @override
@@ -68,7 +70,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 ),
         ),
         const SizedBox(width: 8),
-        if (listForm.isEmpty)
+        if (widget.listForm.isEmpty)
           Align(
             alignment: Alignment.centerLeft,
             child: ConstrainedBox(
@@ -93,8 +95,51 @@ class _ReceiverCardState extends State<ReceiverCard> {
               ),
             ),
           ),
-        if (listForm.isEmpty) const SizedBox(width: 8),
-        if (listForm.isNotEmpty)
+        if (widget.listForm.isEmpty) const SizedBox(width: 8),
+        if (widget.listImages.isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 160),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      spreadRadius: 0,
+                      blurRadius: 15,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    widget.listImages.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          imageUrl: widget.listImages[index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        if (widget.listForm.isNotEmpty)
           Align(
             child: ConstrainedBox(
               constraints: BoxConstraints(
@@ -105,31 +150,41 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      spreadRadius: 0,
+                      blurRadius: 15,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: List.generate(
-                    listForm.length,
+                    widget.listForm.length,
                     (index) {
-                      if (listForm[index].type == 'title') {
+                      if (widget.listForm[index].type == 'title') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TitleForm(listForm: listForm[index]),
+                          child: TitleForm(listForm: widget.listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'dropdown') {
+                      if (widget.listForm[index].type == 'dropdown') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: LabelDropDownForm(listForm: listForm[index]),
+                          child: LabelDropDownForm(
+                              listForm: widget.listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'textfield') {
+                      if (widget.listForm[index].type == 'textfield') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
-                          child: TextFieldForm(listForm: listForm[index]),
+                          child:
+                              TextFieldForm(listForm: widget.listForm[index]),
                         );
                       }
-                      if (listForm[index].type == 'image') {
+                      if (widget.listForm[index].type == 'image') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: CachedNetworkImage(
@@ -137,11 +192,54 @@ class _ReceiverCardState extends State<ReceiverCard> {
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
-                            imageUrl: listForm[index].text ?? '',
+                            imageUrl: widget.listForm[index].text ?? '',
                           ),
                         );
                       }
                       return Container();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        if (widget.listImages.isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 100),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      spreadRadius: 0,
+                      blurRadius: 15,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    widget.listImages.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          imageUrl: widget.listImages[index],
+                        ),
+                      );
                     },
                   ),
                 ),

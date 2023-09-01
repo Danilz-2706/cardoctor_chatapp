@@ -27,13 +27,29 @@ class FormItem {
   }
 }
 
+class FormImage {
+  final String? image;
+
+  FormImage({
+    this.image,
+  });
+
+  factory FormImage.fromJson(Map<String, dynamic> json) {
+    return FormImage(
+      image: json['image'],
+    );
+  }
+}
+
 class FormData {
   final String? key;
   final List<FormItem>? value;
+  final List<FormImage>? valueImage;
 
   FormData({
     this.key,
     this.value,
+    this.valueImage,
   });
 
   factory FormData.fromJson(Map<String, dynamic> json) {
@@ -42,9 +58,15 @@ class FormData {
       return FormItem.fromJson(itemJson);
     }).toList();
 
+    final List<dynamic>? valueJson1 = json['valueImage'];
+    final List<FormImage>? formItems1 = valueJson1?.map((itemJson) {
+      return FormImage.fromJson(itemJson);
+    }).toList();
+
     return FormData(
       key: json['key'],
       value: formItems,
+      valueImage: formItems1,
     );
   }
 }

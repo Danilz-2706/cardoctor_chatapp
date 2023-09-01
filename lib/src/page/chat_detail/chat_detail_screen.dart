@@ -26,6 +26,8 @@ class ChatDetailScreen extends StatefulWidget {
   final dynamic dataRoom;
   final String idSender;
   final Function(Map<String, dynamic>) press;
+  final Function(Map<String, dynamic>) pressPickImage;
+  final Function(Map<String, dynamic>) pressPickFiles;
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
@@ -38,6 +40,8 @@ class ChatDetailScreen extends StatefulWidget {
     this.stackWidget,
     required this.idSender,
     this.nameTitle,
+    required this.pressPickImage,
+    required this.pressPickFiles,
   }) : super(key: key);
 
   @override
@@ -233,37 +237,53 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               listMessage[index - 1].username ==
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
+                            List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
+                            } else if (listMessage[index].type == 4) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueImage!) {
+                                images.add(e.image!);
+                              }
                             }
 
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
+                              padding: const EdgeInsets.only(bottom: 8),
                               child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
+                                listImages: images,
                               ),
                             );
                           }
                           if (listMessage[index].username ==
                               widget.data.userIDReal) {
                             List<FormItem> sample = [];
+                            List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
+                            } else if (listMessage[index].type == 4) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueImage!) {
+                                images.add(e.image!);
+                              }
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
+                              padding: const EdgeInsets.only(bottom: 8),
                               child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
+                                listImages: images,
                               ),
                             );
                           }
@@ -273,34 +293,52 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               listMessage[index - 1].username !=
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
+                            List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
+                            } else if (listMessage[index].type == 4) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueImage!) {
+                                images.add(e.image!);
+                              }
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
+                              padding: const EdgeInsets.only(bottom: 8),
                               child: ReceiverCard(
                                 onlyOnePerson: true,
                                 data: listMessage[index],
+                                listForm: sample,
+                                listImages: images,
                               ),
                             );
                           } else {
                             List<FormItem> sample = [];
+                            List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.value!) {
                                 sample.add(e);
+                              }
+                            } else if (listMessage[index].type == 4) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueImage!) {
+                                images.add(e.image!);
                               }
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 24),
                               child: ReceiverCard(
                                 onlyOnePerson: false,
+                                listForm: sample,
                                 data: listMessage[index],
+                                listImages: images,
                               ),
                             );
                           }
@@ -318,17 +356,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      // await getImage();
-                      // var message = SendMessageRequest(
-                      //   originalMessage: '',
-                      //   attachmentType: TypeSend.images.name,
-                      //   linkPreview:
-                      //       "http://localhost:6666/chat-service/api/v1/files/2023/08/others/santafe.jpeg",
-                      //   username: idUserFrom,
-                      //   groupName: widget.data.groupName,
-                      // );
-                      // addMessage(message);
-                      // widget.press(message.toMap());
+                      await getImage();
+                      var message = {
+                        'key': 'image',
+                        'list': filesList,
+                      };
+                      widget.pressPickImage(message);
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
@@ -339,8 +372,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      // await getFile();
-                      // print(filesList);
+                      var message = {
+                        'key': 'files',
+                        'list': filesList,
+                      };
+                      widget.pressPickFiles(message);
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',

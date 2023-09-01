@@ -15,10 +15,13 @@ import 'title_form.dart';
 class SenderCard extends StatefulWidget {
   final SendMessageResponse data;
   final List<FormItem> listForm;
+  final List<String> listImages;
+
   const SenderCard({
     super.key,
     required this.data,
     required this.listForm,
+    required this.listImages,
   });
 
   @override
@@ -27,7 +30,6 @@ class SenderCard extends StatefulWidget {
 
 class _SenderCardState extends State<SenderCard> {
   // List<FormItem> listForm = [];
-  List<File> listImages = [];
   @override
   void initState() {
     // else if (widget.data.attachmentType == 'image') {
@@ -124,6 +126,49 @@ class _SenderCardState extends State<SenderCard> {
                         );
                       }
                       return Container();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        if (widget.listImages.isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 100),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.1),
+                      spreadRadius: 0,
+                      blurRadius: 15,
+                      offset: Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(
+                    widget.listImages.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          imageUrl: widget.listImages[index],
+                        ),
+                      );
                     },
                   ),
                 ),
