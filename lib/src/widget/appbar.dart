@@ -30,6 +30,8 @@ class AppBarReview extends StatelessWidget {
                   const EdgeInsets.only(left: 20, bottom: 5, top: 5, right: 5),
               child: Image.asset(
                 'assets/imgs/ic_back.png',
+                height: 24,
+                width: 24,
                 package: Consts.packageName,
               ),
             ),
@@ -45,6 +47,7 @@ class AppBarReview extends StatelessWidget {
                     avatar,
                     height: 28,
                     width: 28,
+                    package: Consts.packageName,
                   ),
                 ),
                 const SizedBox(width: 12),
