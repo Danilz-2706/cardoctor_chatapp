@@ -133,10 +133,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             (message) {
               print('socketreturn123');
               print(message);
-              setState(() {
-                listMessage.insert(
-                    0, SendMessageResponse.fromMap(json.decode(message)));
-              });
+              listMessage.insert(
+                  0, SendMessageResponse.fromMap(json.decode(message)));
+              setState(() {});
             },
             cancelOnError: true,
             onError: (error) {
@@ -168,6 +167,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         context,
         onBackPress: widget.pressBack,
         centerTitle: true,
+        rightWidget: const SizedBox(
+          width: 28,
+          height: 28,
+        ),
         title: Row(
           children: [
             Image.asset(
@@ -176,13 +179,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               height: 28,
               package: Consts.packageName,
             ),
+            const SizedBox(width: 12),
             Text(
               widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.h5Bold.copyWith(
                     color: kColorDark1,
-                    fontSize: 16,
                   ),
             ),
           ],
@@ -216,8 +219,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         itemCount: listMessage.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          print("Du lieu" + listMessage[index].toString());
-
                           if (index > 0 &&
                               listMessage[index].username ==
                                   widget.data.userIDReal &&

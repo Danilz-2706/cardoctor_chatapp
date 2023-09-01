@@ -38,9 +38,9 @@ class _ReceiverCardState extends State<ReceiverCard> {
         for (var e in x.value!) {
           sample.add(e);
         }
-        setState(() {
-          listForm.addAll(sample);
-        });
+        listForm.addAll(sample);
+        // setState(() {
+        // });
       }
     } catch (e) {
       print("Bug ngay text");
@@ -68,7 +68,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                   fit: BoxFit.contain,
                 ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 8),
         if (listForm.isEmpty)
           Align(
             alignment: Alignment.centerLeft,
@@ -99,7 +99,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
           Align(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width - 100),
+                  maxWidth: MediaQuery.of(context).size.width - 160),
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
