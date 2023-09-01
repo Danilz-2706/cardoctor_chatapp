@@ -55,7 +55,6 @@ class LabelDropDownForm extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: double.infinity,
                 child: Text(
                   listForm.hintText ?? '',
                   style: const TextStyle(

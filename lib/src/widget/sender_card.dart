@@ -88,14 +88,23 @@ class _SenderCardState extends State<SenderCard> {
                   children: List.generate(
                     listForm.length,
                     (index) {
-                      if (listForm[index].type == 'title') {
-                        return TitleForm(listForm: listForm[index]);
+                       if (listForm[index].type == 'title') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TitleForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'dropdown') {
-                        return LabelDropDownForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: LabelDropDownForm(listForm: listForm[index]),
+                        );
                       }
                       if (listForm[index].type == 'textfield') {
-                        return TextFieldForm(listForm: listForm[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: TextFieldForm(listForm: listForm[index]),
+                        );
                       }
 
                       // if (listForm[index].type == 'image') {
