@@ -38,9 +38,9 @@ class _ReceiverCardState extends State<ReceiverCard> {
         for (var e in x.value!) {
           sample.add(e);
         }
-        listForm.addAll(sample);
-        // setState(() {
-        // });
+        setState(() {
+          listForm.addAll(sample);
+        });
       }
     } catch (e) {
       print("Bug ngay text");

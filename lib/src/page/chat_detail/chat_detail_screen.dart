@@ -133,9 +133,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             (message) {
               print('socketreturn123');
               print(message);
-              listMessage.insert(
-                  0, SendMessageResponse.fromMap(json.decode(message)));
-              setState(() {});
+              setState(() {
+                listMessage.insert(
+                    0, SendMessageResponse.fromMap(json.decode(message)));
+              });
             },
             cancelOnError: true,
             onError: (error) {
