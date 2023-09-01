@@ -56,15 +56,15 @@ class _ReceiverCardState extends State<ReceiverCard> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
-          height: 32,
-          width: 32,
+          height: 14,
+          width: 14,
           child: widget.onlyOnePerson
               ? const SizedBox()
               : Image.asset(
                   "assets/imgs/avatar.png",
                   package: Consts.packageName,
-                  height: 24,
-                  width: 24,
+                  height: 14,
+                  width: 14,
                   fit: BoxFit.contain,
                 ),
         ),
