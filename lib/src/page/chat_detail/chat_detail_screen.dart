@@ -214,6 +214,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           print("Du lieu" + listMessage[index].toString());
+                          return Text(
+                              listMessage[index].originalMessage ?? "loi");
                           // if (index > 0 &&
                           //     listMessage[index].username ==
                           //         widget.data.userIDReal &&
@@ -248,13 +250,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           //     ),
                           //   );
                           // }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: ReceiverCard(
-                              onlyOnePerson: false,
-                              data: listMessage[index],
-                            ),
-                          );
+                          // return Padding(
+                          //   padding: const EdgeInsets.only(bottom: 24),
+                          //   child: ReceiverCard(
+                          //     onlyOnePerson: false,
+                          //     data: listMessage[index],
+                          //   ),
+                          // );
                         },
                       ),
               ),
