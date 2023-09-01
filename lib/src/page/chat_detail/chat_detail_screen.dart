@@ -318,7 +318,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      await getImage();
+                      // await getImage();
                       // var message = SendMessageRequest(
                       //   originalMessage: '',
                       //   attachmentType: TypeSend.images.name,
@@ -337,8 +337,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await getFile();
-                      print(filesList);
+                      // await getFile();
+                      // print(filesList);
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',
