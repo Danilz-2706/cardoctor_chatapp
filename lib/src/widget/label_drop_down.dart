@@ -36,7 +36,6 @@ class LabelDropDownForm extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Container(
-          width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           decoration: const BoxDecoration(
             color: Colors.white,
