@@ -226,11 +226,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               listMessage[index - 1].username ==
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
+                            if (listMessage[index].type == 2) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.value!) {
+                                sample.add(e);
+                              }
                             }
+
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: SenderCard(
@@ -242,10 +245,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           if (listMessage[index].username ==
                               widget.data.userIDReal) {
                             List<FormItem> sample = [];
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
+                            if (listMessage[index].type == 2) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.value!) {
+                                sample.add(e);
+                              }
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
