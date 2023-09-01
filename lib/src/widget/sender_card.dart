@@ -88,7 +88,7 @@ class _SenderCardState extends State<SenderCard> {
                   children: List.generate(
                     listForm.length,
                     (index) {
-                       if (listForm[index].type == 'title') {
+                      if (listForm[index].type == 'title') {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: TitleForm(listForm: listForm[index]),
@@ -107,19 +107,18 @@ class _SenderCardState extends State<SenderCard> {
                         );
                       }
 
-                      // if (listForm[index].type == 'image') {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.only(bottom: 16.0),
-                      //     child: Text("data"),
-                      //     // CachedNetworkImage(
-                      //     //   placeholder: (context, url) =>
-                      //     //       CircularProgressIndicator(),
-                      //     //   errorWidget: (context, url, error) =>
-                      //     //       Icon(Icons.error),
-                      //     //   imageUrl: listForm[index].text ?? '',
-                      //     // ),
-                      //   );
-                      // }
+                      if (listForm[index].type == 'image') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            imageUrl: listForm[index].text ?? '',
+                          ),
+                        );
+                      }
                       return Container();
                     },
                   ),

@@ -249,15 +249,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
-                          return Text(
-                              listMessage[index].originalMessage ?? "Loi");
-                          // return Padding(
-                          //   padding: const EdgeInsets.only(bottom: 24),
-                          //   child: ReceiverCard(
-                          //     onlyOnePerson: false,
-                          //     data: listMessage[index],
-                          //   ),
-                          // );
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 24),
+                            child: ReceiverCard(
+                              onlyOnePerson: false,
+                              data: listMessage[index],
+                            ),
+                          );
                         },
                       ),
               ),

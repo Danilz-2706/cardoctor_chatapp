@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,18 @@ class _ReceiverCardState extends State<ReceiverCard> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: TextFieldForm(listForm: listForm[index]),
+                        );
+                      }
+                      if (listForm[index].type == 'image') {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            imageUrl: listForm[index].text ?? '',
+                          ),
                         );
                       }
                       return Container();
