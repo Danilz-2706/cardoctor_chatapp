@@ -28,6 +28,11 @@ class _SenderCardState extends State<SenderCard> {
   List<File> listImages = [];
   @override
   void initState() {
+    // else if (widget.data.attachmentType == 'image') {
+    //   listImages.add(File(widget.data.originalMessage!));
+    // }
+
+    super.initState();
     if (widget.data.type == 2) {
       print("decode cho nay");
       List<FormItem> sample = [];
@@ -39,11 +44,6 @@ class _SenderCardState extends State<SenderCard> {
         listForm.addAll(sample);
       });
     }
-    // else if (widget.data.attachmentType == 'image') {
-    //   listImages.add(File(widget.data.originalMessage!));
-    // }
-
-    super.initState();
   }
 
   @override

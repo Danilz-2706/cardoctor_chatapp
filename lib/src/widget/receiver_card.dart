@@ -31,6 +31,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
   List<File> listImages = [];
   @override
   void initState() {
+    super.initState();
     try {
       if (widget.data.type == 2) {
         List<FormItem> sample = [];
@@ -46,8 +47,6 @@ class _ReceiverCardState extends State<ReceiverCard> {
       print("Bug ngay text");
       print(e);
     }
-
-    super.initState();
   }
 
   @override
