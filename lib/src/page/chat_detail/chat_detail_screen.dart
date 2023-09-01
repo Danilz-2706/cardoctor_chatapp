@@ -332,6 +332,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
+                      height: 28,
+                      width: 28,
                       package: Consts.packageName,
                     ),
                   ),
@@ -342,12 +344,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',
+                      height: 28,
+                      width: 28,
                       package: Consts.packageName,
                     ),
                   ),
                   Container(
                     width: 204,
-                    height: 44,
+                    height: 52,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
                       color: Color.fromRGBO(246, 246, 246, 1),
