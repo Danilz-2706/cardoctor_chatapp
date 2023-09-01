@@ -364,7 +364,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       },
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Color.fromRGBO(176, 176, 176, 1),
+                        color: Color.fromARGB(255, 26, 26, 26),
                       ),
                       controller: controller,
                       maxLines: null,
