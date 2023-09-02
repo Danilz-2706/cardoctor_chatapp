@@ -202,17 +202,19 @@ class _SenderCardState extends State<SenderCard> {
                                 size: 24,
                               ),
                               const SizedBox(width: 8),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  basename(widget.listFiles[index].path!)
-                                      .toString(),
-                                  maxLines: 3,
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromRGBO(10, 11, 9, 1)),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    basename(widget.listFiles[index].path!)
+                                        .toString(),
+                                    maxLines: 3,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromRGBO(10, 11, 9, 1)),
+                                  ),
                                 ),
                               )
                             ],
