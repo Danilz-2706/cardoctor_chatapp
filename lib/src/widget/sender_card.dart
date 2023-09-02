@@ -32,20 +32,7 @@ class _SenderCardState extends State<SenderCard> {
   // List<FormItem> listForm = [];
   @override
   void initState() {
-    // else if (widget.data.attachmentType == 'image') {
-    //   listImages.add(File(widget.data.originalMessage!));
-    // }
-
     super.initState();
-    // if (widget.data.type == 2) {
-    //   print("decode cho nay");
-    //   List<FormItem> sample = [];
-    //   var x = FormData.fromJson(json.decode(widget.data.originalMessage!));
-    //   for (var e in x.value!) {
-    //     sample.add(e);
-    //   }
-    //   listForm.addAll(sample);
-    // }
   }
 
   @override
@@ -162,6 +149,7 @@ class _SenderCardState extends State<SenderCard> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: CachedNetworkImage(
+                          fit: BoxFit.contain,
                           placeholder: (context, url) =>
                               const CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
@@ -175,7 +163,7 @@ class _SenderCardState extends State<SenderCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty)
+        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(

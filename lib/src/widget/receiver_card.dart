@@ -70,7 +70,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 ),
         ),
         const SizedBox(width: 8),
-        if (widget.listForm.isEmpty)
+        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
           Align(
             alignment: Alignment.centerLeft,
             child: ConstrainedBox(
@@ -95,7 +95,8 @@ class _ReceiverCardState extends State<ReceiverCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty) const SizedBox(width: 8),
+        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
+          const SizedBox(width: 8),
         if (widget.listImages.isNotEmpty)
           Align(
             alignment: Alignment.centerRight,
@@ -126,6 +127,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: CachedNetworkImage(
+                          fit: BoxFit.contain,
                           placeholder: (context, url) =>
                               const CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
