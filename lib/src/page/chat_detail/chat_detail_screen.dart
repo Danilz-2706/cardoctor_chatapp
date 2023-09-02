@@ -206,12 +206,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             AppBarReview(
               avatar: 'assets/imgs/avatar.png',
               press: widget.pressBack,
-              title: widget.nameTitle ?? widget.dataRoom['convName'] ?? '',
+              title: widget.nameTitle ?? '',
               isList: false,
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: listMessage.isEmpty
                     ? const Padding(
                         padding: EdgeInsets.all(24),
@@ -231,10 +231,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         itemCount: listMessage.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          if (index > 0 &&
-                              listMessage[index].username ==
+                          if (listMessage[index].username ==
                                   widget.data.userIDReal &&
-                              listMessage[index - 1].username ==
+                              listMessage[index + 1].username ==
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
                             List<String> images = [];
@@ -253,7 +252,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             }
 
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.only(bottom: 8, top: 8),
                               child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
@@ -262,35 +261,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             );
                           }
                           if (listMessage[index].username ==
-                              widget.data.userIDReal) {
-                            List<FormItem> sample = [];
-                            List<String> images = [];
-                            if (listMessage[index].type == 2) {
-                              var x = FormData.fromJson(json
-                                  .decode(listMessage[index].originalMessage!));
-                              for (var e in x.value!) {
-                                sample.add(e);
-                              }
-                            } else if (listMessage[index].type == 5) {
-                              var x = FormData.fromJson(json
-                                  .decode(listMessage[index].originalMessage!));
-                              for (var e in x.valueImage!) {
-                                images.add(e.image!);
-                              }
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: SenderCard(
-                                data: listMessage[index],
-                                listForm: sample,
-                                listImages: images,
-                              ),
-                            );
-                          }
-                          if (index > 0 &&
-                              listMessage[index].username !=
                                   widget.data.userIDReal &&
-                              listMessage[index - 1].username !=
+                              listMessage[index + 1].username !=
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
                             List<String> images = [];
@@ -308,16 +280,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               }
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: ReceiverCard(
-                                onlyOnePerson: true,
+                              padding:
+                                  const EdgeInsets.only(bottom: 8, top: 16),
+                              child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
                                 listImages: images,
                               ),
                             );
-                          } else {
-                           List<FormItem> sample = [];
+                          }
+                          if (listMessage[index].username !=
+                                  widget.data.userIDReal &&
+                              listMessage[index + 1].username !=
+                                  widget.data.userIDReal) {
+                            List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
@@ -333,7 +309,36 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               }
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 24),
+                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              child: ReceiverCard(
+                                onlyOnePerson: true,
+                                data: listMessage[index],
+                                listForm: sample,
+                                listImages: images,
+                              ),
+                            );
+                          } else if (listMessage[index].username !=
+                                  widget.data.userIDReal &&
+                              listMessage[index + 1].username ==
+                                  widget.data.userIDReal) {
+                            List<FormItem> sample = [];
+                            List<String> images = [];
+                            if (listMessage[index].type == 2) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.value!) {
+                                sample.add(e);
+                              }
+                            } else if (listMessage[index].type == 5) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueImage!) {
+                                images.add(e.image!);
+                              }
+                            }
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 8, top: 16),
                               child: ReceiverCard(
                                 onlyOnePerson: false,
                                 listForm: sample,
@@ -342,6 +347,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
+                          return const Text("Error");
                         },
                       ),
               ),
@@ -365,8 +371,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
-                      height: 28,
-                      width: 28,
+                      height: 24,
+                      width: 24,
                       package: Consts.packageName,
                     ),
                   ),
@@ -380,8 +386,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     },
                     child: Image.asset(
                       'assets/imgs/ic_link.png',
-                      height: 28,
-                      width: 28,
+                      height: 24,
+                      width: 24,
                       package: Consts.packageName,
                     ),
                   ),

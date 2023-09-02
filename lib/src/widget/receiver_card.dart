@@ -38,6 +38,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
 
   @override
   Widget build(BuildContext context) {
+    var size = 45.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -46,12 +47,39 @@ class _ReceiverCardState extends State<ReceiverCard> {
           width: 14,
           child: widget.onlyOnePerson
               ? const SizedBox()
-              : Image.asset(
-                  "assets/imgs/avatar.png",
-                  package: Consts.packageName,
-                  height: 14,
-                  width: 14,
-                  fit: BoxFit.contain,
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    filterQuality: FilterQuality.high,
+                    imageUrl: '',
+                    fit: BoxFit.cover,
+                    width: size,
+                    height: size,
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                    placeholder: (context, url) => Image.asset(
+                      'assets/imgs/avatar.png',
+                      package: Consts.packageName,
+                      fit: BoxFit.cover,
+                      width: size,
+                      height: size,
+                    ),
+                    errorWidget: (context, url, _) => Image.asset(
+                      'assets/imgs/avatar.png',
+                      package: Consts.packageName,
+                      fit: BoxFit.cover,
+                      width: size,
+                      height: size,
+                    ),
+                  ),
                 ),
         ),
         const SizedBox(width: 8),
@@ -152,47 +180,38 @@ class _ReceiverCardState extends State<ReceiverCard> {
             child: ConstrainedBox(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 100),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                      spreadRadius: 0,
-                      blurRadius: 15,
-                      offset: Offset(0, 0),
-                    ),
-                  ],
-                ),
+              child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: List.generate(
                     widget.listImages.length,
                     (index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                          imageUrl: widget.listImages[index],
-                          imageBuilder: (context, imageProvider) {
-                            return Container(
-                              height: 500,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                image: DecorationImage(
-                                  onError: (exception, stackTrace) {},
-                                  isAntiAlias: true,
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
+                      return CachedNetworkImage(
+                        placeholder: (context, url) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: const CircularProgressIndicator(),
                         ),
+                        errorWidget: (context, url, error) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: const Icon(Icons.error),
+                        ),
+                        imageUrl: widget.listImages[index],
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: const [],
+                              image: DecorationImage(
+                                onError: (exception, stackTrace) {},
+                                isAntiAlias: true,
+                                image: imageProvider,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
