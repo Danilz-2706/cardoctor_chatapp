@@ -180,7 +180,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
           ),
         if (widget.listImages.isNotEmpty)
           Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.centerLeft,
             child: ConstrainedBox(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 100),
@@ -230,47 +230,51 @@ class _ReceiverCardState extends State<ReceiverCard> {
           ),
         if (widget.listFiles.isNotEmpty)
           Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.centerLeft,
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width - 100),
+                  maxWidth: MediaQuery.of(context).size.width - 160),
               child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(
                     widget.listFiles.length,
                     (index) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(243, 243, 243, 1),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Icon(
-                              Icons.insert_drive_file_rounded,
-                              color: Color.fromRGBO(107, 109, 108, 1),
-                              size: 24,
-                            ),
-                            const SizedBox(width: 8),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                basename(widget.listFiles[index].path!)
-                                    .toString(),
-                                maxLines: 3,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromRGBO(10, 11, 9, 1)),
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(243, 243, 243, 1),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.insert_drive_file_rounded,
+                                color: Color.fromRGBO(107, 109, 108, 1),
+                                size: 24,
                               ),
-                            )
-                          ],
+                              const SizedBox(width: 8),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  basename(widget.listFiles[index].path!)
+                                      .toString(),
+                                  maxLines: 3,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromRGBO(10, 11, 9, 1)),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },
