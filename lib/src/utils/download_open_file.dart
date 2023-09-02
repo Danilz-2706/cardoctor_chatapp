@@ -1,14 +1,19 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:open_file/open_file.dart';
 // import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DownloadFile {
   Future openFile({required String url, String? fileName}) async {
+    print(url);
+    print(fileName);
     final file = await downloadFile(url, fileName);
+    print(file);
+
     if (file == null) return;
-    // OpenFile.open(file.path);
+    OpenFile.open(file.path);
   }
 
   Future<File?> downloadFile(String url, String? fileName) async {
