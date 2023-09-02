@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import '../model/send_message_response.dart';
 import '../page/contains.dart';
+import '../utils/download_open_file.dart';
 import 'label_drop_down.dart';
 import 'text_field_form.dart';
 import 'title_form.dart';
@@ -184,7 +185,13 @@ class _SenderCardState extends State<SenderCard> {
                     widget.listFiles.length,
                     (index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          DownloadFile().openFile(
+                            url: widget.listFiles[index].url!,
+                            fileName: basename(widget.listFiles[index].path!)
+                                .toString(),
+                          );
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           padding: const EdgeInsets.symmetric(

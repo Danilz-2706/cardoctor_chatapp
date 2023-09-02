@@ -10,13 +10,16 @@ environment:
 dependencies:
   analyzer: ^5.2.0
   cached_network_image: ^3.2.3
+  dio: ^4.0.6
   file_picker: 5.2.6
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
   image_picker: ^0.8.7+5
   intl: ^0.18.0
+  open_file: ^3.3.2
   path: ^1.8.2
+  path_provider: ^2.0.11
   uuid: ^3.0.7
   wakelock: ^0.6.2
   wakelock_windows: ^0.2.1
