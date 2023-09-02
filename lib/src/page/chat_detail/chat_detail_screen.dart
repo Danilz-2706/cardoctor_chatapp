@@ -317,7 +317,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           } else {
-                            List<FormItem> sample = [];
+                           List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
                               var x = FormData.fromJson(json
