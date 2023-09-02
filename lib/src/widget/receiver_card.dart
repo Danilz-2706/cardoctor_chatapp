@@ -70,7 +70,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 ),
         ),
         const SizedBox(width: 8),
-        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
+        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
           Align(
             alignment: Alignment.centerLeft,
             child: ConstrainedBox(

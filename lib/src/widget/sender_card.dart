@@ -163,7 +163,7 @@ class _SenderCardState extends State<SenderCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
+        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(
