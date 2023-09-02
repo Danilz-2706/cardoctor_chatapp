@@ -10,14 +10,12 @@ class ChatAppCarDoctorUtilOption {
   final String getNotifySelf;
   final String groupName;
   final String userIDReal;
-  final List<Map<String, dynamic>> historyChat;
   ChatAppCarDoctorUtilOption({
     required this.apiKey,
     required this.apiSecret,
     required this.cluseterID,
     required this.getNotifySelf,
     required this.groupName,
-    required this.historyChat,
     required this.userIDReal,
   });
 }

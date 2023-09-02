@@ -29,6 +29,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) loadMoreHistory;
+  final List<Map<String, dynamic>> historyChat;
+
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
@@ -44,6 +46,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressPickImage,
     required this.pressPickFiles,
     required this.loadMoreHistory,
+    required this.historyChat,
   }) : super(key: key);
 
   @override
@@ -108,9 +111,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     super.initState();
     controller = TextEditingController();
     List<SendMessageResponse> sample = [];
-    if (widget.data.historyChat != null) {
-      for (var e in widget.data.historyChat) {
-        print("du lieu: " + e.toString());
+    if (widget.historyChat != null) {
+      for (var e in widget.historyChat) {
         sample.add(SendMessageResponse.fromMap(e));
       }
       setState(() {
