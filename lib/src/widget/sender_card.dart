@@ -196,7 +196,7 @@ class _SenderCardState extends State<SenderCard> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                basename(widget.listFiles[index].file!.path)
+                                basename(widget.listFiles[index].path!)
                                     .toString(),
                                 maxLines: 3,
                                 textAlign: TextAlign.left,

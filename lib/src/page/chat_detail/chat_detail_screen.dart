@@ -49,6 +49,8 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  var _scrollController = ScrollController();
+  var _isVisible = true;
   late final IOWebSocketChannel channel;
   FocusNode _focusNode = FocusNode();
   late ScrollController scrollController;
@@ -121,6 +123,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     print('Connect socket');
     connectWebsocket();
     _focusNode.addListener(_handleFocusChange);
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        if (scrollController.position.pixels > 0) {
+          if (_isVisible) {
+            setState(() {
+              _isVisible = false;
+            });
+          }
+        }
+      } else {
+        if (!_isVisible) {
+          setState(() {
+            _isVisible = true;
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -170,6 +189,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: ,
       // appBar: appBar(
       //   context,
       //   onBackPress: widget.pressBack,
@@ -229,6 +249,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                       )
                     : ListView.builder(
+                        controller: _scrollController,
                         reverse: true,
                         itemCount: listMessage.length,
                         shrinkWrap: true,

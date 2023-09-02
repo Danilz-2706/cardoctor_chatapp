@@ -47,17 +47,17 @@ class FormImage {
 
 class FormFile {
   final String? url;
-  final File? file;
+  final String? path;
 
   FormFile({
     this.url,
-    this.file,
+    this.path,
   });
 
   factory FormFile.fromJson(Map<String, dynamic> json) {
     return FormFile(
       url: json['url'],
-      file: json['file'],
+      path: json['path'],
     );
   }
 }
