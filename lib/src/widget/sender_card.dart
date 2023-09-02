@@ -184,7 +184,7 @@ class _SenderCardState extends State<SenderCard> {
                   children: List.generate(
                     widget.listFiles.length,
                     (index) {
-                      return GestureDetector(
+                      return InkWell(
                         onTap: () {
                           DownloadFile().openFile(
                             url: widget.listFiles[index].url!,

@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import '../model/form_text.dart';
 import '../model/send_message_response.dart';
 import '../page/contains.dart';
+import '../utils/download_open_file.dart';
 import 'label_drop_down.dart';
 
 class ReceiverCard extends StatefulWidget {
@@ -241,8 +242,14 @@ class _ReceiverCardState extends State<ReceiverCard> {
                   children: List.generate(
                     widget.listFiles.length,
                     (index) {
-                      return GestureDetector(
-                        onTap: () {},
+                      return InkWell(
+                        onTap: () {
+                          DownloadFile().openFile(
+                            url: widget.listFiles[index].url!,
+                            fileName: basename(widget.listFiles[index].path!)
+                                .toString(),
+                          );
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           padding: const EdgeInsets.symmetric(
