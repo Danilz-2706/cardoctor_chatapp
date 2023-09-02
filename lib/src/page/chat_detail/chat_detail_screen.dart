@@ -55,7 +55,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   var _isVisible = true;
   late final IOWebSocketChannel channel;
   FocusNode _focusNode = FocusNode();
-  late ScrollController scrollController;
   List<SendMessageResponse> listMessage = [];
 
   late TextEditingController controller;
@@ -138,7 +137,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         widget.loadMoreHistory({});
       }
       if (_scrollController.position.atEdge) {
-        if (scrollController.position.pixels ==
+        if (_scrollController.position.pixels ==
             _scrollController.position.minScrollExtent) {
           if (_isVisible) {
             setState(() {
