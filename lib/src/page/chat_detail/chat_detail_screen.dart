@@ -189,7 +189,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: ,
+      floatingActionButton: Visibility(
+        visible: _isVisible,
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.arrow_downward_rounded, color: Color(0xFFFF8D4E)),
+        ),
+      ),
       // appBar: appBar(
       //   context,
       //   onBackPress: widget.pressBack,
