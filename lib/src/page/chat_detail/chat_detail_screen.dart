@@ -238,9 +238,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               listMessage[index + 1].updatedAtStr!);
                           if (date1.day != date2.day ||
                               date1.month != date2.month ||
-                              date1.year != date2.year) {
-                                
-                              }
+                              date1.year != date2.year) {}
                           if (listMessage[index].username ==
                                   widget.data.userIDReal &&
                               listMessage[index + 1].username ==
@@ -298,9 +296,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           }
-                          if (listMessage[index].username !=
+                          if (index > 0 &&
+                              listMessage[index].username !=
                                   widget.data.userIDReal &&
-                              listMessage[index + 1].username !=
+                              listMessage[index - 1].username !=
                                   widget.data.userIDReal) {
                             List<FormItem> sample = [];
                             List<String> images = [];
@@ -320,16 +319,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 4),
                               child: ReceiverCard(
-                                onlyOnePerson: false,
+                                onlyOnePerson: true,
                                 data: listMessage[index],
                                 listForm: sample,
                                 listImages: images,
                               ),
                             );
-                          } else if (listMessage[index].username !=
-                                  widget.data.userIDReal &&
-                              listMessage[index + 1].username ==
-                                  widget.data.userIDReal) {
+                          } else {
                             List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
@@ -348,7 +344,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 8),
                               child: ReceiverCard(
-                                onlyOnePerson: true,
+                                onlyOnePerson: false,
                                 listForm: sample,
                                 data: listMessage[index],
                                 listImages: images,

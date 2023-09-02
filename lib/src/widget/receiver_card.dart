@@ -188,18 +188,23 @@ class _ReceiverCardState extends State<ReceiverCard> {
                     widget.listImages.length,
                     (index) {
                       return CachedNetworkImage(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.height * 0.4,
                         placeholder: (context, url) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.height * 0.4,
                           child: const CircularProgressIndicator(),
                         ),
                         errorWidget: (context, url, error) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.height * 0.4,
                           child: const Icon(Icons.error),
                         ),
                         imageUrl: widget.listImages[index],
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.3,
+                            width: MediaQuery.of(context).size.height * 0.4,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: const [],
