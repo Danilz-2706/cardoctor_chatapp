@@ -415,6 +415,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      await getFile();
+
                       var message = {
                         'key': 'files',
                         'list': filesList,
