@@ -209,6 +209,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               title: widget.nameTitle ?? '',
               isList: false,
             ),
+            const SizedBox(height: 8.0),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -252,7 +253,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             }
 
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              padding: const EdgeInsets.only(bottom: 4, top: 4),
                               child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
@@ -280,8 +281,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               }
                             }
                             return Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 8, top: 16),
+                              padding: const EdgeInsets.only(bottom: 4, top: 8),
                               child: SenderCard(
                                 data: listMessage[index],
                                 listForm: sample,
@@ -309,9 +309,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               }
                             }
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              padding: const EdgeInsets.only(bottom: 4, top: 4),
                               child: ReceiverCard(
-                                onlyOnePerson: true,
+                                onlyOnePerson: false,
                                 data: listMessage[index],
                                 listForm: sample,
                                 listImages: images,
@@ -337,10 +337,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               }
                             }
                             return Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 8, top: 16),
+                              padding: const EdgeInsets.only(bottom: 4, top: 8),
                               child: ReceiverCard(
-                                onlyOnePerson: false,
+                                onlyOnePerson: true,
                                 listForm: sample,
                                 data: listMessage[index],
                                 listImages: images,

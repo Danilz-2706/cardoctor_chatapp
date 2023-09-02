@@ -104,10 +104,9 @@ class _SenderCardState extends State<SenderCard> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
+                            placeholder: (context, url) => const SizedBox(),
                             errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                                const Icon(Icons.error),
                             imageUrl: widget.listForm[index].text ?? '',
                           ),
                         );
@@ -128,14 +127,13 @@ class _SenderCardState extends State<SenderCard> {
               child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: List.generate(
                     widget.listImages.length,
                     (index) {
                       return CachedNetworkImage(
                         placeholder: (context, url) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
-                          child: const CircularProgressIndicator(),
                         ),
                         errorWidget: (context, url, error) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,

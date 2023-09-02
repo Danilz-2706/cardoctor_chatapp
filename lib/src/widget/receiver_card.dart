@@ -183,7 +183,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
               child: SizedBox(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(
                     widget.listImages.length,
                     (index) {
