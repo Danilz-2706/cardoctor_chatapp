@@ -55,7 +55,7 @@ class ChatDetailScreen extends StatefulWidget {
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   var _scrollController = ScrollController();
-  var _isVisible = true;
+  var _isVisible = false;
   late final IOWebSocketChannel channel;
   FocusNode _focusNode = FocusNode();
   List<SendMessageResponse> listMessage = [];
@@ -138,20 +138,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         print("scroll to top");
         widget.loadMoreHistory({});
       }
-      if (_scrollController.position.atEdge) {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.minScrollExtent) {
-          if (_isVisible) {
-            setState(() {
-              _isVisible = false;
-            });
-          }
-        } else {
-          if (!_isVisible) {
-            setState(() {
-              _isVisible = true;
-            });
-          }
+
+      if (_scrollController.offset ==
+          _scrollController.position.minScrollExtent) {
+        if (_isVisible) {
+          setState(() {
+            _isVisible = false;
+          });
+        }
+      } else {
+        if (!_isVisible) {
+          setState(() {
+            _isVisible = true;
+          });
         }
       }
     });
