@@ -244,7 +244,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
-                            } else if (listMessage[index].type == 4) {
+                            } else if (listMessage[index].type == 5) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.valueImage!) {
@@ -271,7 +271,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
-                            } else if (listMessage[index].type == 4) {
+                            } else if (listMessage[index].type == 5) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.valueImage!) {
@@ -300,7 +300,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
-                            } else if (listMessage[index].type == 4) {
+                            } else if (listMessage[index].type == 5) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.valueImage!) {
@@ -325,7 +325,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.value!) {
                                 sample.add(e);
                               }
-                            } else if (listMessage[index].type == 4) {
+                            } else if (listMessage[index].type == 5) {
                               var x = FormData.fromJson(json
                                   .decode(listMessage[index].originalMessage!));
                               for (var e in x.valueImage!) {
