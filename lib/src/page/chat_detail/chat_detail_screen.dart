@@ -99,7 +99,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   }
 
   scrollToEnd() {
-    final double end = _scrollController.position.maxScrollExtent;
+    final double end = _scrollController.position.minScrollExtent;
     _scrollController.animateTo(end,
         curve: Curves.easeIn, duration: Duration(seconds: 1));
   }
@@ -132,13 +132,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     connectWebsocket();
     _focusNode.addListener(_handleFocusChange);
     _scrollController.addListener(() {
-      if (_scrollController.position.minScrollExtent ==
+      if (_scrollController.position.maxScrollExtent ==
           _scrollController.offset) {
         print("scroll to top");
         widget.loadMoreHistory({});
       }
       if (_scrollController.position.atEdge) {
-        if (scrollController.position.pixels > 0) {
+        if (scrollController.position.pixels ==
+            _scrollController.position.minScrollExtent) {
           if (_isVisible) {
             setState(() {
               _isVisible = false;
@@ -247,7 +248,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 // if (date1.day != date2.day ||
                                 //     date1.month != date2.month ||
                                 //     date1.year != date2.year) {}
-                                if (listMessage[index].username ==
+                                if (index < listMessage.length - 1 &&
+                                    listMessage[index].username ==
                                         widget.data.userIDReal &&
                                     listMessage[index + 1].username ==
                                         widget.data.userIDReal) {
@@ -285,7 +287,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     ),
                                   );
                                 }
-                                if (listMessage[index].username ==
+                                if (index < listMessage.length - 1 &&
+                                    listMessage[index].username ==
                                         widget.data.userIDReal &&
                                     listMessage[index + 1].username !=
                                         widget.data.userIDReal) {
