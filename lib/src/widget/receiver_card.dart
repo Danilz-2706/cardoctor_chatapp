@@ -6,6 +6,7 @@ import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 import '../model/form_text.dart';
 import '../model/send_message_response.dart';
@@ -240,36 +241,37 @@ class _ReceiverCardState extends State<ReceiverCard> {
                   children: List.generate(
                     widget.listFiles.length,
                     (index) {
-                      return CachedNetworkImage(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        placeholder: (context, url) => SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          width: MediaQuery.of(context).size.width * 0.4,
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(243, 243, 243, 1),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        errorWidget: (context, url, error) => SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: const Icon(Icons.error),
-                        ),
-                        imageUrl: widget.listImages[index],
-                        imageBuilder: (context, imageProvider) {
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: const [],
-                              image: DecorationImage(
-                                onError: (exception, stackTrace) {},
-                                isAntiAlias: true,
-                                image: imageProvider,
-                                fit: BoxFit.contain,
-                              ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.insert_drive_file_rounded,
+                              color: Color.fromRGBO(107, 109, 108, 1),
+                              size: 24,
                             ),
-                          );
-                        },
+                            const SizedBox(width: 8),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                basename(widget.listFiles[index].path!)
+                                    .toString(),
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromRGBO(10, 11, 9, 1)),
+                              ),
+                            )
+                          ],
+                        ),
                       );
                     },
                   ),

@@ -184,15 +184,21 @@ class _SenderCardState extends State<SenderCard> {
                     widget.listFiles.length,
                     (index) {
                       return Container(
-                        color: Colors.grey[800],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(243, 243, 243, 1),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             const Icon(
                               Icons.insert_drive_file_rounded,
                               color: Color.fromRGBO(107, 109, 108, 1),
-                              size: 16,
+                              size: 24,
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
@@ -217,7 +223,7 @@ class _SenderCardState extends State<SenderCard> {
           ),
         if (widget.listForm.isEmpty &&
             widget.listImages.isEmpty &&
-            widget.listImages.isEmpty)
+            widget.listFiles.isEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(

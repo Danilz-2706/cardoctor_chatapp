@@ -96,6 +96,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
   }
 
+  scrollToEnd() {
+    // _scrollController.jumpTo(value)
+  }
   @override
   void initState() {
     super.initState();
