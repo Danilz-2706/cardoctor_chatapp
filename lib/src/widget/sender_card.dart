@@ -133,24 +133,21 @@ class _SenderCardState extends State<SenderCard> {
                     (index) {
                       return CachedNetworkImage(
                         height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.height * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.4,
                         placeholder: (context, url) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.height * 0.4,
-
+                          width: MediaQuery.of(context).size.width * 0.4,
                         ),
                         errorWidget: (context, url, error) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.height * 0.4,
-
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: const Icon(Icons.error),
                         ),
                         imageUrl: widget.listImages[index],
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.height * 0.4,
-
+                            width: MediaQuery.of(context).size.width * 0.4,
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
