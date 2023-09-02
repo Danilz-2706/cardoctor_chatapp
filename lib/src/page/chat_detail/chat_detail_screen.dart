@@ -28,6 +28,7 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) press;
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
+  final Function(Map<String, dynamic>) loadMoreHistory;
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
@@ -42,6 +43,7 @@ class ChatDetailScreen extends StatefulWidget {
     this.nameTitle,
     required this.pressPickImage,
     required this.pressPickFiles,
+    required this.loadMoreHistory,
   }) : super(key: key);
 
   @override
@@ -133,6 +135,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       if (_scrollController.position.minScrollExtent ==
           _scrollController.offset) {
         print("scroll to top");
+        widget.loadMoreHistory({});
       }
       if (_scrollController.position.atEdge) {
         if (scrollController.position.pixels > 0) {
@@ -211,215 +214,217 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               isList: false,
             ),
             const SizedBox(height: 8.0),
-            Stack(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: listMessage.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Center(
-                              child: Text(
-                                "Gửi tin nhắn đến chuyên gia của chúng tôi để tư vấn nhé!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: kTextGreyDarkColors,
-                                  fontSize: 16,
+            Expanded(
+              child: Stack(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: listMessage.isEmpty
+                          ? const Padding(
+                              padding: EdgeInsets.all(24),
+                              child: Center(
+                                child: Text(
+                                  "Gửi tin nhắn đến chuyên gia của chúng tôi để tư vấn nhé!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: kTextGreyDarkColors,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        : ListView.builder(
-                            controller: _scrollController,
-                            reverse: true,
-                            itemCount: listMessage.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              DateTime date1 = DateTime.parse(
-                                  listMessage[index].updatedAtStr!);
-                              DateTime date2 = DateTime.parse(
-                                  listMessage[index + 1].updatedAtStr!);
-                              // if (date1.day != date2.day ||
-                              //     date1.month != date2.month ||
-                              //     date1.year != date2.year) {}
-                              if (listMessage[index].username ==
-                                      widget.data.userIDReal &&
-                                  listMessage[index + 1].username ==
-                                      widget.data.userIDReal) {
-                                List<FormFile> sampleFile = [];
-                                List<FormItem> sample = [];
-                                List<String> images = [];
-                                if (listMessage[index].type == 2) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.value!) {
-                                    sample.add(e);
+                            )
+                          : ListView.builder(
+                              controller: _scrollController,
+                              reverse: true,
+                              itemCount: listMessage.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                DateTime date1 = DateTime.parse(
+                                    listMessage[index].updatedAtStr!);
+                                DateTime date2 = DateTime.parse(
+                                    listMessage[index + 1].updatedAtStr!);
+                                // if (date1.day != date2.day ||
+                                //     date1.month != date2.month ||
+                                //     date1.year != date2.year) {}
+                                if (listMessage[index].username ==
+                                        widget.data.userIDReal &&
+                                    listMessage[index + 1].username ==
+                                        widget.data.userIDReal) {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
                                   }
-                                } else if (listMessage[index].type == 5) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueImage!) {
-                                    images.add(e.image!);
-                                  }
-                                } else if (listMessage[index].type == 6) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueFiles!) {
-                                    sampleFile.add(e);
-                                  }
-                                }
 
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: 4, top: 4),
-                                  child: SenderCard(
-                                    listFiles: sampleFile,
-                                    data: listMessage[index],
-                                    listForm: sample,
-                                    listImages: images,
-                                  ),
-                                );
-                              }
-                              if (listMessage[index].username ==
-                                      widget.data.userIDReal &&
-                                  listMessage[index + 1].username !=
-                                      widget.data.userIDReal) {
-                                List<FormFile> sampleFile = [];
-                                List<FormItem> sample = [];
-                                List<String> images = [];
-                                if (listMessage[index].type == 2) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.value!) {
-                                    sample.add(e);
-                                  }
-                                } else if (listMessage[index].type == 5) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueImage!) {
-                                    images.add(e.image!);
-                                  }
-                                } else if (listMessage[index].type == 6) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueFiles!) {
-                                    sampleFile.add(e);
-                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 4, top: 4),
+                                    child: SenderCard(
+                                      listFiles: sampleFile,
+                                      data: listMessage[index],
+                                      listForm: sample,
+                                      listImages: images,
+                                    ),
+                                  );
                                 }
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: 4, top: 8),
-                                  child: SenderCard(
-                                    listFiles: sampleFile,
-                                    data: listMessage[index],
-                                    listForm: sample,
-                                    listImages: images,
-                                  ),
-                                );
-                              }
-                              if (index > 0 &&
-                                  listMessage[index].username !=
-                                      widget.data.userIDReal &&
-                                  listMessage[index - 1].username !=
-                                      widget.data.userIDReal) {
-                                List<FormFile> sampleFile = [];
-                                List<FormItem> sample = [];
-                                List<String> images = [];
-                                if (listMessage[index].type == 2) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.value!) {
-                                    sample.add(e);
+                                if (listMessage[index].username ==
+                                        widget.data.userIDReal &&
+                                    listMessage[index + 1].username !=
+                                        widget.data.userIDReal) {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
                                   }
-                                } else if (listMessage[index].type == 5) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueImage!) {
-                                    images.add(e.image!);
-                                  }
-                                } else if (listMessage[index].type == 6) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueFiles!) {
-                                    sampleFile.add(e);
-                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 4, top: 8),
+                                    child: SenderCard(
+                                      listFiles: sampleFile,
+                                      data: listMessage[index],
+                                      listForm: sample,
+                                      listImages: images,
+                                    ),
+                                  );
                                 }
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: 4, top: 4),
-                                  child: ReceiverCard(
-                                    listFiles: sampleFile,
-                                    onlyOnePerson: true,
-                                    data: listMessage[index],
-                                    listForm: sample,
-                                    listImages: images,
-                                  ),
-                                );
-                              } else {
-                                List<FormFile> sampleFile = [];
-                                List<FormItem> sample = [];
-                                List<String> images = [];
-                                if (listMessage[index].type == 2) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.value!) {
-                                    sample.add(e);
+                                if (index > 0 &&
+                                    listMessage[index].username !=
+                                        widget.data.userIDReal &&
+                                    listMessage[index - 1].username !=
+                                        widget.data.userIDReal) {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
                                   }
-                                } else if (listMessage[index].type == 5) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueImage!) {
-                                    images.add(e.image!);
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 4, top: 4),
+                                    child: ReceiverCard(
+                                      listFiles: sampleFile,
+                                      onlyOnePerson: true,
+                                      data: listMessage[index],
+                                      listForm: sample,
+                                      listImages: images,
+                                    ),
+                                  );
+                                } else {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
                                   }
-                                } else if (listMessage[index].type == 6) {
-                                  var x = FormData.fromJson(json.decode(
-                                      listMessage[index].originalMessage!));
-                                  for (var e in x.valueFiles!) {
-                                    sampleFile.add(e);
-                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 4, top: 8),
+                                    child: ReceiverCard(
+                                      listFiles: sampleFile,
+                                      onlyOnePerson: false,
+                                      listForm: sample,
+                                      data: listMessage[index],
+                                      listImages: images,
+                                    ),
+                                  );
                                 }
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: 4, top: 8),
-                                  child: ReceiverCard(
-                                    listFiles: sampleFile,
-                                    onlyOnePerson: false,
-                                    listForm: sample,
-                                    data: listMessage[index],
-                                    listImages: images,
-                                  ),
-                                );
-                              }
-                              return const Text("Error");
-                            },
-                          ),
+                                return const Text("Error");
+                              },
+                            ),
+                    ),
                   ),
-                ),
-                if (_isVisible)
-                  Positioned(
-                    right: 28,
-                    bottom: 28,
-                    child: GestureDetector(
-                      onTap: () {
-                        scrollToEnd();
-                      },
-                      child: Container(
-                        width: 28,
-                        height: 28,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFFFF8D4E),
-                        ),
-                        child: const Icon(
-                          Icons.arrow_downward_rounded,
-                          color: Colors.white,
-                          size: 24,
+                  if (_isVisible)
+                    Positioned(
+                      right: 28,
+                      bottom: 28,
+                      child: GestureDetector(
+                        onTap: () {
+                          scrollToEnd();
+                        },
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xFFFF8D4E),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_downward_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-              ],
+                    )
+                ],
+              ),
             ),
             if (widget.stackWidget != null) widget.stackWidget!,
             const SizedBox(height: 8),
