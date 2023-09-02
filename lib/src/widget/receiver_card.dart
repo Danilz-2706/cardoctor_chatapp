@@ -180,6 +180,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                           imageUrl: widget.listImages[index],
                           imageBuilder: (context, imageProvider) {
                             return Container(
+                              height: 500,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
                                 image: DecorationImage(

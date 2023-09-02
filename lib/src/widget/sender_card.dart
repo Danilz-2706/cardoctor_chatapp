@@ -129,7 +129,6 @@ class _SenderCardState extends State<SenderCard> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: const [
                     BoxShadow(
@@ -156,6 +155,7 @@ class _SenderCardState extends State<SenderCard> {
                           imageUrl: widget.listImages[index],
                           imageBuilder: (context, imageProvider) {
                             return Container(
+                              height: 500,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
                                 image: DecorationImage(
