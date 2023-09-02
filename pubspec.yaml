@@ -8,37 +8,36 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  analyzer: ^5.2.0
   cached_network_image: ^3.2.3
   file_picker: 5.2.6
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
   image_picker: ^0.8.7+5
+  intl: ^0.18.0
+  path: ^1.8.2
+  uuid: ^3.0.7
   wakelock: ^0.6.2
   wakelock_windows: ^0.2.1
-  intl: ^0.18.0
-  uuid: ^3.0.7
   web_socket_channel: ^2.4.0
-  analyzer: ^5.2.0
-
-
 
 dev_dependencies:
   flutter_lints: ^2.0.0
-  win32: ^3.0.0
   flutter_test:
     sdk: flutter
-
+  win32: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
 
-# To add assets to your package, add an assets section, like this:
+  # To add assets to your package, add an assets section, like this:
   assets:
     - assets/
     - assets/imgs/
+
 #
 # For details regarding assets in packages, see
 # https://flutter.dev/assets-and-images/#from-packages

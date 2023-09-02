@@ -16,6 +16,7 @@ class ReceiverCard extends StatefulWidget {
   final SendMessageResponse data;
   final bool onlyOnePerson;
   final List<String> listImages;
+  final List<FormFile> listFiles;
   final List<FormItem> listForm;
 
   const ReceiverCard({
@@ -23,6 +24,7 @@ class ReceiverCard extends StatefulWidget {
     required this.onlyOnePerson,
     required this.data,
     required this.listImages,
+    required this.listFiles,
     required this.listForm,
   }) : super(key: key);
 
@@ -43,8 +45,8 @@ class _ReceiverCardState extends State<ReceiverCard> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
-          height: 14,
-          width: 14,
+          height: 28,
+          width: 28,
           child: widget.onlyOnePerson
               ? const SizedBox()
               : ClipRRect(
@@ -83,7 +85,9 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 ),
         ),
         const SizedBox(width: 8),
-        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
+        if (widget.listForm.isEmpty &&
+            widget.listImages.isEmpty &&
+            widget.listFiles.isEmpty)
           Align(
             alignment: Alignment.centerLeft,
             child: ConstrainedBox(
@@ -108,8 +112,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
-          const SizedBox(width: 8),
+        const SizedBox(width: 8),
         if (widget.listForm.isNotEmpty)
           Align(
             child: ConstrainedBox(
@@ -205,6 +208,56 @@ class _ReceiverCardState extends State<ReceiverCard> {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: const [],
+                              image: DecorationImage(
+                                onError: (exception, stackTrace) {},
+                                isAntiAlias: true,
+                                image: imageProvider,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        if (widget.listFiles.isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 100),
+              child: SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: List.generate(
+                    widget.listFiles.length,
+                    (index) {
+                      return CachedNetworkImage(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        placeholder: (context, url) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                        ),
+                        errorWidget: (context, url, error) => SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: const Icon(Icons.error),
+                        ),
+                        imageUrl: widget.listImages[index],
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: const [],

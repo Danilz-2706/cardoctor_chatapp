@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/model/form_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:path/path.dart';
 import '../model/send_message_response.dart';
 import '../page/contains.dart';
 import 'label_drop_down.dart';
@@ -16,12 +16,14 @@ class SenderCard extends StatefulWidget {
   final SendMessageResponse data;
   final List<FormItem> listForm;
   final List<String> listImages;
+  final List<FormFile> listFiles;
 
   const SenderCard({
     super.key,
     required this.data,
     required this.listForm,
     required this.listImages,
+    required this.listFiles,
   });
 
   @override
@@ -168,7 +170,54 @@ class _SenderCardState extends State<SenderCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
+        if (widget.listImages.isNotEmpty)
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 100),
+              child: SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: List.generate(
+                    widget.listFiles.length,
+                    (index) {
+                      return Container(
+                        color: Colors.grey[800],
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.insert_drive_file_rounded,
+                              color: Color.fromRGBO(107, 109, 108, 1),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 12),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                basename(widget.listFiles[index].file!.path)
+                                    .toString(),
+                                maxLines: 3,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromRGBO(10, 11, 9, 1)),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        if (widget.listForm.isEmpty &&
+            widget.listImages.isEmpty &&
+            widget.listImages.isEmpty)
           Align(
             alignment: Alignment.centerRight,
             child: ConstrainedBox(

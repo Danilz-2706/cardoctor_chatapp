@@ -1,3 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+import 'dart:io';
+
 class FormItem {
   final String? text;
   final String? label;
@@ -41,15 +45,34 @@ class FormImage {
   }
 }
 
+class FormFile {
+  final String? url;
+  final File? file;
+
+  FormFile({
+    this.url,
+    this.file,
+  });
+
+  factory FormFile.fromJson(Map<String, dynamic> json) {
+    return FormFile(
+      url: json['url'],
+      file: json['file'],
+    );
+  }
+}
+
 class FormData {
   final String? key;
   final List<FormItem>? value;
   final List<FormImage>? valueImage;
+  final List<FormFile>? valueFiles;
 
   FormData({
     this.key,
     this.value,
     this.valueImage,
+    this.valueFiles,
   });
 
   factory FormData.fromJson(Map<String, dynamic> json) {
@@ -63,10 +86,16 @@ class FormData {
       return FormImage.fromJson(itemJson);
     }).toList();
 
+    final List<dynamic>? valueJson2 = json['valueFiles'];
+    final List<FormFile>? formItems2 = valueJson2?.map((itemJson) {
+      return FormFile.fromJson(itemJson);
+    }).toList();
+
     return FormData(
       key: json['key'],
       value: formItems,
       valueImage: formItems1,
+      valueFiles: formItems2,
     );
   }
 }

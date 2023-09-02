@@ -71,14 +71,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   Future getFile() async {
     filesList.clear();
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? files = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.custom,
-      allowedExtensions: ['xls', 'pdf', 'doc'],
+      type: FileType.any,
     );
 
-    if (result != null) {
-      filesList = result.paths.map((path) => File(path!)).toList();
+    if (files != null) {
+      filesList = files.paths.map((path) => File(path!)).toList();
+
+      String fileName = filesList[0].path.split('/').last;
     } else {
       print("not choose file");
     }
@@ -236,13 +237,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               DateTime.parse(listMessage[index].updatedAtStr!);
                           DateTime date2 = DateTime.parse(
                               listMessage[index + 1].updatedAtStr!);
-                          if (date1.day != date2.day ||
-                              date1.month != date2.month ||
-                              date1.year != date2.year) {}
+                          // if (date1.day != date2.day ||
+                          //     date1.month != date2.month ||
+                          //     date1.year != date2.year) {}
                           if (listMessage[index].username ==
                                   widget.data.userIDReal &&
                               listMessage[index + 1].username ==
                                   widget.data.userIDReal) {
+                            List<FormFile> sampleFile = [];
                             List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
@@ -257,11 +259,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.valueImage!) {
                                 images.add(e.image!);
                               }
+                            } else if (listMessage[index].type == 6) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueFiles!) {
+                                sampleFile.add(e);
+                              }
                             }
 
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 4),
                               child: SenderCard(
+                                listFiles: sampleFile,
                                 data: listMessage[index],
                                 listForm: sample,
                                 listImages: images,
@@ -272,6 +281,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   widget.data.userIDReal &&
                               listMessage[index + 1].username !=
                                   widget.data.userIDReal) {
+                            List<FormFile> sampleFile = [];
                             List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
@@ -286,10 +296,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.valueImage!) {
                                 images.add(e.image!);
                               }
+                            } else if (listMessage[index].type == 6) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueFiles!) {
+                                sampleFile.add(e);
+                              }
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 8),
                               child: SenderCard(
+                                listFiles: sampleFile,
                                 data: listMessage[index],
                                 listForm: sample,
                                 listImages: images,
@@ -301,6 +318,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   widget.data.userIDReal &&
                               listMessage[index - 1].username !=
                                   widget.data.userIDReal) {
+                            List<FormFile> sampleFile = [];
                             List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
@@ -315,10 +333,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.valueImage!) {
                                 images.add(e.image!);
                               }
+                            } else if (listMessage[index].type == 6) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueFiles!) {
+                                sampleFile.add(e);
+                              }
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 4),
                               child: ReceiverCard(
+                                listFiles: sampleFile,
                                 onlyOnePerson: true,
                                 data: listMessage[index],
                                 listForm: sample,
@@ -326,6 +351,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               ),
                             );
                           } else {
+                            List<FormFile> sampleFile = [];
                             List<FormItem> sample = [];
                             List<String> images = [];
                             if (listMessage[index].type == 2) {
@@ -340,10 +366,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               for (var e in x.valueImage!) {
                                 images.add(e.image!);
                               }
+                            } else if (listMessage[index].type == 6) {
+                              var x = FormData.fromJson(json
+                                  .decode(listMessage[index].originalMessage!));
+                              for (var e in x.valueFiles!) {
+                                sampleFile.add(e);
+                              }
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4, top: 8),
                               child: ReceiverCard(
+                                listFiles: sampleFile,
                                 onlyOnePerson: false,
                                 listForm: sample,
                                 data: listMessage[index],
