@@ -287,6 +287,45 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     ),
                                   );
                                 }
+                                if (index > 0 &&
+                                    listMessage[index].username ==
+                                        widget.data.userIDReal &&
+                                    listMessage[index - 1].username !=
+                                        widget.data.userIDReal) {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 12, top: 4),
+                                    child: SenderCard(
+                                      listFiles: sampleFile,
+                                      data: listMessage[index],
+                                      listForm: sample,
+                                      listImages: images,
+                                    ),
+                                  );
+                                }
                                 if (listMessage[index].username ==
                                     widget.data.userIDReal) {
                                   List<FormFile> sampleFile = [];
@@ -352,6 +391,45 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: 4, top: 4),
+                                    child: ReceiverCard(
+                                      listFiles: sampleFile,
+                                      onlyOnePerson: true,
+                                      data: listMessage[index],
+                                      listForm: sample,
+                                      listImages: images,
+                                    ),
+                                  );
+                                }
+                                if (index > 0 &&
+                                    listMessage[index].username !=
+                                        widget.data.userIDReal &&
+                                    listMessage[index - 1].username ==
+                                        widget.data.userIDReal) {
+                                  List<FormFile> sampleFile = [];
+                                  List<FormItem> sample = [];
+                                  List<String> images = [];
+                                  if (listMessage[index].type == 2) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.value!) {
+                                      sample.add(e);
+                                    }
+                                  } else if (listMessage[index].type == 5) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueImage!) {
+                                      images.add(e.image!);
+                                    }
+                                  } else if (listMessage[index].type == 6) {
+                                    var x = FormData.fromJson(json.decode(
+                                        listMessage[index].originalMessage!));
+                                    for (var e in x.valueFiles!) {
+                                      sampleFile.add(e);
+                                    }
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 12, top: 4),
                                     child: ReceiverCard(
                                       listFiles: sampleFile,
                                       onlyOnePerson: true,
