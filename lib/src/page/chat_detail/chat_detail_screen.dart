@@ -241,10 +241,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               itemCount: listMessage.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                DateTime date1 = DateTime.parse(
-                                    listMessage[index].updatedAtStr!);
-                                DateTime date2 = DateTime.parse(
-                                    listMessage[index + 1].updatedAtStr!);
+                                // DateTime date1 = DateTime.parse(
+                                //     listMessage[index].updatedAtStr!);
+                                // DateTime date2 = DateTime.parse(
+                                //     listMessage[index + 1].updatedAtStr!);
                                 // if (date1.day != date2.day ||
                                 //     date1.month != date2.month ||
                                 //     date1.year != date2.year) {}
