@@ -248,10 +248,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 // if (date1.day != date2.day ||
                                 //     date1.month != date2.month ||
                                 //     date1.year != date2.year) {}
-                                if (index < listMessage.length - 1 &&
+                                if (index > 0 &&
                                     listMessage[index].username ==
                                         widget.data.userIDReal &&
-                                    listMessage[index + 1].username ==
+                                    listMessage[index - 1].username ==
                                         widget.data.userIDReal) {
                                   List<FormFile> sampleFile = [];
                                   List<FormItem> sample = [];
@@ -287,11 +287,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     ),
                                   );
                                 }
-                                if (index < listMessage.length - 1 &&
-                                    listMessage[index].username ==
-                                        widget.data.userIDReal &&
-                                    listMessage[index + 1].username !=
-                                        widget.data.userIDReal) {
+                                if (listMessage[index].username ==
+                                    widget.data.userIDReal) {
                                   List<FormFile> sampleFile = [];
                                   List<FormItem> sample = [];
                                   List<String> images = [];
@@ -316,7 +313,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                        bottom: 4, top: 8),
+                                        bottom: 4, top: 4),
                                     child: SenderCard(
                                       listFiles: sampleFile,
                                       data: listMessage[index],
@@ -388,7 +385,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   }
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                        bottom: 4, top: 8),
+                                        bottom: 4, top: 4),
                                     child: ReceiverCard(
                                       listFiles: sampleFile,
                                       onlyOnePerson: false,
