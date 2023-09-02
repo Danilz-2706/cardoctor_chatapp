@@ -149,12 +149,24 @@ class _SenderCardState extends State<SenderCard> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: CachedNetworkImage(
-                          fit: BoxFit.contain,
                           placeholder: (context, url) =>
                               const CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                           imageUrl: widget.listImages[index],
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                image: DecorationImage(
+                                  onError: (exception, stackTrace) {},
+                                  isAntiAlias: true,
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },

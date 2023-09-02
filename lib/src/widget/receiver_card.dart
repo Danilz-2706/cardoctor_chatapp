@@ -80,7 +80,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
               ),
             ),
           ),
-        if (widget.listForm.isEmpty && widget.listImages.isNotEmpty)
+        if (widget.listForm.isEmpty && widget.listImages.isEmpty)
           const SizedBox(width: 8),
         if (widget.listForm.isNotEmpty)
           Align(
@@ -153,10 +153,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 100),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: const [
                     BoxShadow(
@@ -181,6 +178,19 @@ class _ReceiverCardState extends State<ReceiverCard> {
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                           imageUrl: widget.listImages[index],
+                          imageBuilder: (context, imageProvider) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                image: DecorationImage(
+                                  onError: (exception, stackTrace) {},
+                                  isAntiAlias: true,
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
