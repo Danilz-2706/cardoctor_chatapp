@@ -132,6 +132,7 @@ class _SenderCardState extends State<SenderCard> {
                     widget.listImages.length,
                     (index) {
                       return CachedNetworkImage(
+                        height: MediaQuery.of(context).size.height * 0.3,
                         placeholder: (context, url) => SizedBox(
                           height: MediaQuery.of(context).size.height * 0.3,
                         ),
@@ -143,6 +144,7 @@ class _SenderCardState extends State<SenderCard> {
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.3,
+                            alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: const [],
