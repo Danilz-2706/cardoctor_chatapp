@@ -218,7 +218,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             Expanded(
               child: Stack(
                 children: [
-                  Expanded(
+                  SizedBox(
+                    height: double.infinity,
+                    width: double.infinity,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: listMessage.isEmpty
