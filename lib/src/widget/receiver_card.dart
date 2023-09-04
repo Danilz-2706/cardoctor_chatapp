@@ -248,12 +248,12 @@ class _ReceiverCardState extends State<ReceiverCard> {
                         onTap: process != null
                             ? () {}
                             : () {
-                                DownloadFile().openFile(
-                                  url: widget.listFiles[index].url!,
-                                  fileName:
-                                      basename(widget.listFiles[index].path!)
-                                          .toString(),
-                                );
+                                // DownloadFile().openFile(
+                                //   url: widget.listFiles[index].url!,
+                                //   fileName:
+                                //       basename(widget.listFiles[index].path!)
+                                //           .toString(),
+                                // );
                                 FileDownloader.downloadFile(
                                   url: widget.listFiles[index].url!,
                                   onProgress: (fileName, progress) {
