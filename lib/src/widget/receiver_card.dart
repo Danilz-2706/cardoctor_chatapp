@@ -284,7 +284,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                                     onReceiveProgress: (count, total) {
                                       if (count < total) {
                                         setState(() {
-                                          process = process;
+                                          process = count / total;
                                         });
                                       } else {
                                         setState(() {
