@@ -6,7 +6,6 @@ import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
