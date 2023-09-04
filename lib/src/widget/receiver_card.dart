@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../model/form_text.dart';
 import '../model/send_message_response.dart';
@@ -247,26 +249,59 @@ class _ReceiverCardState extends State<ReceiverCard> {
                       return InkWell(
                         onTap: process != null
                             ? () {}
-                            : () {
+                            : () async {
                                 // DownloadFile().openFile(
                                 //   url: widget.listFiles[index].url!,
                                 //   fileName:
                                 //       basename(widget.listFiles[index].path!)
                                 //           .toString(),
                                 // );
-                                FileDownloader.downloadFile(
-                                  url: widget.listFiles[index].url!,
-                                  onProgress: (fileName, progress) {
-                                    setState(() {
-                                      process = process;
-                                    });
-                                  },
-                                  onDownloadCompleted: (path) {
-                                    setState(() {
-                                      process = null;
-                                    });
-                                  },
-                                );
+                                // FileDownloader.downloadFile(
+                                //   url: widget.listFiles[index].url!,
+                                //   onProgress: (fileName, progress) {
+                                //     setState(() {
+                                //       process = process;
+                                //     });
+                                //   },
+                                //   onDownloadCompleted: (path) {
+                                //     setState(() {
+                                //       process = null;
+                                //     });
+                                //   },
+                                // );
+                                final appStorage =
+                                    await getApplicationDocumentsDirectory();
+                                final file = File(
+                                    '${appStorage.path}/${basename(widget.listFiles[index].path!)}');
+                                try {
+                                  await Dio().download(
+                                    widget.listFiles[index].url!,
+                                    file,
+                                    // options: Options(
+                                    //   responseType: ResponseType.bytes,
+                                    //   followRedirects: false,
+                                    //   receiveTimeout: 0,
+                                    // ),
+                                    onReceiveProgress: (count, total) {
+                                      if (count < total) {
+                                        setState(() {
+                                          process = process;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          process = null;
+                                        });
+                                      }
+                                    },
+                                  );
+                                  // final raf =
+                                  //     file.openSync(mode: FileMode.write);
+                                  // raf.writeFromSync(response.data);
+                                  // await raf.close();
+                                  // return file;
+                                } catch (e) {
+                                  return null;
+                                }
                               },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
