@@ -14,10 +14,10 @@ dependencies:
   file_picker: 5.2.6
   flutter:
     sdk: flutter
+  flutter_file_downloader: ^1.1.2
   google_fonts: ^3.0.1
   image_picker: ^0.8.7+5
   intl: ^0.18.0
-  # open_file: ^3.2.0
   path: ^1.8.2
   path_provider: ^2.0.11
   uuid: ^3.0.7

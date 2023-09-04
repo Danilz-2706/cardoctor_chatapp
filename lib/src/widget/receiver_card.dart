@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/widget/text_field_form.dart';
 import 'package:cardoctor_chatapp/src/widget/title_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 
@@ -35,6 +36,7 @@ class ReceiverCard extends StatefulWidget {
 }
 
 class _ReceiverCardState extends State<ReceiverCard> {
+  double? process;
   @override
   void initState() {
     super.initState();
@@ -243,13 +245,29 @@ class _ReceiverCardState extends State<ReceiverCard> {
                     widget.listFiles.length,
                     (index) {
                       return InkWell(
-                        onTap: () {
-                          DownloadFile().openFile(
-                            url: widget.listFiles[index].url!,
-                            fileName: basename(widget.listFiles[index].path!)
-                                .toString(),
-                          );
-                        },
+                        onTap: process != null
+                            ? () {}
+                            : () {
+                                DownloadFile().openFile(
+                                  url: widget.listFiles[index].url!,
+                                  fileName:
+                                      basename(widget.listFiles[index].path!)
+                                          .toString(),
+                                );
+                                FileDownloader.downloadFile(
+                                  url: widget.listFiles[index].url!,
+                                  onProgress: (fileName, progress) {
+                                    setState(() {
+                                      process = process;
+                                    });
+                                  },
+                                  onDownloadCompleted: (path) {
+                                    setState(() {
+                                      process = null;
+                                    });
+                                  },
+                                );
+                              },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           padding: const EdgeInsets.symmetric(
@@ -261,11 +279,18 @@ class _ReceiverCardState extends State<ReceiverCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Icon(
-                                Icons.insert_drive_file_rounded,
-                                color: Color.fromRGBO(107, 109, 108, 1),
-                                size: 24,
-                              ),
+                              if (process != null)
+                                const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              if (process == null)
+                                const Icon(
+                                  Icons.insert_drive_file_rounded,
+                                  color: Color.fromRGBO(107, 109, 108, 1),
+                                  size: 24,
+                                ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Padding(
