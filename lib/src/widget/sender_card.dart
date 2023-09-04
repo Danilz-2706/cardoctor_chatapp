@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cardoctor_chatapp/src/model/form_text.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import '../model/send_message_response.dart';
 import '../page/contains.dart';
 import '../utils/download_open_file.dart';
@@ -33,6 +35,8 @@ class SenderCard extends StatefulWidget {
 
 class _SenderCardState extends State<SenderCard> {
   // List<FormItem> listForm = [];
+  double? process;
+
   @override
   void initState() {
     super.initState();
@@ -185,13 +189,65 @@ class _SenderCardState extends State<SenderCard> {
                     widget.listFiles.length,
                     (index) {
                       return InkWell(
-                        onTap: () {
-                          DownloadFile().openFile(
-                            url: widget.listFiles[index].url!,
-                            fileName: basename(widget.listFiles[index].path!)
-                                .toString(),
-                          );
-                        },
+                        onTap: process != null
+                            ? () {}
+                            : () async {
+                                // DownloadFile().openFile(
+                                //   url: widget.listFiles[index].url!,
+                                //   fileName:
+                                //       basename(widget.listFiles[index].path!)
+                                //           .toString(),
+                                // );
+                                // FileDownloader.downloadFile(
+                                //   url: widget.listFiles[index].url!,
+                                //   onProgress: (fileName, progress) {
+                                //     setState(() {
+                                //       process = process;
+                                //     });
+                                //   },
+                                //   onDownloadCompleted: (path) {
+                                //     setState(() {
+                                //       process = null;
+                                //     });
+                                //   },
+                                // );
+                                final appStorage =
+                                    await getApplicationDocumentsDirectory();
+                                final file = File(
+                                    '${appStorage.path}/${basename(widget.listFiles[index].path!)}');
+
+                                print(widget.listFiles[index].url!);
+                                print(file);
+                                try {
+                                  await Dio().download(
+                                    widget.listFiles[index].url!,
+                                    file,
+                                    options: Options(
+                                      responseType: ResponseType.bytes,
+                                      followRedirects: false,
+                                      receiveTimeout: 0,
+                                    ),
+                                    onReceiveProgress: (count, total) {
+                                      if (count < total) {
+                                        setState(() {
+                                          process = count / total;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          process = null;
+                                        });
+                                      }
+                                    },
+                                  );
+                                  // final raf =
+                                  //     file.openSync(mode: FileMode.write);
+                                  // raf.writeFromSync(response.data);
+                                  // await raf.close();
+                                  // return file;
+                                } catch (e) {
+                                  print("Download Failed.\n\n" + e.toString());
+                                }
+                              },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           padding: const EdgeInsets.symmetric(
@@ -203,11 +259,18 @@ class _SenderCardState extends State<SenderCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Icon(
-                                Icons.insert_drive_file_rounded,
-                                color: Color.fromRGBO(107, 109, 108, 1),
-                                size: 24,
-                              ),
+                              if (process != null)
+                                const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              if (process == null)
+                                const Icon(
+                                  Icons.insert_drive_file_rounded,
+                                  color: Color.fromRGBO(107, 109, 108, 1),
+                                  size: 24,
+                                ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Padding(

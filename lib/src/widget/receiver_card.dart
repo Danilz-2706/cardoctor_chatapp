@@ -272,15 +272,18 @@ class _ReceiverCardState extends State<ReceiverCard> {
                                     await getApplicationDocumentsDirectory();
                                 final file = File(
                                     '${appStorage.path}/${basename(widget.listFiles[index].path!)}');
+
+                                print(widget.listFiles[index].url!);
+                                print(file);
                                 try {
                                   await Dio().download(
                                     widget.listFiles[index].url!,
                                     file,
-                                    // options: Options(
-                                    //   responseType: ResponseType.bytes,
-                                    //   followRedirects: false,
-                                    //   receiveTimeout: 0,
-                                    // ),
+                                    options: Options(
+                                      responseType: ResponseType.bytes,
+                                      followRedirects: false,
+                                      receiveTimeout: 0,
+                                    ),
                                     onReceiveProgress: (count, total) {
                                       if (count < total) {
                                         setState(() {
@@ -299,7 +302,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
                                   // await raf.close();
                                   // return file;
                                 } catch (e) {
-                                  return null;
+                                  print("Download Failed.\n\n" + e.toString());
                                 }
                               },
                         child: Container(
