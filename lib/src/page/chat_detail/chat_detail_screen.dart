@@ -217,6 +217,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             const SizedBox(height: 8.0),
             Expanded(
               child: Stack(
+                fit: StackFit.expand,
                 children: [
                   SizedBox(
                     height: double.infinity,
