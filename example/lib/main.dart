@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cardoctor_chatapp/cardoctor_chatapp.dart';
 
+import 'model/form_text.dart';
+import 'model/send_message_request.dart';
 import 'navigation_utils.dart';
+import 'package:web_socket_channel/io.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,78 +32,113 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-var list = [
-  {
-    "avatar": "assets/imgs/ic_check.png",
-    "name": "Gara Tuan Hung",
-    "last_message": "Like your...",
-    "time": "13:25",
-    "read": true,
-  },
-  {
-    "avatar": "assets/imgs/ic_check.png",
-    "name": "Gara Tuan Hung",
-    "last_message": "Like your...",
-    "time": "13:25",
-    "read": true,
-  },
-  {
-    "avatar": "assets/imgs/ic_check.png",
-    "name": "Gara Tuan Hung",
-    "last_message": "Like your...",
-    "time": "13:25",
-    "read": false,
-  },
-  {
-    "avatar": "assets/imgs/ic_check.png",
-    "name": "Gara Tuan Hung",
-    "last_message": "Like your...",
-    "time": "13:25",
-    "read": false,
-  }
+List<String> list_image = [
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
+  "https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg",
 ];
+List<FormFile> list_files = [
+  FormFile(
+      url:
+          'https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230905132344096_vidma_recorder_04092023_145203.jpg',
+      path:
+          '/data/user/0/com.mfunctions.driver.dev/cache/file_picker//20230905132344096_vidma_recorder_04092023_145203.jpg'),
+];
+List<Map<String, dynamic>> listMessage = [];
 
 class _HomePageState extends State<HomePage> {
-  String id = '123';
-  Future openListRoomUtils() async {
-    ChatAppCarDoctorUtilOption data = ChatAppCarDoctorUtilOption(
-        apiKey: '7T3DbecohNyHTtYbLg3gFiw0TtcsCayLfft7eeLM',
-        apiSecret: 'isXVT8s4Y4AMyeIgGGM2V4WXpfYphzwd',
-        cluseterID: 'free.blr2',
-        getNotifySelf: '1',
-        groupName: 'GR_1693357083059',
-        historyChat: [], userIDReal: null);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChatDetailScreen(
-          data: data,
-          // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
-          press: (value) {},
-        ),
-      ),
+  late final IOWebSocketChannel channel;
+  @override
+  void initState() {
+    super.initState();
+
+    channel = IOWebSocketChannel.connect(
+      Uri.parse(
+          'wss://free.blr2.piesocket.com/v3/GR_1693357083059?api_key=5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX&notify_self=1'),
     );
-    // return ChatDetailScreen(
-    //   data: data,
-    //   // stackWidget: ButtonWidget(title: 'Đặt lịch', onPressed: () {}),
-    //   press: (value) {},
-    // );
+    print('Connect socket');
+  }
+
+  Future addMessage(SendMessageRequest message) async {
+    try {
+      channel.sink.add(json.encode(message));
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(id);
+    ChatAppCarDoctorUtilOption data = ChatAppCarDoctorUtilOption(
+        apiKey: '5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX',
+        apiSecret: 'isXVT8s4Y4AMyeIgGGM2V4WXpfYphzwd',
+        cluseterID: 'free.blr2',
+        getNotifySelf: '1',
+        groupName: 'GR_1693357083059',
+        userIDReal: 'Cardoctor1Driver');
+    return SafeArea(
+      child: ChatDetailScreen(
+        historyChat: listMessage,
+        loadMoreHistory: (p0) async {},
+        pressPickImage: (p0) async {
+          if (p0['list'].isNotEmpty) {
+            final List<FormImage> list = [];
+            for (final e in list_image) {
+              list.add(FormImage(image: e));
+            }
+            final i = FormData(key: 'form', valueImage: list);
 
-    return Container(
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            openListRoomUtils();
-          },
-          child: Text(
-            'ahihi',
-          ),
-        ),
+            addMessage(
+              SendMessageRequest(
+                type: 5,
+                linkPreview: '',
+                groupName: 'GR_1693357083059',
+                attachmentType: 'image',
+                username: 'Cardoctor1Driver',
+                originalMessage: json.encode(i.toMap()),
+              ),
+            );
+          }
+        },
+        pressPickFiles: (p0) async {
+          if (p0['list'].isNotEmpty) {
+            final List<FormFile> list = [];
+            for (int i = 0; i < p0['list'].length; i++) {
+              list.add(
+                FormFile(
+                  url: list_files[i].url,
+                  path: list_files[i].url,
+                ),
+              );
+            }
+            final i = FormData(key: 'form', valueFiles: list);
+            addMessage(
+              SendMessageRequest(
+                type: 6,
+                linkPreview: '',
+                groupName: 'GR_1693357083059',
+                attachmentType: 'file',
+                username: 'Cardoctor1Driver',
+                originalMessage: json.encode(i.toMap()),
+              ),
+            );
+          }
+        },
+        nameTitle: 'Testing chat',
+        data: data,
+        press: (value) {
+          addMessage(SendMessageRequest.fromJson(value));
+        },
+        dataRoom: data,
+        idSender: 'Cardoctor1Driver',
+        pressBack: () {
+          NavigationUtils.popToFirst(context);
+        },
       ),
     );
   }

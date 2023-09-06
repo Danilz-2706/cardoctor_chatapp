@@ -1,20 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
+import 'package:video_player/video_player.dart';
 import 'package:web_socket_channel/io.dart';
-
+import 'package:path/path.dart' as p;
 import '../../cardoctor_chatapp.dart';
 import '../../model/create_room_chat_response.dart';
 import '../../model/form_text.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
+import '../../utils/utils.dart';
+import '../../widget/AllinOneCameraGalleryImageVideoPicker/AllinOneCameraGalleryImageVideoPicker.dart';
 import '../../widget/appbar.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/receiver_card.dart';
@@ -59,7 +65,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late final IOWebSocketChannel channel;
   FocusNode _focusNode = FocusNode();
   List<SendMessageResponse> listMessage = [];
+  File? _video;
+  late CameraController controllerCamera;
 
+  ImagePicker picker = ImagePicker();
+
+  late VideoPlayerController _videoPlayerController;
   late TextEditingController controller;
 
   List<File> filesList = [];
@@ -73,6 +84,72 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         filesList.add(File(e.path));
       }
     } else {}
+  }
+
+  // This funcion will helps you to pick a Video File
+  _pickVideo() async {
+    XFile? pickedFile = await (picker.pickVideo(source: ImageSource.gallery));
+
+    _video = File(pickedFile!.path);
+
+    // if (_video!.lengthSync() / 1000000 > observer.maxFileSizeAllowedInMB) {
+    if (_video == null) {
+      //   error =
+      //       '${getTranslated(this.context, 'maxfilesize')} ${observer.maxFileSizeAllowedInMB}MB\n\n${getTranslated(this.context, 'selectedfilesize')} ${(_video!.lengthSync() / 1000000).round()}MB';
+
+      setState(() {
+        _video = null;
+      });
+    } else {
+      print("Video path");
+      print(_video);
+      setState(() {});
+      _videoPlayerController = VideoPlayerController.file(_video!)
+        ..initialize().then((_) {
+          setState(() {});
+          _videoPlayerController.play();
+        });
+    }
+  }
+
+  // This funcion will helps you to pick a Video File from Camera
+  _pickVideoFromCamera() async {
+    XFile? pickedFile = await (picker.pickVideo(source: ImageSource.camera));
+
+    _video = File(pickedFile!.path);
+
+    if (_video == null) {
+      //   error =
+      //       '${getTranslated(this.context, 'maxfilesize')} ${observer.maxFileSizeAllowedInMB}MB\n\n${getTranslated(this.context, 'selectedfilesize')} ${(_video!.lengthSync() / 1000000).round()}MB';
+
+      setState(() {
+        _video = null;
+      });
+    } else {
+      setState(() {});
+      _videoPlayerController = VideoPlayerController.file(_video!)
+        ..initialize().then((_) {
+          setState(() {});
+          _videoPlayerController.play();
+        });
+    }
+  }
+
+  _buildVideo(BuildContext context) {
+    if (_video != null) {
+      return _videoPlayerController.value.isInitialized
+          ? AspectRatio(
+              aspectRatio: _videoPlayerController.value.aspectRatio,
+              child: VideoPlayer(_videoPlayerController),
+            )
+          : Container();
+    } else {
+      return new Text('takefile',
+          style: new TextStyle(
+            fontSize: 18.0,
+            color: Color(0xff8596a0),
+          ));
+    }
   }
 
   Future getFile() async {
@@ -156,6 +233,56 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     });
   }
 
+  _takeCameraImage(ValueChanged<String?> callBack) async {
+    if (Platform.isIOS && await Permission.camera.isPermanentlyDenied) {
+      // Utils.showPopupYesNoButton(
+      //     context: context,
+      //     contentText: R.string.msg_open_image_setting.tr(),
+      //     submitCallback: () {
+      //       openAppSettings();
+      //       callBack.call(null);
+      // });
+      return;
+    }
+    final permission = await Permission.camera.request();
+    if (Platform.isAndroid && permission.isPermanentlyDenied) {
+      // Utils.showPopupYesNoButton(
+      //     context: context,
+      //     contentText: R.string.msg_open_image_setting.tr(),
+      //     submitCallback: () {
+      //       openAppSettings();
+      //       callBack.call(null);
+      //     });
+      return;
+    }
+    if (permission.isGranted) {
+      final String? image = await _getImage(ImageSource.camera);
+      callBack.call(image);
+      return;
+    }
+    callBack.call(null);
+  }
+
+  _getImage(ImageSource source) async {
+    //Pick image
+    try {
+      final XFile? image = await picker.pickImage(
+          source: source, imageQuality: 100, maxHeight: 1920, maxWidth: 1080);
+      if (image == null) return null;
+
+      //Handle crop
+      // final String? cropPath = await _cropImage(image);
+      // if (cropPath == null) return null;
+
+      // String? error = await _checkValidImage(XFile(cropPath));
+      // if (error != null) {
+      //   if (widget.errorMessage != null) widget.errorMessage!(error);
+      //   return null;
+      // }
+      return image;
+    } catch (e) {}
+  }
+
   @override
   void dispose() {
     channel.sink.close();
@@ -192,13 +319,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
   }
 
-  // Future addMessage(SendMessageRequest message) async {
-  //   try {
-  //     channel.sink.add(json.encode(message));
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+  Future addMessage(SendMessageRequest message) async {
+    try {
+      channel.sink.add(json.encode(message));
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -244,13 +371,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               itemCount: listMessage.length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                // DateTime date1 = DateTime.parse(
-                                //     listMessage[index].updatedAtStr!);
-                                // DateTime date2 = DateTime.parse(
-                                //     listMessage[index + 1].updatedAtStr!);
-                                // if (date1.day != date2.day ||
-                                //     date1.month != date2.month ||
-                                //     date1.year != date2.year) {}
+                                bool old = true;
+                                if (index == listMessage.length - 1) {
+                                } else {
+                                  if (formatMessageDate(
+                                      listMessage[index].createdAtStr!,
+                                      listMessage[index + 1].createdAtStr!)) {
+                                    old = false;
+                                  } else {
+                                    old = true;
+                                  }
+                                }
+                                print(index);
+                                print(old);
                                 if (index > 0 &&
                                     listMessage[index].username ==
                                         widget.data.userIDReal &&
@@ -287,6 +420,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       data: listMessage[index],
                                       listForm: sample,
                                       listImages: images,
+                                      old: old,
+                                      seen: true,
                                     ),
                                   );
                                 }
@@ -326,6 +461,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       data: listMessage[index],
                                       listForm: sample,
                                       listImages: images,
+                                      old: old,
+                                      seen: true,
                                     ),
                                   );
                                 }
@@ -361,6 +498,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       data: listMessage[index],
                                       listForm: sample,
                                       listImages: images,
+                                      old: old,
+                                      seen: true,
                                     ),
                                   );
                                 }
@@ -400,6 +539,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       data: listMessage[index],
                                       listForm: sample,
                                       listImages: images,
+                                      old: old,
+                                      seen: true,
                                     ),
                                   );
                                 } else {
@@ -434,6 +575,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       listForm: sample,
                                       data: listMessage[index],
                                       listImages: images,
+                                      old: old,
+                                      seen: true,
                                     ),
                                   );
                                 }
@@ -479,12 +622,141 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      await getImage();
-                      var message = {
-                        'key': 'image',
-                        'list': filesList,
-                      };
-                      widget.pressPickImage(message);
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => CupertinoActionSheet(
+                          actions: [
+                            CupertinoActionSheetAction(
+                                onPressed: () async {
+                                  await getImage();
+                                  var message = {
+                                    'key': 'image',
+                                    'list': filesList,
+                                  };
+                                  widget.pressPickImage(message);
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Chọn ảnh',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subTitle
+                                        .copyWith(color: Color(0xFF24138A)))),
+                            CupertinoActionSheetAction(
+                                onPressed: () async {
+                                  await _pickVideo();
+
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Chọn video',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subTitle
+                                        .copyWith(color: Color(0xFF24138A)))),
+
+                            //Quay video
+                            CupertinoActionSheetAction(
+                                onPressed: () async {
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AllinOneCameraGalleryImageVideoPicker(
+                                                onTakeFile: (file, isVideo,
+                                                    thumnail) async {
+                                                  int timeStamp = DateTime.now()
+                                                      .millisecondsSinceEpoch;
+                                                  if (isVideo == true) {
+                                                    String videoFileext =
+                                                        p.extension(file.path);
+                                                    String videofileName =
+                                                        'Video-$timeStamp$videoFileext';
+                                                    print('video');
+                                                    print(videofileName);
+                                                    // String? url =
+                                                    // String? videoUrl =
+                                                    //     await uploadSelectedLocalFileWithProgressIndicator(
+                                                    //         file,
+                                                    //         true,
+                                                    //         false,
+                                                    //         timeStamp,
+                                                    //         filenameoptional:
+                                                    //             videofileName);
+                                                    // if (videoUrl != null) {
+                                                    //   String? thumnailUrl =
+                                                    //       await uploadSelectedLocalFileWithProgressIndicator(
+                                                    //           thumnail!,
+                                                    //           false,
+                                                    //           true,
+                                                    //           timeStamp);
+                                                    // if (thumnailUrl != null) {
+                                                    //   onSendMessage(
+                                                    //       this.context,
+                                                    //       videoUrl +
+                                                    //           '-BREAK-' +
+                                                    //           thumnailUrl +
+                                                    //           '-BREAK-' +
+                                                    //           videometadata! +
+                                                    //           '-BREAK-' +
+                                                    //           "$videofileName",
+                                                    //       MessageType.video,
+                                                    //       timeStamp);
+                                                    //   await file.delete();
+                                                    //   await thumnail.delete();
+                                                    // }
+                                                    // }
+                                                  } else {
+                                                    String imageFileext =
+                                                        p.extension(file.path);
+                                                    String imagefileName =
+                                                        'IMG-$timeStamp$imageFileext';
+
+                                                    print('file');
+                                                    print(imagefileName);
+                                                    // String? url =
+                                                    //     await uploadSelectedLocalFileWithProgressIndicator(
+                                                    //         file,
+                                                    //         false,
+                                                    //         false,
+                                                    //         timeStamp,
+                                                    //         filenameoptional:
+                                                    //             imagefileName);
+                                                    // if (url != null) {
+                                                    //   onSendMessage(
+                                                    //       this.context,
+                                                    //       url,
+                                                    //       MessageType.image,
+                                                    //       timeStamp);
+                                                    //   await file.delete();
+                                                    // }
+                                                  }
+                                                },
+                                              )));
+                                },
+                                child: Text('Quay / chụp',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subTitle
+                                        .copyWith(color: Color(0xFF24138A)))),
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Huỷ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subTitle
+                                    .copyWith(color: Color(0xFF24138A))),
+                          ),
+                        ),
+                      );
+                      // await getImage();
+                      // var message = {
+                      //   'key': 'image',
+                      //   'list': filesList,
+                      // };
+                      // widget.pressPickImage(message);
+                      // await _pickVideo();
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
@@ -496,7 +768,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   GestureDetector(
                     onTap: () async {
                       await getFile();
-
                       var message = {
                         'key': 'files',
                         'list': filesList,
@@ -584,6 +855,24 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         ),
       ),
     );
+  }
+
+  bool formatMessageDate(String dateBefor, String dateAfter) {
+    try {
+      var dateBefor1 = DateTime.parse(dateBefor);
+      var dateAfter1 = DateTime.parse(dateAfter);
+
+      Duration difference = dateBefor1.difference(
+          DateTime(dateAfter1.year, dateAfter1.month, dateAfter1.day));
+
+      if (difference.inDays == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 }
 
