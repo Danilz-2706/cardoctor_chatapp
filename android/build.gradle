@@ -1,4 +1,4 @@
-group 'com.crazecoder.openfile'
+group 'com.danilz.openfile'
 version '1.0-SNAPSHOT'
 
 buildscript {

@@ -1,4 +1,4 @@
-package com.crazecoder.openfile;
+package com.danilz.openfile;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,8 +18,8 @@ import androidx.core.content.FileProvider;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 
-import com.crazecoder.openfile.utils.JsonUtil;
-import com.crazecoder.openfile.utils.MapUtil;
+import com.danilz.openfile.utils.JsonUtil;
+import com.danilz.openfile.utils.MapUtil;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -167,7 +167,7 @@ public class OpenFilePlugin implements MethodCallHandler
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider.com.crazecoder.openfile", new File(filePath));
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider.com.danilz.openfile", new File(filePath));
         } else {
             uri = Uri.fromFile(new File(filePath));
         }

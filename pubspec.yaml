@@ -49,7 +49,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.crazecoder.openfile
+        package: com.danilz.openfile
         pluginClass: OpenFilePlugin
       ios:
         pluginClass: OpenFilePlugin

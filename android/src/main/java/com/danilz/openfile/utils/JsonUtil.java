@@ -1,4 +1,4 @@
-package com.crazecoder.openfile.utils;
+package com.danilz.openfile.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

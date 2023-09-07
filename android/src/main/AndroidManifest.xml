@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.crazecoder.openfile">
+    package="com.danilz.openfile">
 
     <application>
         <provider
-            android:name="com.crazecoder.openfile.FileProvider"
-            android:authorities="${applicationId}.fileProvider.com.crazecoder.openfile"
+            android:name="com.danilz.openfile.FileProvider"
+            android:authorities="${applicationId}.fileProvider.com.danilz.openfile"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
