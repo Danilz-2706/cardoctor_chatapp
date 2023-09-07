@@ -19,8 +19,8 @@ import '../../model/create_room_chat_response.dart';
 import '../../model/form_text.dart';
 import '../../model/send_message_request.dart';
 import '../../model/send_message_response.dart';
+import '../../utils/pic_image_video.dart';
 import '../../utils/utils.dart';
-import '../../widget/AllinOneCameraGalleryImageVideoPicker/AllinOneCameraGalleryImageVideoPicker.dart';
 import '../../widget/appbar.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/receiver_card.dart';
@@ -616,147 +616,33 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
               color: Colors.white,
-              height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) => CupertinoActionSheet(
-                          actions: [
-                            CupertinoActionSheetAction(
-                                onPressed: () async {
-                                  await getImage();
-                                  var message = {
-                                    'key': 'image',
-                                    'list': filesList,
-                                  };
-                                  widget.pressPickImage(message);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Chọn ảnh',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subTitle
-                                        .copyWith(color: Color(0xFF24138A)))),
-                            CupertinoActionSheetAction(
-                                onPressed: () async {
-                                  await _pickVideo();
-
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Chọn video',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subTitle
-                                        .copyWith(color: Color(0xFF24138A)))),
-
-                            //Quay video
-                            CupertinoActionSheetAction(
-                                onPressed: () async {
-                                  await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AllinOneCameraGalleryImageVideoPicker(
-                                                onTakeFile: (file, isVideo,
-                                                    thumnail) async {
-                                                  int timeStamp = DateTime.now()
-                                                      .millisecondsSinceEpoch;
-                                                  if (isVideo == true) {
-                                                    String videoFileext =
-                                                        p.extension(file.path);
-                                                    String videofileName =
-                                                        'Video-$timeStamp$videoFileext';
-                                                    print('video');
-                                                    print(videofileName);
-                                                    // String? url =
-                                                    // String? videoUrl =
-                                                    //     await uploadSelectedLocalFileWithProgressIndicator(
-                                                    //         file,
-                                                    //         true,
-                                                    //         false,
-                                                    //         timeStamp,
-                                                    //         filenameoptional:
-                                                    //             videofileName);
-                                                    // if (videoUrl != null) {
-                                                    //   String? thumnailUrl =
-                                                    //       await uploadSelectedLocalFileWithProgressIndicator(
-                                                    //           thumnail!,
-                                                    //           false,
-                                                    //           true,
-                                                    //           timeStamp);
-                                                    // if (thumnailUrl != null) {
-                                                    //   onSendMessage(
-                                                    //       this.context,
-                                                    //       videoUrl +
-                                                    //           '-BREAK-' +
-                                                    //           thumnailUrl +
-                                                    //           '-BREAK-' +
-                                                    //           videometadata! +
-                                                    //           '-BREAK-' +
-                                                    //           "$videofileName",
-                                                    //       MessageType.video,
-                                                    //       timeStamp);
-                                                    //   await file.delete();
-                                                    //   await thumnail.delete();
-                                                    // }
-                                                    // }
-                                                  } else {
-                                                    String imageFileext =
-                                                        p.extension(file.path);
-                                                    String imagefileName =
-                                                        'IMG-$timeStamp$imageFileext';
-
-                                                    print('file');
-                                                    print(imagefileName);
-                                                    // String? url =
-                                                    //     await uploadSelectedLocalFileWithProgressIndicator(
-                                                    //         file,
-                                                    //         false,
-                                                    //         false,
-                                                    //         timeStamp,
-                                                    //         filenameoptional:
-                                                    //             imagefileName);
-                                                    // if (url != null) {
-                                                    //   onSendMessage(
-                                                    //       this.context,
-                                                    //       url,
-                                                    //       MessageType.image,
-                                                    //       timeStamp);
-                                                    //   await file.delete();
-                                                    // }
-                                                  }
-                                                },
-                                              )));
-                                },
-                                child: Text('Quay / chụp',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subTitle
-                                        .copyWith(color: Color(0xFF24138A)))),
-                          ],
-                          cancelButton: CupertinoActionSheetAction(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Huỷ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subTitle
-                                    .copyWith(color: Color(0xFF24138A))),
-                          ),
-                        ),
+                      PickImagesUtils.pickCameraOrRecordVideo(
+                        context,
+                        imagePicker: picker,
+                        onResultImageFromCamera: (file) {
+                          if (file != null) {
+                            onResultListMedia([file], true);
+                          }
+                        },
+                        onResultRecordVideo: (file) {
+                          if (file != null) {
+                            onResultListMedia([file], false);
+                          }
+                        },
+                        onResultImagesFromGallery: (images) {
+                          onResultListMedia(images, true);
+                        },
+                        onResultVideoFromGallery: (file) {
+                          if (file != null) {
+                            onResultListMedia([file], false);
+                          }
+                        },
                       );
-                      // await getImage();
-                      // var message = {
-                      //   'key': 'image',
-                      //   'list': filesList,
-                      // };
-                      // widget.pressPickImage(message);
-                      // await _pickVideo();
                     },
                     child: Image.asset(
                       'assets/imgs/ic_gallary.png',
@@ -765,6 +651,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       package: Consts.packageName,
                     ),
                   ),
+                  SizedBox(width: 20),
                   GestureDetector(
                     onTap: () async {
                       await getFile();
@@ -781,46 +668,42 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       package: Consts.packageName,
                     ),
                   ),
-                  Container(
-                    width: 204,
-                    height: 52,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                      color: Color.fromRGBO(246, 246, 246, 1),
-                    ),
+                  SizedBox(width: 18),
+                  Expanded(
                     child: TextField(
                       focusNode: _focusNode,
+                      maxLength: 500,
+                      maxLines: 5,
+                      minLines: 1,
                       onChanged: (value) {
                         if (value.isNotEmpty) {
                         } else {}
                       },
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.multiline,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Color.fromARGB(255, 26, 26, 26),
                       ),
                       controller: controller,
-                      maxLines: null,
-                      minLines: null,
-                      expands: true,
                       decoration: InputDecoration(
+                        counterText: "",
+                        hintText: 'Nhập tin nhắn',
                         filled: true,
-                        hintText: "Nhập nội dung chat",
+                        fillColor: Color(0xFFF3F3F3),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        contentPadding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 0,
-                          bottom: 0,
-                        ),
+                        contentPadding: EdgeInsets.all(12),
+                        hintStyle:
+                            Theme.of(context).textTheme.subTitle.copyWith(
+                                  color: Color(0xFFB0B0B0),
+                                ),
                       ),
                     ),
                   ),
+                  SizedBox(width: 16),
                   GestureDetector(
                     onTap: () {
                       if (controller.text != '') {
@@ -873,6 +756,28 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       return false;
     }
+  }
+
+  void onResultListMedia(List<XFile> images, bool isImage) async {
+    if (images.isEmpty) return;
+    if (images.length > MAX_SEND_IMAGE_CHAT) {
+      // ToastUtil.showToast(context,
+      //     "Chỉ được tải lên tối đa ${MAX_SEND_IMAGE_CHAT.toString()} ${isImage ? "ảnh" : "video"}!");
+      return;
+    }
+    bool isValidSize = await PickImagesUtils.isValidSizeOfFiles(
+        files: images, limitSizeInMB: LIMIT_CHAT_IMAGES_IN_MB);
+    if (!isValidSize) {
+      // ToastUtil.showToast(
+      //     context, "Tệp vượt quá giới hạn, xin vui lòng thử lại");
+      return;
+    }
+    var message = {
+      'key': 'files',
+      'list': images,
+    };
+    print(message);
+    // widget.pressPickFiles(message);
   }
 }
 

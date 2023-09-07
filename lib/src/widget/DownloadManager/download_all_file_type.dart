@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as p;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../utils/open_file.dart';
 
 abstract class DownloadService {
   Future<void> download(

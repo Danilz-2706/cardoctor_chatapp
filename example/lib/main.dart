@@ -51,6 +51,25 @@ List<FormFile> list_files = [
 ];
 List<Map<String, dynamic>> listMessage = [];
 
+var dataSend = {
+  "id": 702,
+  "groupId": 33,
+  "userId": 2,
+  "profileName": "NGUYEN THANH TRUNG",
+  "originalMessage": "hh",
+  "filteredMessage": "hh",
+  "attachmentType": "",
+  "attachment": null,
+  "linkPreview": "",
+  "username": "Cardoctor1Driver",
+  "groupName": "GR_1693357083059",
+  "type": null,
+  "createdAtStr": "2023-09-06T17:23:58",
+  "updatedAtStr": "2023-09-06T17:23:58",
+  "createdAt": "2023-09-06T17:23:58",
+  "updatedAt": "2023-09-06T17:23:58"
+};
+
 class _HomePageState extends State<HomePage> {
   late final IOWebSocketChannel channel;
   @override

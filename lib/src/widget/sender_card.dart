@@ -7,7 +7,6 @@ import 'package:cardoctor_chatapp/src/model/form_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import '../model/send_message_response.dart';
@@ -44,7 +43,7 @@ class SenderCard extends StatefulWidget {
 class _SenderCardState extends State<SenderCard> {
   // List<FormItem> listForm = [];
   bool process = false;
-  late bool old;
+  bool hidden = false;
   late String dateTime;
 
   @override
@@ -57,7 +56,7 @@ class _SenderCardState extends State<SenderCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.old)
+        if (widget.old || hidden)
           Text(
             formatMessageDate(DateTime.parse(widget.data.createdAtStr!)),
             textAlign: TextAlign.center,
@@ -289,9 +288,11 @@ class _SenderCardState extends State<SenderCard> {
                       maxWidth: MediaQuery.of(context).size.width - 100),
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        old ? old = false : old = true;
-                      });
+                      if (!widget.old) {
+                        setState(() {
+                          hidden ? hidden = false : hidden = true;
+                        });
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(

@@ -46,6 +46,8 @@ class _ReceiverCardState extends State<ReceiverCard> {
   bool process = false;
   late bool old;
   late String dateTime;
+  bool hidden = false;
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
     var size = 45.0;
     return Column(
       children: [
-        if (widget.old)
+        if (widget.old || hidden)
           Text(
             formatMessageDate(DateTime.parse(widget.data.createdAtStr!)),
             textAlign: TextAlign.center,
@@ -119,9 +121,11 @@ class _ReceiverCardState extends State<ReceiverCard> {
                       maxWidth: MediaQuery.of(context).size.width - 160),
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        old ? old = false : old = true;
-                      });
+                      if (!widget.old) {
+                        setState(() {
+                          hidden ? hidden = false : hidden = true;
+                        });
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
