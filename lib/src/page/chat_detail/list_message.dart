@@ -108,7 +108,7 @@ class _ListMessageState extends State<ListMessage> {
               listMessage.insert(
                   0, SendMessageResponse.fromMap(json.decode(message)));
 
-              // setState(() {});
+              setState(() {});
             },
             cancelOnError: true,
             onError: (error) {
