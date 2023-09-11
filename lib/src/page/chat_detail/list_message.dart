@@ -81,6 +81,9 @@ class _ListMessageState extends State<ListMessage> {
   void initState() {
     super.initState();
     _scrollController.addListener(scrollControllerListener);
+    listMessage = widget.listMessage
+        .map((map) => SendMessageResponse.fromMap(map))
+        .toList();
     channel = IOWebSocketChannel.connect(
       Uri.parse('wss://' +
           widget.data.cluseterID +
@@ -122,9 +125,6 @@ class _ListMessageState extends State<ListMessage> {
 
   @override
   Widget build(BuildContext context) {
-    listMessage = widget.listMessage
-        .map((map) => SendMessageResponse.fromMap(map))
-        .toList();
     return Expanded(
       child: Stack(
         fit: StackFit.expand,
