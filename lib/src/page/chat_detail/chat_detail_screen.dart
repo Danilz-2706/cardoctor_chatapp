@@ -154,17 +154,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   typing = false;
                 });
                 print(typing);
-                // addMessage(SendMessageRequest.fromMap(p0));
+                addMessage(SendMessageRequest.fromMap(p0));
               },
               pressPickFiles: (p0) {
                 print('press to send Files');
                 print(p0);
-                // addMessage(SendMessageRequest.fromMap(p0));
+                addMessage(SendMessageRequest.fromMap(p0));
               },
               pressPickImage: (p0) {
                 print('press to send Image');
                 print(p0);
-                // addMessage(SendMessageRequest.fromMap(p0));
+                addMessage(SendMessageRequest.fromMap(p0));
               },
               dataRoom: widget.dataRoom,
             ),
