@@ -65,8 +65,6 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  List<SendMessageResponse> listMessage = [];
-  late final IOWebSocketChannel channel;
   final ScrollController? messageListScrollController = ScrollController();
 
   bool typing = false;
@@ -74,50 +72,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    List<SendMessageResponse> sample = [];
 
-    channel = IOWebSocketChannel.connect(
-      Uri.parse('wss://' +
-          widget.data.cluseterID +
-          '.piesocket.com/v3/' +
-          widget.data.groupName +
-          '?api_key=' +
-          widget.data.apiKey +
-          '&notify_self=1'),
-    );
     print('Connect socket');
-    connectWebsocket();
-  }
-
-  connectWebsocket() {
-    try {
-      channel.stream.asBroadcastStream().listen(
-            (message) {
-              listMessage.insert(
-                  0, SendMessageResponse.fromMap(json.decode(message)));
-              setState(() {});
-            },
-            cancelOnError: true,
-            onError: (error) {
-              if (kDebugMode) {
-                print(error);
-              }
-            },
-            onDone: () {},
-          );
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
-  Future addMessage(dynamic message) async {
-    try {
-      channel.sink.add(message);
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -154,17 +110,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   typing = false;
                 });
                 print(typing);
-                addMessage(SendMessageRequest.fromMap(p0));
+                widget.press(p0);
               },
               pressPickFiles: (p0) {
                 print('press to send Files');
                 print(p0);
-                addMessage(SendMessageRequest.fromMap(p0));
+                widget.pressPickFiles(p0);
               },
               pressPickImage: (p0) {
                 print('press to send Image');
                 print(p0);
-                addMessage(SendMessageRequest.fromMap(p0));
+                // addMessage(SendMessageRequest.fromMap(p0));
               },
               dataRoom: widget.dataRoom,
             ),
