@@ -64,6 +64,7 @@ class FormFile {
 
 class FormData {
   final String? key;
+  final String? urlVideo;
   final List<FormItem>? value;
   final List<FormImage>? valueImage;
   final List<FormFile>? valueFiles;
@@ -71,6 +72,7 @@ class FormData {
   FormData({
     this.key,
     this.value,
+    this.urlVideo,
     this.valueImage,
     this.valueFiles,
   });
@@ -93,6 +95,7 @@ class FormData {
 
     return FormData(
       key: json['key'],
+      urlVideo: json['urlVideo'] ?? '',
       value: formItems,
       valueImage: formItems1,
       valueFiles: formItems2,

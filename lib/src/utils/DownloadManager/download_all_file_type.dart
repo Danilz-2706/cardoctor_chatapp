@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../utils/open_file.dart';
+import 'open_file.dart';
 
 abstract class DownloadService {
   Future<void> download(
@@ -44,7 +45,7 @@ class MobileDownloadService implements DownloadService {
       deleteOnError: true,
     ).then((_) async {
       Future.delayed(const Duration(milliseconds: 1000));
-
+      print(dir.path);
       downloading(false);
 
       if (isOpenAfterDownload == true) {
@@ -58,11 +59,11 @@ class MobileDownloadService implements DownloadService {
           );
         }
       } else {
-        // Fiberchat.toast(getTranslated(context, "folder"));
       }
     }).onError((err, er) {
-      // downloadinfo.calculatedownloaded(0.00, 0);
-      print('ERROR OCCURED WHILE DOWNLOADING MEDIA: ' + err.toString());
+      if (kDebugMode) {
+        print('ERROR OCCURED WHILE DOWNLOADING MEDIA: $err');
+      }
       Navigator.of(keyloader!.currentContext!, rootNavigator: true).pop(); //
       // Fiberchat.toast(getTranslated(context, 'eps'));
     });

@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'ImageVideoUploadManager/pic_image_video.dart';
 
 class Utils {
   static void showSnackBar(BuildContext context, String? text) {
@@ -54,5 +58,67 @@ class Utils {
     str = str.replaceAll(RegExp(r'[Ỳ|Ý|Ỵ|Ỷ|Ỹ]'), 'Y');
     str = str.replaceAll(RegExp(r'[Đ]'), 'D');
     return str;
+  }
+
+  static String formatMessageDate(String messageDate) {
+    try {
+      var date = DateTime.parse(messageDate);
+
+      DateTime now = DateTime.now();
+      Duration difference =
+          now.difference(DateTime(date.year, date.month, date.day));
+
+      if (difference.inDays == 0) {
+        return "today";
+      } else if (difference.inDays == 1) {
+        return "yesterday";
+      } else {
+        return DateFormat(
+          "HH:mm, dd 'tháng' MM",
+        ).format(date);
+      }
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static bool formatMessageDateCheck(String dateBefor, String dateAfter) {
+    try {
+      var dateBefor1 = DateTime.parse(dateBefor);
+      var dateAfter1 = DateTime.parse(dateAfter);
+
+      Duration difference = dateBefor1.difference(
+          DateTime(dateAfter1.year, dateAfter1.month, dateAfter1.day));
+
+      if (difference.inDays == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static void onResultListMedia(List<XFile> images, bool isImage) async {
+    if (images.isEmpty) return;
+    if (images.length > MAX_SEND_IMAGE_CHAT) {
+      // ToastUtil.showToast(context,
+      //     "Chỉ được tải lên tối đa ${MAX_SEND_IMAGE_CHAT.toString()} ${isImage ? "ảnh" : "video"}!");
+      return;
+    }
+    bool isValidSize = await PickImagesUtils.isValidSizeOfFiles(
+        files: images, limitSizeInMB: LIMIT_CHAT_IMAGES_IN_MB);
+    if (!isValidSize) {
+      // ToastUtil.showToast(
+      //     context, "Tệp vượt quá giới hạn, xin vui lòng thử lại");
+      return;
+    }
+    var message = {
+      'key': 'files',
+      'list': images,
+    };
+    print(message);
+    // widget.pressPickFiles(message);
   }
 }

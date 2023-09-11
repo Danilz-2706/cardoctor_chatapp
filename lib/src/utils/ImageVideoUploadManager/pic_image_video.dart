@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../widget/single_tap_detector.dart';
-import 'utils.dart';
+import '../../widget/single_tap_detector.dart';
+import '../utils.dart';
 
 const int MAX_SEND_IMAGE_CHAT = 5;
 const int LIMIT_CHAT_IMAGES_IN_MB = 50;

@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-import '../widget/Common/open_result.dart';
+import 'open_result.dart';
 
 class OpenFile {
   static const MethodChannel _channel = const MethodChannel('open_file');
