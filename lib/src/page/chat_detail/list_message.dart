@@ -98,8 +98,11 @@ class _ListMessageState extends State<ListMessage> {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
+              print('insertdata');
               listMessage.insert(
                   0, SendMessageResponse.fromMap(json.decode(message)));
+              print(listMessage[0]);
+
               setState(() {});
             },
             cancelOnError: true,
