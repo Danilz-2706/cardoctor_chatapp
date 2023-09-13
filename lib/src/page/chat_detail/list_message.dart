@@ -88,17 +88,22 @@ class _ListMessageState extends State<ListMessage> {
     listMessage = widget.listMessage
         .map((map) => SendMessageResponse.fromMap(map))
         .toList();
-    channel = IOWebSocketChannel.connect(
-      Uri.parse('wss://' +
-          widget.data.cluseterID +
-          '.piesocket.com/v3/' +
-          widget.data.groupName +
-          '?api_key=' +
-          widget.data.apiKey +
-          '&notify_self=1'),
-    );
-    print('Connect socket');
-    connectWebsocket();
+    try {
+      channel = IOWebSocketChannel.connect(
+        Uri.parse('wss://' +
+            widget.data.cluseterID +
+            '.piesocket.com/v3/' +
+            widget.data.groupName +
+            '?api_key=' +
+            widget.data.apiKey +
+            '&notify_self=1'),
+      );
+      print('Connect socket');
+      connectWebsocket();
+    } catch (e) {
+      print('Error when connect socket');
+      print(e);
+    }
   }
 
   connectWebsocket() {
