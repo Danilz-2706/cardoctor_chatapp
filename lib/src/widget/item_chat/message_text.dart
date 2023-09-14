@@ -36,6 +36,9 @@ class MessageText extends StatelessWidget {
                   ? null
                   : kWhiteColors,
               borderRadius: BorderRadius.circular(16),
+              gradient: isLeft || isAllEmoji(data.originalMessage!.trim())
+                  ? null
+                  : kLinearColor,
             ),
             child: Text(
               data.originalMessage!.trim(),
