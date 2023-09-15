@@ -24,6 +24,7 @@ class ListMessage extends StatefulWidget {
   final Color? senderBackground;
   final Color? senderTextColor;
   final LinearGradient? senderLinear;
+  final List<Map<String, dynamic>> listMessageLoadMore;
 
   ListMessage({
     Key? key,
@@ -37,6 +38,7 @@ class ListMessage extends StatefulWidget {
     this.senderTextColor,
     this.receiverLinear,
     this.senderLinear,
+    required this.listMessageLoadMore,
   }) : super(key: key);
 
   @override
@@ -84,10 +86,11 @@ class _ListMessageState extends State<ListMessage> {
         _loadMoreCompleter = Completer();
 
         widget.loadMoreHistory({});
+        var listMessageOld = widget.listMessageLoadMore
+            .map((map) => SendMessageResponse.fromMap(map))
+            .toList();
         setState(() {
-          listMessage = widget.listMessage
-              .map((map) => SendMessageResponse.fromMap(map))
-              .toList();
+          listMessage.addAll(listMessageOld);
         });
         _loadMoreCompleter!.complete();
       }
