@@ -131,6 +131,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
   }
 
+  Future addMessage(dynamic message) async {
+    try {
+      channel.sink.add(json.encode(message));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,6 +189,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             InputChatApp(
               typing: (p0) {
                 widget.typing(p0);
+                addMessage(p0);
               },
               data: widget.data,
               idSender: widget.idSender,
