@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kTextInputColors = Color.fromRGBO(176, 176, 176, 1);
-const kTextWhiteColors = Color.fromRGBO(252, 252, 253, 1);
+const kTextWhiteColors = Color(0xFFFCFCFD);
 const kTextBlackColors = Color.fromRGBO(10, 11, 9, 1);
 const kTextGreyColors = Color.fromRGBO(139, 141, 140, 1);
 const kTextGreyDarkColors = Color.fromRGBO(123, 125, 124, 1);

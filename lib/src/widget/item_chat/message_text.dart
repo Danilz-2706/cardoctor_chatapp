@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/send_message_response.dart';
 import '../../page/contains.dart';
@@ -29,24 +30,27 @@ class MessageText extends StatelessWidget {
           onTap: press,
           child: Container(
             padding: EdgeInsets.symmetric(
-                horizontal: isAllEmoji(data.originalMessage!.trim()) ? 0.0 : 12,
-                vertical: 8),
+              horizontal: isAllEmoji(data.originalMessage!.trim()) ? 0.0 : 12,
+              vertical: isAllEmoji(data.originalMessage!.trim()) ? 0.0 : 8,
+            ),
             decoration: BoxDecoration(
-              color: isAllEmoji(data.originalMessage!.trim())
-                  ? null
-                  : kWhiteColors,
+              color: !isLeft ? null : kWhiteColors,
               borderRadius: BorderRadius.circular(16),
-              gradient: isLeft || isAllEmoji(data.originalMessage!.trim())
-                  ? null
-                  : kLinearColor,
+              gradient: !isLeft
+                  ? !isAllEmoji(data.originalMessage!.trim())
+                      ? kLinearColor
+                      : null
+                  : null,
             ),
             child: Text(
               data.originalMessage!.trim(),
               textAlign: TextAlign.left,
-              style: TextStyle(
+              style: GoogleFonts.inter(
+                color: !isLeft ? kWhiteColors : kTextBlackColors,
                 fontSize: isAllEmoji(data.originalMessage!.trim()) ? 32 : 16,
-                color: kTextBlackColors,
                 fontWeight: FontWeight.w400,
+                height:
+                    isAllEmoji(data.originalMessage!.trim()) ? null : 24 / 16,
               ),
             ),
           ),

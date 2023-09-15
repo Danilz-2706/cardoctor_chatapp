@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,6 +14,7 @@ import '../model/send_message_response.dart';
 import '../page/contains.dart';
 import '../utils/DownloadManager/download_all_file_type.dart';
 import '../utils/EmojiDetect/emoji_detect.dart';
+import '../utils/utils.dart';
 import 'item_chat/message_file.dart';
 import 'item_chat/message_form.dart';
 import 'item_chat/message_image.dart';
@@ -23,6 +25,8 @@ import 'label_drop_down.dart';
 import 'text_field_form.dart';
 import 'title_form.dart';
 
+enum StatusMessage { send, seen, sending, error }
+
 class SenderCard extends StatefulWidget {
   final SendMessageResponse data;
   final List<FormItem> listForm;
@@ -31,7 +35,7 @@ class SenderCard extends StatefulWidget {
   final String urlVideo;
 
   final bool old;
-  final bool seen;
+  final StatusMessage statusMessage;
 
   const SenderCard({
     super.key,
@@ -40,7 +44,7 @@ class SenderCard extends StatefulWidget {
     required this.listImages,
     required this.listFiles,
     required this.old,
-    required this.seen,
+    required this.statusMessage,
     required this.urlVideo,
   });
 
@@ -64,15 +68,17 @@ class _SenderCardState extends State<SenderCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (widget.old || hidden) const SizedBox(height: 8),
         if (widget.old || hidden)
           Text(
-            formatMessageDate(DateTime.parse(widget.data.createdAtStr!)),
+            Utils.formatMessageDate(widget.data.createdAtStr!),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color.fromRGBO(175, 177, 175, 1),
               fontSize: 12,
             ),
           ),
+        if (widget.old || hidden) const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -116,10 +122,22 @@ class _SenderCardState extends State<SenderCard> {
                     });
                   }
                 },
-                isLeft: true,
+                isLeft: false,
               ),
           ],
         ),
+        if (widget.old || hidden)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CircleAvatar(
+                radius: 8.0,
+                backgroundImage:
+                    NetworkImage("https://via.placeholder.com/12x12"),
+                backgroundColor: Colors.transparent,
+              ),
+            ],
+          ),
       ],
     );
   }

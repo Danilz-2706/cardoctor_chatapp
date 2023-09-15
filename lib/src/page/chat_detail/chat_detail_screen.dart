@@ -7,10 +7,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:permission_handler/permission_handler.dart';
+
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 import 'package:web_socket_channel/io.dart';
@@ -40,8 +42,9 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) loadMoreHistory;
+  final Function(Map<String, dynamic>) typing;
   final Widget listHistoryChat;
-
+  final Widget typingChat;
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
@@ -58,6 +61,8 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressPickFiles,
     required this.loadMoreHistory,
     required this.listHistoryChat,
+    required this.typing,
+    required this.typingChat,
   }) : super(key: key);
 
   @override
@@ -66,6 +71,7 @@ class ChatDetailScreen extends StatefulWidget {
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
   final ScrollController? messageListScrollController = ScrollController();
+  late final IOWebSocketChannel channel;
 
   bool typing = false;
 
@@ -73,34 +79,107 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   void initState() {
     super.initState();
 
-    print('Connect socket');
+    try {
+      channel = IOWebSocketChannel.connect(
+        Uri.parse('wss://' +
+            widget.data.cluseterID +
+            '.piesocket.com/v3/' +
+            widget.data.groupName +
+            '?api_key=' +
+            widget.data.apiKey +
+            '&notify_self=1'),
+      );
+      print('Connect socket');
+      connectWebsocket();
+    } catch (e) {
+      print('Error when connect socket');
+      print(e);
+    }
+  }
+
+  connectWebsocket() {
+    try {
+      channel.stream.asBroadcastStream().listen(
+            (message) {
+              var x = json.decode(message);
+              if (x['typing'] != null) {
+                print("typing");
+                print(message);
+                if (x['id'] != widget.idSender) {
+                  typing = x['typing'];
+                } else {
+                  print('aaaa');
+                }
+              }
+
+              setState(() {});
+            },
+            cancelOnError: true,
+            onError: (error) {
+              if (kDebugMode) {
+                print(error);
+              }
+            },
+            onDone: () {},
+          );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColors,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF6F6F6),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF0A0B09)),
+          onPressed: widget.pressBack,
+        ),
+        elevation: 0,
+        title: Row(
+          children: [
+            SizedBox(
+              height: 32,
+              width: 32,
+              child: Image.asset(
+                'assets/imgs/avatar.png',
+                height: 28,
+                width: 28,
+                package: Consts.packageName,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                widget.nameTitle ?? '',
+                style: GoogleFonts.inter(
+                    color: const Color(0xFF0A0B09),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    height: 22 / 16),
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AppBarReview(
-              avatar: 'assets/imgs/avatar.png',
-              press: widget.pressBack,
-              title: widget.nameTitle ?? '',
-              isList: false,
-            ),
             const SizedBox(height: 8.0),
             widget.listHistoryChat,
             if (widget.stackWidget != null) widget.stackWidget!,
             const SizedBox(height: 8),
-            if (typing)
-              Container(
-                height: 40,
-                color: Colors.red,
-                width: double.infinity,
-              ),
+            if (typing) widget.typingChat,
             InputChatApp(
+              typing: (p0) {
+                widget.typing(p0);
+              },
               data: widget.data,
               idSender: widget.idSender,
               press: (p0) {
@@ -110,6 +189,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   typing = false;
                 });
                 print(typing);
+
                 widget.press(p0);
               },
               pressPickFiles: (p0) {

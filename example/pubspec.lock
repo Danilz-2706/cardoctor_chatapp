@@ -380,6 +380,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: transitive
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.2.2"
   frontend_server_client:
     dependency: transitive
     description:
@@ -751,6 +758,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.1"
+  rive:
+    dependency: "direct main"
+    description:
+      name: rive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.2"
+  rive_common:
+    dependency: transitive
+    description:
+      name: rive_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   rxdart:
     dependency: transitive
     description:

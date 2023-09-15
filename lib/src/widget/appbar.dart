@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../page/contains.dart';
 
@@ -27,7 +28,7 @@ class AppBarReview extends StatelessWidget {
             onTap: press,
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 20, bottom: 5, top: 5, right: 5),
+                  const EdgeInsets.only(left: 20, bottom: 5, top: 5, right: 20),
               child: Image.asset(
                 'assets/imgs/ic_back.png',
                 height: 24,
@@ -37,37 +38,35 @@ class AppBarReview extends StatelessWidget {
             ),
           ),
           if (!isList)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 32,
-                  width: 32,
-                  child: Image.asset(
-                    avatar,
-                    height: 28,
-                    width: 28,
-                    package: Consts.packageName,
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset(
+                      avatar,
+                      height: 28,
+                      width: 28,
+                      package: Consts.packageName,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: GoogleFonts.inter(
+                          color: Color(0xFF0A0B09),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 22 / 16),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          if (isList)
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+                ],
               ),
             ),
           const SizedBox(

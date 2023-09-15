@@ -101,7 +101,7 @@ class PickImagesUtils {
       return;
     }
     if (permission.isGranted) {
-      imagePicker.pickImage(source: ImageSource.camera).then((file) {
+      await imagePicker.pickImage(source: ImageSource.camera).then((file) {
         if (!isEmpty(file)) {
           onResultImageFromCamera?.call(file!);
         }
@@ -139,7 +139,8 @@ class PickImagesUtils {
       return;
     }
     if (permissionCamera.isGranted && permissionMicro.isGranted) {
-      imagePicker
+      print('vao camera');
+      await imagePicker
           .pickVideo(
               source: ImageSource.camera,
               maxDuration: const Duration(minutes: 1),
@@ -239,7 +240,10 @@ class PickImagesUtils {
                 await Permission.photosAddOnly.request().isGranted ||
                 await Permission.photos.request().isLimited ||
                 await Permission.photosAddOnly.request().isLimited))) {
-      imagePicker.pickMultiImage().then((files) {
+      await imagePicker.pickMultiImage().then((files) async {
+        print('binary');
+        var x = await files[0].readAsBytes();
+        print(x.toString());
         onResultImagesFromGallery?.call(files);
       });
       return;
@@ -283,7 +287,12 @@ class PickImagesUtils {
                 await Permission.photosAddOnly.request().isGranted ||
                 await Permission.photos.request().isLimited ||
                 await Permission.photosAddOnly.request().isLimited))) {
-      imagePicker.pickVideo(source: ImageSource.gallery).then((files) {
+      await imagePicker
+          .pickVideo(
+        source: ImageSource.gallery,
+        maxDuration: const Duration(minutes: 1),
+      )
+          .then((files) {
         onResultVideoFromGallery?.call(files);
       });
       return;
@@ -339,18 +348,18 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: Color(0xFF24138A)))),
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
-                        recordVideo(context,
-                            imagePicker: imagePicker,
-                            onResultRecordVideo: onResultRecordVideo);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_record_video,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: Color(0xFF24138A))))
+                  // CupertinoActionSheetAction(
+                  //     onPressed: () async {
+                  //       recordVideo(context,
+                  //           imagePicker: imagePicker,
+                  //           onResultRecordVideo: onResultRecordVideo);
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: Text(label_record_video,
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .subTitle
+                  //             .copyWith(color: Color(0xFF24138A))))
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/form_text.dart';
+import '../../page/image_chat/image_chat_screen.dart';
 import '../label_drop_down.dart';
 import '../text_field_form.dart';
 import '../title_form.dart';
@@ -17,6 +18,8 @@ class MessageForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var key = UniqueKey().toString();
+
     return Align(
       alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
       child: ConstrainedBox(
@@ -65,12 +68,28 @@ class MessageForm extends StatelessWidget {
                 if (data[index].type == 'image') {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      imageUrl: data[index].text ?? '',
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ImageChatScreen(
+                              id: key,
+                              url: data[index].text ?? '',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Hero(
+                        tag: key,
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          imageUrl: data[index].text ?? '',
+                        ),
+                      ),
                     ),
                   );
                 }

@@ -57,7 +57,15 @@ class _MessageFileState extends State<MessageFile> {
                           );
                         },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    // width: MediaQuery.of(context).size.width * 0.5,
+                    constraints: BoxConstraints(
+                      minWidth: widget.isLeft
+                          ? MediaQuery.of(context).size.width - 360
+                          : MediaQuery.of(context).size.width - 300,
+                      maxWidth: widget.isLeft
+                          ? MediaQuery.of(context).size.width - 160
+                          : MediaQuery.of(context).size.width - 100,
+                    ),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
@@ -82,19 +90,16 @@ class _MessageFileState extends State<MessageFile> {
                             size: 24,
                           ),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              basename(widget.listFiles[index].path!)
-                                  .toString(),
-                              maxLines: 3,
-                              textAlign: TextAlign.left,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromRGBO(10, 11, 9, 1)),
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            basename(widget.listFiles[index].path!).toString(),
+                            maxLines: 3,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(10, 11, 9, 1)),
                           ),
                         )
                       ],

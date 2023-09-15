@@ -8,6 +8,7 @@ import 'model/send_message_request.dart';
 import 'model/send_message_response.dart';
 import 'navigation_utils.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:rive/rive.dart';
 
 void main() {
   runApp(const MyApp());
@@ -85,6 +86,27 @@ class _HomePageState extends State<HomePage> {
         userIDReal: 'Cardoctor1Driver');
     return SafeArea(
       child: ChatDetailScreen(
+        typingChat: Container(
+          height: 28,
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: RiveAnimation.asset(
+                    'assets/animations/reply-ing.riv',
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        typing: (p0) {
+          addMessage(p0);
+        },
         listHistoryChat: ListMessage(
           data: data,
           loadMoreHistory: (p0) {
@@ -144,10 +166,12 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
-        nameTitle: 'Testing chat',
+        nameTitle:
+            'Testing chatTes Testing chatTesTesting chatTesTesting chatTesTesting chatTesTesting chatTes Testing chatTes',
         data: data,
         press: (value) {
-          addMessage(dataSend);
+          print("123");
+          addMessage(dataSend[0]);
         },
         dataRoom: data,
         idSender: 'Cardoctor1Driver',

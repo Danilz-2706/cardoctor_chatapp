@@ -18,6 +18,7 @@ class InputChatApp extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final ChatAppCarDoctorUtilOption data;
+  final Function(Map<String, dynamic>) typing;
   final dynamic dataRoom;
   final String idSender;
   const InputChatApp(
@@ -26,6 +27,7 @@ class InputChatApp extends StatefulWidget {
       required this.pressPickImage,
       required this.pressPickFiles,
       required this.data,
+      required this.typing,
       this.dataRoom,
       required this.idSender});
 
@@ -44,7 +46,6 @@ class _InputChatAppState extends State<InputChatApp> {
   late TextEditingController controller;
   String status = 'sending';
   List<File> filesList = [];
- 
 
   Future getFile() async {
     filesList.clear();
@@ -97,22 +98,75 @@ class _InputChatAppState extends State<InputChatApp> {
               PickImagesUtils.pickCameraOrRecordVideo(
                 context,
                 imagePicker: picker,
-                onResultImageFromCamera: (file) {
+                onResultImageFromCamera: (file) async {
                   if (file != null) {
-                    Utils.onResultListMedia([file], true);
+                    print('Hinh dc chup');
+                    print(file);
+                    var message = {
+                      'key': 'files',
+                      'list': [file],
+                    };
+                    widget.pressPickImage(message);
                   }
                 },
-                onResultRecordVideo: (file) {
+                onResultRecordVideo: (file) async {
                   if (file != null) {
-                    Utils.onResultListMedia([file], false);
+                    print('Video dc chup');
+                    print(file);
                   }
                 },
-                onResultImagesFromGallery: (images) {
-                  Utils.onResultListMedia(images, true);
+                onResultImagesFromGallery: (images) async {
+                  try {
+                    var x =
+                        await Utils.onResultListMedia(context, images, true);
+                    print(x);
+                    print('ra ket qua');
+                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                      Utils.showToast(
+                        context,
+                        x['text'],
+                        type: ToastType.ERROR,
+                      );
+                    } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      Utils.showToast(
+                        context,
+                        x['text'],
+                        type: ToastType.ERROR,
+                      );
+                    } else {
+                      var message = {
+                        'key': 'files',
+                        'list': images,
+                      };
+                      widget.pressPickImage(message);
+                    }
+                  } catch (e) {
+                    print('dddd');
+                  }
                 },
-                onResultVideoFromGallery: (file) {
+                onResultVideoFromGallery: (file) async {
                   if (file != null) {
-                    Utils.onResultListMedia([file], false);
+                    try {
+                      var x =
+                          await Utils.onResultListMedia(context, [file], true);
+                      print(x);
+                      print('ra ket qua');
+                      if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                        Utils.showToast(
+                          context,
+                          x['text'],
+                          type: ToastType.ERROR,
+                        );
+                      } else {
+                        var message = {
+                          'key': 'files',
+                          'list': [file],
+                        };
+                        widget.pressPickImage(message);
+                      }
+                    } catch (e) {
+                      print('dddd');
+                    }
                   }
                 },
               );
@@ -151,17 +205,16 @@ class _InputChatAppState extends State<InputChatApp> {
               onChanged: (value) {
                 if (value.isNotEmpty) {
                   print('object');
-                  // addMessage({
-                  //   'id': widget.data.userIDReal,
-                  //   'typing': true,
-                  // });
+                  widget.typing({
+                    'id': widget.data.userIDReal,
+                    'typing': true,
+                  });
                 } else {
                   print('object1');
-
-                  // addMessage({
-                  //   'id': widget.data.userIDReal,
-                  //   'typing': false,
-                  // });
+                  widget.typing({
+                    'id': widget.data.userIDReal,
+                    'typing': false,
+                  });
                 }
               },
               textInputAction: TextInputAction.done,

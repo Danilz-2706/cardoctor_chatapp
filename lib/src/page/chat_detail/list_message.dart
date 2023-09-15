@@ -32,6 +32,7 @@ class ListMessage extends StatefulWidget {
 }
 
 class _ListMessageState extends State<ListMessage> {
+  bool typing = false;
   final ScrollController _defaultScrollController = ScrollController();
 
   ScrollController get _scrollController =>
@@ -110,8 +111,17 @@ class _ListMessageState extends State<ListMessage> {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
-              listMessage.insert(
-                  0, SendMessageResponse.fromMap(json.decode(message)));
+              print("data get");
+              print(message);
+              var x = json.decode(message);
+              if (x['typing'] != null) {
+                print("typing");
+                print(message);
+                typing = true;
+              } else {
+                listMessage.insert(
+                    0, SendMessageResponse.fromMap(json.decode(message)));
+              }
 
               setState(() {});
             },
@@ -132,9 +142,6 @@ class _ListMessageState extends State<ListMessage> {
 
   @override
   Widget build(BuildContext context) {
-    // listMessage = widget.listMessage
-    //     .map((map) => SendMessageResponse.fromMap(map))
-    //     .toList();
     return Expanded(
       child: Stack(
         fit: StackFit.expand,
@@ -208,7 +215,7 @@ class _ListMessageState extends State<ListMessage> {
                             urlVideo = x.urlVideo ?? '';
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 4, top: 4),
+                            padding: const EdgeInsets.only(bottom: 2),
                             child: SenderCard(
                               listFiles: sampleFile,
                               data: listMessage[index],
@@ -216,7 +223,7 @@ class _ListMessageState extends State<ListMessage> {
                               listImages: images,
                               urlVideo: urlVideo,
                               old: old,
-                              seen: true,
+                              statusMessage: StatusMessage.sending,
                             ),
                           );
                         }
@@ -254,7 +261,7 @@ class _ListMessageState extends State<ListMessage> {
                           }
 
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 12, top: 4),
+                            padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
@@ -262,7 +269,7 @@ class _ListMessageState extends State<ListMessage> {
                               listForm: sample,
                               listImages: images,
                               old: old,
-                              seen: true,
+                              statusMessage: StatusMessage.sending,
                             ),
                           );
                         }
@@ -296,7 +303,7 @@ class _ListMessageState extends State<ListMessage> {
                             urlVideo = x.urlVideo ?? '';
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 4, top: 4),
+                            padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
@@ -304,7 +311,7 @@ class _ListMessageState extends State<ListMessage> {
                               listForm: sample,
                               listImages: images,
                               old: old,
-                              seen: true,
+                              statusMessage: StatusMessage.sending,
                             ),
                           );
                         }
@@ -341,7 +348,7 @@ class _ListMessageState extends State<ListMessage> {
                             urlVideo = x.urlVideo ?? '';
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 4, top: 4),
+                            padding: const EdgeInsets.only(bottom: 4),
                             child: ReceiverCard(
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
@@ -350,7 +357,53 @@ class _ListMessageState extends State<ListMessage> {
                               listForm: sample,
                               listImages: images,
                               old: old,
-                              seen: true,
+                              seen: false,
+                            ),
+                          );
+                        }
+                        if (index > 0 &&
+                            listMessage[index].username !=
+                                widget.data.userIDReal &&
+                            listMessage[index - 1].username ==
+                                widget.data.userIDReal) {
+                          List<FormFile> sampleFile = [];
+                          List<FormItem> sample = [];
+                          List<String> images = [];
+                          String urlVideo = '';
+                          if (listMessage[index].type == 2) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.value!) {
+                              sample.add(e);
+                            }
+                          } else if (listMessage[index].type == 5) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueImage!) {
+                              images.add(e.image!);
+                            }
+                          } else if (listMessage[index].type == 6) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueFiles!) {
+                              sampleFile.add(e);
+                            }
+                          } else if (listMessage[index].type == 7) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            urlVideo = x.urlVideo ?? '';
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 24),
+                            child: ReceiverCard(
+                              listFiles: sampleFile,
+                              urlVideo: urlVideo,
+                              onlyOnePerson: false,
+                              listForm: sample,
+                              data: listMessage[index],
+                              listImages: images,
+                              old: old,
+                              seen: false,
                             ),
                           );
                         } else {
@@ -382,7 +435,7 @@ class _ListMessageState extends State<ListMessage> {
                             urlVideo = x.urlVideo ?? '';
                           }
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 4, top: 4),
+                            padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
                               listFiles: sampleFile,
                               urlVideo: urlVideo,
@@ -391,7 +444,7 @@ class _ListMessageState extends State<ListMessage> {
                               data: listMessage[index],
                               listImages: images,
                               old: old,
-                              seen: true,
+                              seen: false,
                             ),
                           );
                         }

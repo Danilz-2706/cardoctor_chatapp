@@ -44,6 +44,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (widget.old || hidden) const SizedBox(height: 8),
         if (widget.old || hidden)
           Text(
             Utils.formatMessageDate(widget.data.createdAtStr!),
@@ -53,6 +54,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
               fontSize: 12,
             ),
           ),
+        if (widget.old || hidden) const SizedBox(height: 16),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

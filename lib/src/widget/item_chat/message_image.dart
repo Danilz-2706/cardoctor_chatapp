@@ -24,10 +24,10 @@ class MessageImage extends StatelessWidget {
       alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: isLeft
-              ? MediaQuery.of(context).size.width - 100
-              : MediaQuery.of(context).size.width - 100,
-        ),
+            // maxWidth: isLeft
+            //     ? MediaQuery.of(context).size.width - 100
+            //     : MediaQuery.of(context).size.width - 100,
+            ),
         child: SizedBox(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -52,9 +52,16 @@ class MessageImage extends StatelessWidget {
                     children: [
                       Hero(
                         tag: key,
-                        child: CachedNetworkImage(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          width: MediaQuery.of(context).size.width * 0.4,
+                        child:
+                            // ClipRRect(
+                            //   borderRadius: BorderRadius.circular(8.0),
+                            //   child: Image.network(
+                            //     listImages[index],
+                            //     width: MediaQuery.of(context).size.width * 0.4,
+                            //     fit: BoxFit.fill,
+                            //   ),
+                            // ),
+                            CachedNetworkImage(
                           placeholder: (context, url) => SizedBox(
                             height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -67,18 +74,12 @@ class MessageImage extends StatelessWidget {
                           ),
                           imageUrl: listImages[index],
                           imageBuilder: (context, imageProvider) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.3,
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: const [],
-                                image: DecorationImage(
-                                  onError: (exception, stackTrace) {},
-                                  isAntiAlias: true,
-                                  image: imageProvider,
-                                  fit: BoxFit.contain,
-                                ),
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                listImages[index],
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                fit: BoxFit.fill,
                               ),
                             );
                           },

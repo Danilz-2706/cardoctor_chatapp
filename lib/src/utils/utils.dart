@@ -1,10 +1,15 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../page/contains.dart';
 import 'ImageVideoUploadManager/pic_image_video.dart';
+
+enum ToastType { SUCCESS, WARNING, ERROR, INFORM }
 
 class Utils {
   static void showSnackBar(BuildContext context, String? text) {
@@ -100,25 +105,105 @@ class Utils {
     }
   }
 
-  static void onResultListMedia(List<XFile> images, bool isImage) async {
-    if (images.isEmpty) return;
+  static void onWidgetDidBuild(Function callback) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callback();
+    });
+  }
+
+  static void showToast(BuildContext context, String? text,
+      {ToastType? type = ToastType.ERROR, bool? isPrefixIcon = true}) {
+    Color backgroundColor = Color(0xFFFEECEF);
+    Color iconColor = Color(0xFFF14C68);
+    Color textColor = Color(0xFF2D2D2D);
+
+    onWidgetDidBuild(() {
+      print('vao day');
+      FToast fToast = FToast();
+      fToast.init(context);
+      fToast.removeQueuedCustomToasts();
+      Widget toast = Container(
+        width: 1,
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8), color: backgroundColor),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            isPrefixIcon == true
+                ? Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Image.asset(
+                      'assets/imgs/ic_warning.png',
+                      height: 24,
+                      color: iconColor,
+                      package: Consts.packageName,
+                    ),
+                  )
+                : Container(),
+            Expanded(
+              child: Text(text ?? "",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subTitle
+                      .copyWith(color: textColor)),
+            ),
+          ],
+        ),
+      );
+
+      print('text');
+      print(text);
+      if (text != null && text.isNotEmpty) {
+        fToast.showToast(
+          child: toast,
+          gravity: ToastGravity.TOP,
+          positionedToastBuilder: (_, child) {
+            return Positioned(
+              top: MediaQuery.of(_).padding.top,
+              left: 0,
+              right: 0,
+              child: child,
+            );
+          },
+          toastDuration: const Duration(seconds: 3),
+        );
+      }
+    });
+  }
+
+  static Future<Map<String, dynamic>> onResultListMedia(
+      BuildContext context, List<XFile> images, bool isImage) async {
+    if (images.isEmpty) return {};
     if (images.length > MAX_SEND_IMAGE_CHAT) {
-      // ToastUtil.showToast(context,
-      //     "Chỉ được tải lên tối đa ${MAX_SEND_IMAGE_CHAT.toString()} ${isImage ? "ảnh" : "video"}!");
-      return;
+      return {
+        'type': 'MAX_SEND_IMAGE_CHAT',
+        'text':
+            'Chỉ được tải lên tối đa ${MAX_SEND_IMAGE_CHAT.toString()} ${isImage ? "ảnh" : "video"}!'
+      };
     }
     bool isValidSize = await PickImagesUtils.isValidSizeOfFiles(
         files: images, limitSizeInMB: LIMIT_CHAT_IMAGES_IN_MB);
     if (!isValidSize) {
-      // ToastUtil.showToast(
-      //     context, "Tệp vượt quá giới hạn, xin vui lòng thử lại");
-      return;
+      print('cho nay 2');
+
+      Utils.showToast(
+        context,
+        "Tệp vượt quá giới hạn, xin vui lòng thử lại",
+        type: ToastType.ERROR,
+      );
+      return {
+        'type': 'LIMIT_CHAT_IMAGES_IN_MB',
+        'text': 'Tệp vượt quá giới hạn, xin vui lòng thử lại'
+      };
     }
-    var message = {
+
+    return {
+      'type': 'done',
       'key': 'files',
       'list': images,
     };
-    print(message);
-    // widget.pressPickFiles(message);
   }
 }
