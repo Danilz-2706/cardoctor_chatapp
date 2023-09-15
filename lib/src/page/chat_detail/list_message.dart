@@ -18,6 +18,12 @@ class ListMessage extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
   final Function(void) loadMoreHistory;
   final ScrollController? scrollController;
+  final Color? receiverBackground;
+  final Color? receiverTextColor;
+  final LinearGradient? receiverLinear;
+  final Color? senderBackground;
+  final Color? senderTextColor;
+  final LinearGradient? senderLinear;
 
   ListMessage({
     Key? key,
@@ -25,6 +31,12 @@ class ListMessage extends StatefulWidget {
     required this.data,
     required this.loadMoreHistory,
     this.scrollController,
+    this.receiverBackground,
+    this.senderBackground,
+    this.receiverTextColor,
+    this.senderTextColor,
+    this.receiverLinear,
+    this.senderLinear,
   }) : super(key: key);
 
   @override
@@ -217,6 +229,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: SenderCard(
+                              senderBackground: widget.senderBackground,
+                              senderLinear: widget.senderLinear,
+                              senderTextColor: widget.senderTextColor,
                               listFiles: sampleFile,
                               data: listMessage[index],
                               listForm: sample,
@@ -263,6 +278,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              senderBackground: widget.senderBackground,
+                              senderLinear: widget.senderLinear,
+                              senderTextColor: widget.senderTextColor,
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
                               data: listMessage[index],
@@ -305,6 +323,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              senderBackground: widget.senderBackground,
+                              senderLinear: widget.senderLinear,
+                              senderTextColor: widget.senderTextColor,
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
                               data: listMessage[index],
@@ -350,6 +371,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: ReceiverCard(
+                              receiverBackground: widget.receiverBackground,
+                              receiverLinear: widget.receiverLinear,
+                              receiverTextColor: widget.receiverTextColor,
                               urlVideo: urlVideo,
                               listFiles: sampleFile,
                               onlyOnePerson: true,
@@ -396,6 +420,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              receiverBackground: widget.receiverBackground,
+                              receiverLinear: widget.receiverLinear,
+                              receiverTextColor: widget.receiverTextColor,
                               listFiles: sampleFile,
                               urlVideo: urlVideo,
                               onlyOnePerson: false,
@@ -437,6 +464,9 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              receiverBackground: widget.receiverBackground,
+                              receiverLinear: widget.receiverLinear,
+                              receiverTextColor: widget.receiverTextColor,
                               listFiles: sampleFile,
                               urlVideo: urlVideo,
                               onlyOnePerson: false,

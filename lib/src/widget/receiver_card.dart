@@ -21,6 +21,10 @@ class ReceiverCard extends StatefulWidget {
   final bool old;
   final bool seen;
 
+  final Color? receiverBackground;
+  final Color? receiverTextColor;
+  final LinearGradient? receiverLinear;
+
   const ReceiverCard({
     Key? key,
     required this.onlyOnePerson,
@@ -31,6 +35,9 @@ class ReceiverCard extends StatefulWidget {
     required this.old,
     required this.seen,
     required this.urlVideo,
+    this.receiverBackground,
+    this.receiverTextColor,
+    this.receiverLinear,
   }) : super(key: key);
 
   @override
@@ -71,6 +78,9 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 widget.listFiles.isEmpty &&
                 widget.urlVideo.isEmpty)
               MessageText(
+                background: widget.receiverBackground,
+                textColor: widget.receiverTextColor,
+                linear: widget.receiverLinear,
                 data: widget.data,
                 press: () {
                   if (!widget.old) {

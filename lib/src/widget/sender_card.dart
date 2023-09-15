@@ -37,6 +37,10 @@ class SenderCard extends StatefulWidget {
   final bool old;
   final StatusMessage statusMessage;
 
+  final Color? senderBackground;
+  final Color? senderTextColor;
+  final LinearGradient? senderLinear;
+
   const SenderCard({
     super.key,
     required this.data,
@@ -46,6 +50,9 @@ class SenderCard extends StatefulWidget {
     required this.old,
     required this.statusMessage,
     required this.urlVideo,
+    this.senderBackground,
+    this.senderTextColor,
+    this.senderLinear,
   });
 
   @override
@@ -114,6 +121,9 @@ class _SenderCardState extends State<SenderCard> {
                 widget.listFiles.isEmpty &&
                 widget.urlVideo.isEmpty)
               MessageText(
+                background: widget.senderBackground,
+                textColor: widget.senderTextColor,
+                linear: widget.senderLinear,
                 data: widget.data,
                 press: () {
                   if (!widget.old) {
@@ -126,18 +136,18 @@ class _SenderCardState extends State<SenderCard> {
               ),
           ],
         ),
-        if (widget.old || hidden)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CircleAvatar(
-                radius: 8.0,
-                backgroundImage:
-                    NetworkImage("https://via.placeholder.com/12x12"),
-                backgroundColor: Colors.transparent,
-              ),
-            ],
-          ),
+        // if (widget.old || hidden)
+        //   Row(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     children: [
+        //       CircleAvatar(
+        //         radius: 8.0,
+        //         backgroundImage:
+        //             NetworkImage("https://via.placeholder.com/12x12"),
+        //         backgroundColor: Colors.transparent,
+        //       ),
+        //     ],
+        //   ),
       ],
     );
   }

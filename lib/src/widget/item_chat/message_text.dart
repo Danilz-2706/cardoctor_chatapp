@@ -11,11 +11,18 @@ class MessageText extends StatelessWidget {
     required this.data,
     required this.press,
     required this.isLeft,
+    this.background,
+    this.textColor,
+    this.linear,
   }) : super(key: key);
 
   final SendMessageResponse data;
   final VoidCallback press;
   final bool isLeft;
+
+  final Color? background;
+  final Color? textColor;
+  final LinearGradient? linear;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +41,11 @@ class MessageText extends StatelessWidget {
               vertical: isAllEmoji(data.originalMessage!.trim()) ? 0.0 : 8,
             ),
             decoration: BoxDecoration(
-              color: !isLeft ? null : kWhiteColors,
+              color: background ?? (!isLeft ? null : kWhiteColors),
               borderRadius: BorderRadius.circular(16),
               gradient: !isLeft
                   ? !isAllEmoji(data.originalMessage!.trim())
-                      ? kLinearColor
+                      ? linear ?? kLinearColor
                       : null
                   : null,
             ),
@@ -46,7 +53,7 @@ class MessageText extends StatelessWidget {
               data.originalMessage!.trim(),
               textAlign: TextAlign.left,
               style: GoogleFonts.inter(
-                color: !isLeft ? kWhiteColors : kTextBlackColors,
+                color: textColor ?? (!isLeft ? kWhiteColors : kTextBlackColors),
                 fontSize: isAllEmoji(data.originalMessage!.trim()) ? 32 : 16,
                 fontWeight: FontWeight.w400,
                 height:
