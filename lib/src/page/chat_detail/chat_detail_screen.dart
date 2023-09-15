@@ -117,6 +117,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             cancelOnError: true,
             onError: (error) {
               if (kDebugMode) {
+                print('loi ket noi socket');
+
                 print(error);
               }
             },

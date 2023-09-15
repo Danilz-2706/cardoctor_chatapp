@@ -140,6 +140,7 @@ class _ListMessageState extends State<ListMessage> {
             cancelOnError: true,
             onError: (error) {
               if (kDebugMode) {
+                print('loi ket noi socket');
                 print(error);
               }
             },
