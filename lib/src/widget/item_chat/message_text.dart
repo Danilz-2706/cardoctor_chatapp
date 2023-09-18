@@ -43,11 +43,13 @@ class MessageText extends StatelessWidget {
             decoration: BoxDecoration(
               color: background ?? (!isLeft ? null : kWhiteColors),
               borderRadius: BorderRadius.circular(16),
-              gradient: !isLeft
-                  ? !isAllEmoji(data.originalMessage!.trim())
-                      ? linear ?? kLinearColor
-                      : null
-                  : null,
+              gradient: background != null
+                  ? null
+                  : !isLeft
+                      ? !isAllEmoji(data.originalMessage!.trim())
+                          ? linear ?? kLinearColor
+                          : null
+                      : null,
             ),
             child: Text(
               data.originalMessage!.trim(),

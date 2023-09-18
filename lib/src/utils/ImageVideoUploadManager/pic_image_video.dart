@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:camera/camera.dart';
 import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -348,18 +349,18 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: Color(0xFF24138A)))),
-                  // CupertinoActionSheetAction(
-                  //     onPressed: () async {
-                  //       recordVideo(context,
-                  //           imagePicker: imagePicker,
-                  //           onResultRecordVideo: onResultRecordVideo);
-                  //       Navigator.of(context).pop();
-                  //     },
-                  //     child: Text(label_record_video,
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .subTitle
-                  //             .copyWith(color: Color(0xFF24138A))))
+                  CupertinoActionSheetAction(
+                      onPressed: () async {
+                        recordVideo(context,
+                            imagePicker: imagePicker,
+                            onResultRecordVideo: onResultRecordVideo);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(label_record_video,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subTitle
+                              .copyWith(color: Color(0xFF24138A))))
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {

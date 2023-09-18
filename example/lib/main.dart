@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
 
     channel = IOWebSocketChannel.connect(
       Uri.parse(
-          'wss://free.blr2.piesocket.com/v3/GR_1694157629801?api_key=5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX&notify_self=1'),
+          'wss://free.blr2.piesocket.com/v3/GR_1694157629801?api_key=yPH1ntAsHtn7CmJohZm3fpw7232PaPAWeyQyasnz&notify_self=1'),
     );
     print('Connect socket');
   }
@@ -78,8 +78,8 @@ class _HomePageState extends State<HomePage> {
     List<Map<String, dynamic>> listMessage = dataSend;
 
     ChatAppCarDoctorUtilOption data = ChatAppCarDoctorUtilOption(
-        apiKey: '5lpozJyOa8smL79mkfrCArzp9i5z3cWYRu4PyjfX',
-        apiSecret: 'isXVT8s4Y4AMyeIgGGM2V4WXpfYphzwd',
+        apiKey: 'yPH1ntAsHtn7CmJohZm3fpw7232PaPAWeyQyasnz',
+        apiSecret: 'YBjSTOa65xpWIWYtpbTkLlhik0IBDDfW',
         cluseterID: 'free.blr2',
         getNotifySelf: '1',
         groupName: 'GR_1694157629801',
@@ -108,6 +108,9 @@ class _HomePageState extends State<HomePage> {
           addMessage(p0);
         },
         listHistoryChat: ListMessage(
+          senderTextColor: Colors.white,
+          senderBackground: Color(0xFF2E72BA),
+          listMessageLoadMore: [],
           data: data,
           loadMoreHistory: (p0) {
             print('data load more');
