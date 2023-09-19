@@ -52,16 +52,7 @@ class MessageImage extends StatelessWidget {
                     children: [
                       Hero(
                         tag: key,
-                        child:
-                            // ClipRRect(
-                            //   borderRadius: BorderRadius.circular(8.0),
-                            //   child: Image.network(
-                            //     listImages[index],
-                            //     width: MediaQuery.of(context).size.width * 0.4,
-                            //     fit: BoxFit.fill,
-                            //   ),
-                            // ),
-                            CachedNetworkImage(
+                        child: CachedNetworkImage(
                           placeholder: (context, url) => SizedBox(
                             height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width * 0.4,
