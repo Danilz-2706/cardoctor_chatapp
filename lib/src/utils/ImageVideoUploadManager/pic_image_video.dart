@@ -102,8 +102,12 @@ class PickImagesUtils {
       return;
     }
     if (permission.isGranted) {
+      print('vao chup anh');
+
       await imagePicker.pickImage(source: ImageSource.camera).then((file) {
         if (!isEmpty(file)) {
+          print('binary images');
+
           onResultImageFromCamera?.call(file!);
         }
       });
@@ -147,61 +151,14 @@ class PickImagesUtils {
               maxDuration: const Duration(minutes: 1),
               preferredCameraDevice: CameraDevice.rear)
           .then((file) {
-        print('data');
+        print('binary video');
+
         print(file);
         if (!isEmpty(file)) {
           onResultRecordVideo?.call(file!);
         }
       });
     }
-  }
-
-  static takeMultiplePictureOrVideoFromGallery(
-    BuildContext context, {
-    ValueChanged<List<XFile>>? onResultImagesFromGallery,
-    ValueChanged<XFile?>? onResultVideoFromGallery,
-    required ImagePicker imagePicker,
-  }) async {
-    showCupertinoModalPopup(
-        context: context,
-        builder: (_) => CupertinoActionSheet(
-                actions: [
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
-                        takeMultiplePictureGallery(context,
-                            imagePicker: imagePicker,
-                            onResultImagesFromGallery:
-                                onResultImagesFromGallery);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_pick_image,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
-                        takeVideoGallery(context,
-                            imagePicker: imagePicker,
-                            onResultVideoFromGallery: onResultVideoFromGallery);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_pick_video,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: Color(0xFF24138A))))
-                ],
-                cancelButton: CupertinoActionSheetAction(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(cancel,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subTitle
-                          .copyWith(color: Color(0xFF24138A))),
-                )));
   }
 
   static takeMultiplePictureGallery(
@@ -241,10 +198,8 @@ class PickImagesUtils {
                 await Permission.photosAddOnly.request().isGranted ||
                 await Permission.photos.request().isLimited ||
                 await Permission.photosAddOnly.request().isLimited))) {
-      await imagePicker.pickMultiImage().then((files) async {
-        print('binary');
-        var x = await files[0].readAsBytes();
-        print(x.toString());
+      await imagePicker.pickMultiImage().then((files) {
+        print('binary images');
         onResultImagesFromGallery?.call(files);
       });
       return;
@@ -288,12 +243,15 @@ class PickImagesUtils {
                 await Permission.photosAddOnly.request().isGranted ||
                 await Permission.photos.request().isLimited ||
                 await Permission.photosAddOnly.request().isLimited))) {
+      print('vao lay anh');
+
       await imagePicker
           .pickVideo(
-        source: ImageSource.gallery,
-        maxDuration: const Duration(minutes: 1),
-      )
+              source: ImageSource.gallery,
+              maxDuration: const Duration(minutes: 1))
           .then((files) {
+        print('binary images');
+
         onResultVideoFromGallery?.call(files);
       });
       return;

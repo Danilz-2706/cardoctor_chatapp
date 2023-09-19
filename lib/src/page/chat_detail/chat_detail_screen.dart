@@ -242,6 +242,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               pressPickImage: (p0) {
                 print('press to send Image');
                 print(p0);
+                widget.pressPickImage(p0);
                 // addMessage(SendMessageRequest.fromMap(p0));
               },
               dataRoom: widget.dataRoom,

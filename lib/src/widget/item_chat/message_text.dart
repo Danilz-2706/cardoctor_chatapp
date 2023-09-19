@@ -41,8 +41,8 @@ class MessageText extends StatelessWidget {
               vertical: isAllEmoji(data.originalMessage!.trim()) ? 0.0 : 8,
             ),
             decoration: BoxDecoration(
-              color: background ?? (!isLeft ? null : kWhiteColors),
               borderRadius: BorderRadius.circular(16),
+              color: background ?? (!isLeft ? null : kWhiteColors),
               gradient: background != null
                   ? null
                   : !isLeft

@@ -101,23 +101,6 @@ class _InputChatAppState extends State<InputChatApp> {
               PickImagesUtils.pickCameraOrRecordVideo(
                 context,
                 imagePicker: picker,
-                onResultImageFromCamera: (file) async {
-                  if (file != null) {
-                    print('Hinh dc chup');
-                    print(file);
-                    var message = {
-                      'key': 'files',
-                      'list': [file],
-                    };
-                    widget.pressPickImage(message);
-                  }
-                },
-                onResultRecordVideo: (file) async {
-                  if (file != null) {
-                    print('Video dc chup');
-                    print(file);
-                  }
-                },
                 onResultImagesFromGallery: (images) async {
                   try {
                     var x =
@@ -170,6 +153,23 @@ class _InputChatAppState extends State<InputChatApp> {
                     } catch (e) {
                       print('dddd');
                     }
+                  }
+                },
+                onResultImageFromCamera: (file) async {
+                  if (file != null) {
+                    print('Hinh dc chup');
+                    print(file);
+                    var message = {
+                      'key': 'files',
+                      'list': [file],
+                    };
+                    widget.pressPickImage(message);
+                  }
+                },
+                onResultRecordVideo: (file) async {
+                  if (file != null) {
+                    print('Video dc chup');
+                    print(file);
                   }
                 },
               );

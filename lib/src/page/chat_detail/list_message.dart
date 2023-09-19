@@ -497,10 +497,14 @@ class _ListMessageState extends State<ListMessage> {
                 child: Container(
                   width: 28,
                   height: 28,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFFFF8D4E),
-                  ),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: widget.senderBackground ?? Color(0xFFFF8D4E),
+                      gradient: widget.senderBackground != null
+                          ? null
+                          : widget.senderLinear != null
+                              ? widget.senderLinear
+                              : kLinearColor),
                   child: const Icon(
                     Icons.arrow_downward_rounded,
                     color: Colors.white,
