@@ -86,6 +86,7 @@ class _HomePageState extends State<HomePage> {
         userIDReal: 'Cardoctor1Driver');
     return SafeArea(
       child: ChatDetailScreen(
+        color: Color(0xFF2E72BA),
         typingChat: Container(
           height: 28,
           width: double.infinity,

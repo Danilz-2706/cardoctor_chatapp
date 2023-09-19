@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
@@ -19,6 +20,7 @@ class InputChatApp extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickFiles;
   final ChatAppCarDoctorUtilOption data;
   final Function(Map<String, dynamic>) typing;
+  final Color? color;
   final dynamic dataRoom;
   final String idSender;
   const InputChatApp(
@@ -29,7 +31,8 @@ class InputChatApp extends StatefulWidget {
       required this.data,
       required this.typing,
       this.dataRoom,
-      required this.idSender});
+      required this.idSender,
+      this.color});
 
   @override
   State<InputChatApp> createState() => _InputChatAppState();
@@ -171,8 +174,9 @@ class _InputChatAppState extends State<InputChatApp> {
                 },
               );
             },
-            child: Image.asset(
-              'assets/imgs/ic_gallary.png',
+            child: SvgPicture.asset(
+              'assets/imgs/gallery.svg',
+              semanticsLabel: 'Acme Logo',
               height: 24,
               width: 24,
               package: Consts.packageName,
@@ -188,10 +192,11 @@ class _InputChatAppState extends State<InputChatApp> {
               };
               widget.pressPickFiles(message);
             },
-            child: Image.asset(
-              'assets/imgs/ic_link.png',
-              height: 24,
-              width: 24,
+            child: SvgPicture.asset(
+              'assets/imgs/link.svg',
+              semanticsLabel: 'Acme Logo',
+              height: 23,
+              width: 23,
               package: Consts.packageName,
             ),
           ),
@@ -259,17 +264,20 @@ class _InputChatAppState extends State<InputChatApp> {
                 });
               }
             },
-            child: SizedBox(
+            child: SvgPicture.asset(
+              'assets/imgs/send.svg',
+              semanticsLabel: 'Acme Logo',
               height: 32,
               width: 32,
-              child: Image.asset(
-                'assets/imgs/ic_button_send.png',
-                package: Consts.packageName,
-              ),
+              package: Consts.packageName,
+              color: widget.color ?? Colors.grey,
             ),
           ),
         ],
       ),
     );
   }
+  // var dataSample=
+  // {"id":'',"groupId":'',"userId":,"profileName":"Car Doctor Expert","originalMessage":"{\"key\":\"form\",\"value\":[],\"valueImage\":[],\"valueFiles\":[],\"urlVideo\":\"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4\"}","filteredMessage":"{\"key\":\"form\",\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"urlVideo\":\"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4\"}","attachmentType":"image","attachment":null,"linkPreview":"","username":"Cardoctor1Driver","groupName":"GR_1693357083059","type":null,"createdAtStr":"2023-09-08T17:45:59","updatedAtStr":"2023-09-08T17:45:59","createdAt":"2023-09-08T17:45:59","updatedAt":"2023-09-08T17:45:59"}
+
 }

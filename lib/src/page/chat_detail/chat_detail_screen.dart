@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +37,7 @@ import 'list_message.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatAppCarDoctorUtilOption data;
+  final Color color;
   final dynamic dataRoom;
   final String idSender;
   final Function(Map<String, dynamic>) press;
@@ -63,6 +65,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.listHistoryChat,
     required this.typing,
     required this.typingChat,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -145,9 +148,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       backgroundColor: kBgColors,
       appBar: AppBar(
         backgroundColor: const Color(0xFFF6F6F6),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF0A0B09)),
-          onPressed: widget.pressBack,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_sharp, color: Color(0xFF0A0B09)),
+            onPressed: widget.pressBack,
+          ),
         ),
         elevation: 0,
         title: Row(
@@ -176,6 +182,30 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ],
         ),
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () async {},
+            child: SvgPicture.asset(
+              'assets/imgs/call-calling.svg',
+              semanticsLabel: 'Acme Logo',
+              height: 24,
+              width: 24,
+              package: Consts.packageName,
+            ),
+          ),
+          SizedBox(width: 16),
+          GestureDetector(
+            onTap: () async {},
+            child: SvgPicture.asset(
+              'assets/imgs/video.svg',
+              semanticsLabel: 'Acme Logo',
+              height: 24,
+              width: 24,
+              package: Consts.packageName,
+            ),
+          ),
+          SizedBox(width: 16),
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -187,6 +217,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             const SizedBox(height: 8),
             if (typing) widget.typingChat,
             InputChatApp(
+              color: widget.color,
               typing: (p0) {
                 widget.typing(p0);
                 addMessage(p0);
