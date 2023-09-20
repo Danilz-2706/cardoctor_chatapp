@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
-
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:camera/camera.dart';
 import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -166,43 +166,71 @@ class PickImagesUtils {
     ValueChanged<List<XFile>>? onResultImagesFromGallery,
     required ImagePicker imagePicker,
   }) async {
-    //ios
-    if (Platform.isIOS &&
-        (await Permission.photos.isPermanentlyDenied ||
-            await Permission.photosAddOnly.isPermanentlyDenied)) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
+    if (Platform.isAndroid) {
+      final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      if (androidInfo.version.sdkInt >= 33) {
+        final permission = await Permission.photos.request();
+        if (Platform.isAndroid && permission.isPermanentlyDenied) {
+          showPopupYesNoButton(
+              context: context,
+              contentText: msg_open_image_setting,
+              submitCallback: () {
+                openAppSettings();
+              });
+          return;
+        }
+
+        //ios
+        if ((Platform.isAndroid && permission.isGranted)) {
+          imagePicker.pickMultiImage().then((files) {
+            print('binary images');
+            onResultImagesFromGallery?.call(files);
           });
-      return;
-    }
-
-    var permission = await Permission.storage.request();
-
-    //android
-    if (Platform.isAndroid && permission.isPermanentlyDenied) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
+          return;
+        }
+      } else {
+        final permission = await Permission.storage.request();
+        if (Platform.isAndroid && permission.isPermanentlyDenied) {
+          showPopupYesNoButton(
+              context: context,
+              contentText: msg_open_image_setting,
+              submitCallback: () {
+                openAppSettings();
+              });
+          return;
+        }
+        if ((Platform.isAndroid && permission.isGranted)) {
+          imagePicker.pickMultiImage().then((files) {
+            print('binary images');
+            onResultImagesFromGallery?.call(files);
           });
-      return;
-    }
-
-    if ((Platform.isAndroid && permission.isGranted) ||
-        (Platform.isIOS &&
-            (await Permission.photos.request().isGranted ||
-                await Permission.photosAddOnly.request().isGranted ||
-                await Permission.photos.request().isLimited ||
-                await Permission.photosAddOnly.request().isLimited))) {
-      await imagePicker.pickMultiImage().then((files) {
-        print('binary images');
-        onResultImagesFromGallery?.call(files);
-      });
-      return;
+          return;
+        }
+      }
+    } else if (Platform.isIOS) {
+      if (Platform.isIOS &&
+          (await Permission.photos.isPermanentlyDenied ||
+              await Permission.photosAddOnly.isPermanentlyDenied)) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      if ((Platform.isIOS &&
+          (await Permission.photos.request().isGranted ||
+              await Permission.photosAddOnly.request().isGranted ||
+              await Permission.photos.request().isLimited ||
+              await Permission.photosAddOnly.request().isLimited))) {
+        imagePicker.pickMultiImage().then((files) {
+          print('binary images');
+          onResultImagesFromGallery?.call(files);
+        });
+        return;
+      }
     }
   }
 
@@ -211,50 +239,84 @@ class PickImagesUtils {
     ValueChanged<XFile?>? onResultVideoFromGallery,
     required ImagePicker imagePicker,
   }) async {
-    //ios
-    if (Platform.isIOS &&
-        (await Permission.photos.isPermanentlyDenied ||
-            await Permission.photosAddOnly.isPermanentlyDenied)) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: "",
-          submitCallback: () {
-            openAppSettings();
+    if (Platform.isAndroid) {
+      final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      if (androidInfo.version.sdkInt >= 33) {
+        final permission = await Permission.videos.request();
+        if (Platform.isAndroid && permission.isPermanentlyDenied) {
+          showPopupYesNoButton(
+              context: context,
+              contentText: msg_open_image_setting,
+              submitCallback: () {
+                openAppSettings();
+              });
+          return;
+        }
+
+        //ios
+        if ((Platform.isAndroid && permission.isGranted)) {
+          imagePicker
+              .pickVideo(
+                  source: ImageSource.gallery,
+                  maxDuration: const Duration(minutes: 1))
+              .then((files) {
+            print('binary images');
+
+            onResultVideoFromGallery?.call(files);
           });
-      return;
-    }
+          return;
+        }
+      } else {
+        final permission = await Permission.storage.request();
+        if (Platform.isAndroid && permission.isPermanentlyDenied) {
+          showPopupYesNoButton(
+              context: context,
+              contentText: msg_open_image_setting,
+              submitCallback: () {
+                openAppSettings();
+              });
+          return;
+        }
+        if ((Platform.isAndroid && permission.isGranted)) {
+          imagePicker
+              .pickVideo(
+                  source: ImageSource.gallery,
+                  maxDuration: const Duration(minutes: 1))
+              .then((files) {
+            print('binary images');
 
-    var permission = await Permission.storage.request();
-
-    //android
-    if (Platform.isAndroid && permission.isPermanentlyDenied) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
+            onResultVideoFromGallery?.call(files);
           });
-      return;
-    }
+          return;
+        }
+      }
+    } else if (Platform.isIOS) {
+      if (Platform.isIOS &&
+          (await Permission.videos.isPermanentlyDenied ||
+              await Permission.videos.isPermanentlyDenied)) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      if ((Platform.isIOS &&
+          (await Permission.videos.request().isGranted ||
+              await Permission.videos.request().isLimited))) {
+        imagePicker
+            .pickVideo(
+                source: ImageSource.gallery,
+                maxDuration: const Duration(minutes: 1))
+            .then((files) {
+          print('binary images');
 
-    if ((Platform.isAndroid && permission.isGranted) ||
-        (Platform.isIOS &&
-            (await Permission.photos.request().isGranted ||
-                await Permission.photosAddOnly.request().isGranted ||
-                await Permission.photos.request().isLimited ||
-                await Permission.photosAddOnly.request().isLimited))) {
-      print('vao lay anh');
-
-      await imagePicker
-          .pickVideo(
-              source: ImageSource.gallery,
-              maxDuration: const Duration(minutes: 1))
-          .then((files) {
-        print('binary images');
-
-        onResultVideoFromGallery?.call(files);
-      });
-      return;
+          onResultVideoFromGallery?.call(files);
+        });
+        return;
+      }
     }
   }
 
