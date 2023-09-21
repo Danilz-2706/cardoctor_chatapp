@@ -49,13 +49,6 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
-  plugin:
-    platforms:
-      android:
-        package: com.danilz.openfile
-        pluginClass: OpenFilePlugin
-      ios:
-        pluginClass: OpenFilePlugin
 
   # To add assets to your package, add an assets section, like this:
   assets:
