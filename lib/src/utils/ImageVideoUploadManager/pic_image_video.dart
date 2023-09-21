@@ -82,35 +82,41 @@ class PickImagesUtils {
     ValueChanged<XFile>? onResultImageFromCamera,
     required ImagePicker imagePicker,
   }) async {
-    if (Platform.isIOS && await Permission.camera.isPermanentlyDenied) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
-          });
-      return;
-    }
-    var permission = await Permission.camera.request();
-    if (Platform.isAndroid && permission.isPermanentlyDenied) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
-          });
-      return;
-    }
-    if (permission.isGranted) {
-      print('vao chup anh');
+    try {
+      if (Platform.isIOS && await Permission.camera.isPermanentlyDenied) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      var permission = await Permission.camera.request();
+      if (Platform.isAndroid && permission.isPermanentlyDenied) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      if (permission.isGranted) {
+        print('vao chup anh');
 
-      await imagePicker.pickImage(source: ImageSource.camera).then((file) {
-        if (!isEmpty(file)) {
-          print('binary images');
+        await imagePicker.pickImage(source: ImageSource.camera).then((file) {
+          if (!isEmpty(file)) {
+            print('binary images');
 
-          onResultImageFromCamera?.call(file!);
-        }
-      });
+            onResultImageFromCamera?.call(file!);
+          }
+        });
+      }
+    } catch (e) {
+      print('*****************');
+      print('Loi khi thao tac voi image_picker');
+      print(e);
     }
   }
 
