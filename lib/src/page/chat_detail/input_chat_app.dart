@@ -17,6 +17,7 @@ import '../contains.dart';
 class InputChatApp extends StatefulWidget {
   final Function(Map<String, dynamic>) press;
   final Function(Map<String, dynamic>) pressPickImage;
+  final Function(Map<String, dynamic>) pressPickVideo;
   final Function(Map<String, dynamic>) pressPickFiles;
   final ChatAppCarDoctorUtilOption data;
   final Function(Map<String, dynamic>) typing;
@@ -28,6 +29,7 @@ class InputChatApp extends StatefulWidget {
       required this.press,
       required this.pressPickImage,
       required this.pressPickFiles,
+      required this.pressPickVideo,
       required this.data,
       required this.typing,
       this.dataRoom,
@@ -148,7 +150,7 @@ class _InputChatAppState extends State<InputChatApp> {
                           'key': 'files',
                           'list': [file],
                         };
-                        widget.pressPickImage(message);
+                        widget.pressPickVideo(message);
                       }
                     } catch (e) {
                       print('dddd');
@@ -170,6 +172,11 @@ class _InputChatAppState extends State<InputChatApp> {
                   if (file != null) {
                     print('Video dc chup');
                     print(file);
+                    var message = {
+                      'key': 'files',
+                      'list': [file],
+                    };
+                    widget.pressPickVideo(message);
                   }
                 },
               );

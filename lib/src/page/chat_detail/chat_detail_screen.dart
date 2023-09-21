@@ -43,6 +43,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) press;
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
+  final Function(Map<String, dynamic>) pressPickVideo;
+
   final Function(Map<String, dynamic>) loadMoreHistory;
   final Function(Map<String, dynamic>) typing;
   final Widget listHistoryChat;
@@ -66,6 +68,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.typing,
     required this.typingChat,
     required this.color,
+    required this.pressPickVideo,
   }) : super(key: key);
 
   @override
@@ -246,6 +249,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 // addMessage(SendMessageRequest.fromMap(p0));
               },
               dataRoom: widget.dataRoom,
+              pressPickVideo: (p0) {
+                print('press to send Image');
+                print(p0);
+                widget.pressPickVideo(p0);
+              },
             ),
           ],
         ),
