@@ -268,6 +268,7 @@ class _InputChatAppState extends State<InputChatApp> {
 
                 setState(() {
                   controller.text = '';
+                  controller.clear();
                 });
               }
             },
