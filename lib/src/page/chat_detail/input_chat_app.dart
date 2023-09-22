@@ -265,7 +265,7 @@ class _InputChatAppState extends State<InputChatApp> {
                 );
                 widget.typing({
                   'id': widget.data.userIDReal,
-                  'typing': true,
+                  'typing': false,
                 });
 
                 widget.press(message.toMap());
