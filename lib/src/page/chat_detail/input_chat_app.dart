@@ -263,6 +263,10 @@ class _InputChatAppState extends State<InputChatApp> {
                   username: widget.idSender,
                   groupName: widget.data.groupName,
                 );
+                widget.typing({
+                  'id': widget.data.userIDReal,
+                  'typing': true,
+                });
 
                 widget.press(message.toMap());
 
