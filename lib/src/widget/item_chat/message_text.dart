@@ -42,14 +42,16 @@ class MessageText extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: background ?? (!isLeft ? null : kWhiteColors),
-              gradient: background != null
+              color: !isAllEmoji(data.originalMessage!.trim())
                   ? null
-                  : !isLeft
-                      ? !isAllEmoji(data.originalMessage!.trim())
+                  : background ?? (!isLeft ? null : kWhiteColors),
+              gradient: !isAllEmoji(data.originalMessage!.trim())
+                  ? null
+                  : background != null
+                      ? null
+                      : !isLeft
                           ? linear ?? kLinearColor
-                          : null
-                      : null,
+                          : null,
             ),
             child: Text(
               data.originalMessage!.trim(),
