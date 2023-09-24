@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../model/form_text.dart';
 import '../model/send_message_response.dart';
@@ -46,6 +48,24 @@ class ReceiverCard extends StatefulWidget {
 
 class _ReceiverCardState extends State<ReceiverCard> {
   bool hidden = false;
+  String? _thumbnailUrl;
+  void generateThumbnail() async {
+    if (widget.urlVideo != null) {
+      print("*********");
+      print(widget.urlVideo);
+      _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+          video: Uri.parse(widget.urlVideo).toString(),
+          thumbnailPath: (await getTemporaryDirectory()).path,
+          imageFormat: ImageFormat.WEBP);
+      if (mounted) setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    generateThumbnail();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,11 +128,13 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 isLeft: true,
               ),
             if (widget.urlVideo.isNotEmpty)
-              // MessageVideo(
-              //   urlVideo: widget.urlVideo,
-              //   isLeft: true,
-              // ),
-              const SizedBox(width: 8),
+              MessageVideo(
+                urlVideo: widget.urlVideo,
+                isLeft: false,
+                thumbnailUrl: _thumbnailUrl ?? '',
+                data: widget.data,
+              ),
+            const SizedBox(width: 8),
             if (widget.listImages.isEmpty && widget.urlVideo.isEmpty)
               MessageTime(
                 data: widget.data,
