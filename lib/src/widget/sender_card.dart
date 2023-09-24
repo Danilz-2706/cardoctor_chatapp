@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import '../model/send_message_response.dart';
 import '../page/contains.dart';
 import '../utils/DownloadManager/download_all_file_type.dart';
@@ -64,10 +65,23 @@ class _SenderCardState extends State<SenderCard> {
   bool process = false;
   bool hidden = false;
   late String dateTime;
+  String? _thumbnailUrl;
+  void generateThumbnail() async {
+    if (widget.urlVideo != null) {
+      print("*********");
+      print(widget.urlVideo);
+      _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+          video: Uri.parse(widget.urlVideo).toString(),
+          thumbnailPath: (await getTemporaryDirectory()).path,
+          imageFormat: ImageFormat.WEBP);
+      if (mounted) setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    generateThumbnail();
   }
 
   @override
@@ -111,10 +125,12 @@ class _SenderCardState extends State<SenderCard> {
                 listFiles: widget.listFiles,
                 isLeft: false,
               ),
-            if (widget.urlVideo.isNotEmpty)
+            if (widget.urlVideo.isNotEmpty && _thumbnailUrl != null)
               MessageVideo(
                 urlVideo: widget.urlVideo,
                 isLeft: false,
+                thumbnailUrl: _thumbnailUrl ?? '',
+                data: widget.data,
               ),
             if (widget.listForm.isEmpty &&
                 widget.listImages.isEmpty &&

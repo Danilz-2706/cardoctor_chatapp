@@ -8,6 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  video_thumbnail: ^0.5.3
   analyzer: ^5.2.0
   camera: ^0.10.5+3
   flutter_svg: 0.23.0+1

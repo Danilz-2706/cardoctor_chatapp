@@ -108,11 +108,11 @@ class _ReceiverCardState extends State<ReceiverCard> {
                 isLeft: true,
               ),
             if (widget.urlVideo.isNotEmpty)
-              MessageVideo(
-                urlVideo: widget.urlVideo,
-                isLeft: true,
-              ),
-            const SizedBox(width: 8),
+              // MessageVideo(
+              //   urlVideo: widget.urlVideo,
+              //   isLeft: true,
+              // ),
+              const SizedBox(width: 8),
             if (widget.listImages.isEmpty && widget.urlVideo.isEmpty)
               MessageTime(
                 data: widget.data,
