@@ -60,7 +60,8 @@ class SenderCard extends StatefulWidget {
   State<SenderCard> createState() => _SenderCardState();
 }
 
-class _SenderCardState extends State<SenderCard> {
+class _SenderCardState extends State<SenderCard>
+    with AutomaticKeepAliveClientMixin {
   // List<FormItem> listForm = [];
   bool process = false;
   bool hidden = false;
@@ -189,4 +190,8 @@ class _SenderCardState extends State<SenderCard> {
       return '';
     }
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

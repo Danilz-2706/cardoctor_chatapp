@@ -46,7 +46,8 @@ class ReceiverCard extends StatefulWidget {
   State<ReceiverCard> createState() => _ReceiverCardState();
 }
 
-class _ReceiverCardState extends State<ReceiverCard> {
+class _ReceiverCardState extends State<ReceiverCard>
+    with AutomaticKeepAliveClientMixin {
   bool hidden = false;
   String? _thumbnailUrl;
   void generateThumbnail() async {
@@ -130,7 +131,7 @@ class _ReceiverCardState extends State<ReceiverCard> {
             if (widget.urlVideo.isNotEmpty)
               MessageVideo(
                 urlVideo: widget.urlVideo,
-                isLeft: false,
+                isLeft: true,
                 thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
               ),
@@ -144,4 +145,8 @@ class _ReceiverCardState extends State<ReceiverCard> {
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

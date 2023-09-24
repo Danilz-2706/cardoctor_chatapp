@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:web_socket_channel/io.dart';
 
 import '../../../cardoctor_chatapp.dart';
@@ -230,6 +231,7 @@ class _ListMessageState extends State<ListMessage> {
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           }
+
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: SenderCard(
