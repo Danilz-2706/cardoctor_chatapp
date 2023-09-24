@@ -68,14 +68,19 @@ class _SenderCardState extends State<SenderCard>
   late String dateTime;
   String? _thumbnailUrl;
   void generateThumbnail() async {
-    if (widget.urlVideo != null) {
-      print("*********");
-      print(widget.urlVideo);
-      _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-          video: Uri.parse(widget.urlVideo).toString(),
-          thumbnailPath: (await getTemporaryDirectory()).path,
-          imageFormat: ImageFormat.WEBP);
-      if (mounted) setState(() {});
+    try {
+      if (widget.urlVideo != null) {
+        print("*********");
+        print(widget.urlVideo);
+        _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+            video: Uri.parse(widget.urlVideo).toString(),
+            thumbnailPath: (await getTemporaryDirectory()).path,
+            imageFormat: ImageFormat.WEBP);
+        if (mounted) setState(() {});
+      }
+    } catch (e) {
+      print("Loi");
+      print(e);
     }
   }
 

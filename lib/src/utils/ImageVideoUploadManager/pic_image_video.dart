@@ -153,9 +153,10 @@ class PickImagesUtils {
       print('vao camera');
       await imagePicker
           .pickVideo(
-              source: ImageSource.camera,
-              maxDuration: const Duration(minutes: 1),
-              preferredCameraDevice: CameraDevice.rear)
+        source: ImageSource.camera,
+        maxDuration: const Duration(minutes: 1),
+        preferredCameraDevice: CameraDevice.rear,
+      )
           .then((file) {
         print('binary video');
 
@@ -375,7 +376,6 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: Color(0xFF24138A)))),
-
                   // CupertinoActionSheetAction(
                   //     onPressed: () async {
                   //       recordVideo(context,
