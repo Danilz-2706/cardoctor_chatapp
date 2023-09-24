@@ -90,7 +90,7 @@ class _SenderCardState extends State<SenderCard>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.old || hidden) const SizedBox(height: 8),
+        if (widget.old || hidden) const SizedBox(height: 4),
         if (widget.old || hidden)
           Text(
             Utils.formatMessageDate(widget.data.createdAtStr!),
@@ -100,7 +100,8 @@ class _SenderCardState extends State<SenderCard>
               fontSize: 12,
             ),
           ),
-        if (widget.old || hidden) const SizedBox(height: 16),
+
+        if (widget.old || hidden) const SizedBox(height: 4),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,

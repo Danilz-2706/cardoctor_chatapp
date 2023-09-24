@@ -68,6 +68,34 @@ class _ReceiverCardState extends State<ReceiverCard>
     generateThumbnail();
   }
 
+  String getName(String? name) {
+    if (name != null && name.contains('[')) {
+      String pattern = r"\[.*\]\s+(.*?)_\d+"; // Mẫu regex
+      RegExp regex = RegExp(pattern);
+      Match? match = regex.firstMatch(name ?? '');
+      print("----");
+      print(match);
+
+      if (match != null && match.groupCount >= 1) {
+        return formatName(match.group(1)!);
+      } else {
+        return formatName(name);
+      }
+    } else {
+      return formatName(name ?? '');
+    }
+  }
+
+  String formatName(String name) {
+    List<String> words = name.split(' ');
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isEmpty) continue;
+      words[i] =
+          words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+    }
+    return words.join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -82,7 +110,26 @@ class _ReceiverCardState extends State<ReceiverCard>
               fontSize: 12,
             ),
           ),
-        if (widget.old || hidden) const SizedBox(height: 16),
+        if (widget.old || hidden) const SizedBox(height: 4),
+        if (widget.old || hidden)
+          Row(
+            children: [
+              SizedBox(
+                height: 28,
+                width: 28,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                getName(widget.data.profileName),
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                  color: Color.fromRGBO(175, 177, 175, 1),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        if (widget.old || hidden) const SizedBox(height: 1),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
