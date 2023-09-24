@@ -343,6 +343,57 @@ class _ListMessageState extends State<ListMessage> {
                         if (index > 0 &&
                             listMessage[index].username !=
                                 widget.data.userIDReal &&
+                            listMessage[index].username !=
+                                listMessage[index - 1].username &&
+                            listMessage[index - 1].username !=
+                                widget.data.userIDReal) {
+                          List<FormFile> sampleFile = [];
+                          List<FormItem> sample = [];
+                          List<String> images = [];
+                          String urlVideo = '';
+                          if (listMessage[index].type == 2) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.value!) {
+                              sample.add(e);
+                            }
+                          } else if (listMessage[index].type == 5) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueImage!) {
+                              images.add(e.image!);
+                            }
+                          } else if (listMessage[index].type == 6) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueFiles!) {
+                              sampleFile.add(e);
+                            }
+                          } else if (listMessage[index].type == 7) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            urlVideo = x.urlVideo ?? '';
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 24),
+                            child: ReceiverCard(
+                              receiverBackground: widget.receiverBackground,
+                              receiverLinear: widget.receiverLinear,
+                              receiverTextColor: widget.receiverTextColor,
+                              listFiles: sampleFile,
+                              urlVideo: urlVideo,
+                              onlyOnePerson: false,
+                              listForm: sample,
+                              data: listMessage[index],
+                              listImages: images,
+                              old: old,
+                              seen: false,
+                            ),
+                          );
+                        }
+                        if (index > 0 &&
+                            listMessage[index].username !=
+                                widget.data.userIDReal &&
                             listMessage[index - 1].username !=
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
