@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
         data: data,
         press: (value) {
           print("123");
-          addMessage(dataSend[0]);
+          addMessage(dataSend[1]);
         },
         dataRoom: data,
         idSender: 'Cardoctor1Driver',
@@ -202,8 +202,8 @@ var dataSend = [
     "attachmentType": "",
     "attachment": null,
     "linkPreview": "",
-    "username": "CarDoctor60856DRIVER",
-    "groupName": "GR_1694157629801",
+    "username": "Cardoctor1Driver",
+    "groupName": "GR_1693357083059",
     "type": null,
     "createdAtStr": "2023-09-08T17:46:16",
     "updatedAtStr": "2023-09-08T17:46:16",
@@ -222,9 +222,49 @@ var dataSend = [
     "attachmentType": "image",
     "attachment": null,
     "linkPreview": "",
-    "username": "CarDoctor1EXPERT",
-    "groupName": "GR_1694157629801",
+    "username": "Cardoctor1Driver",
+    "groupName": "GR_1693357083059",
     "type": 5,
+    "createdAtStr": "2023-09-08T17:45:59",
+    "updatedAtStr": "2023-09-08T17:45:59",
+    "createdAt": "2023-09-08T17:45:59",
+    "updatedAt": "2023-09-08T17:45:59"
+  },
+  {
+    "id": 735,
+    "groupId": 41,
+    "userId": 15,
+    "profileName": "Car Doctor Expert",
+    "originalMessage":
+        "{\"key\":\"form\",\"value\":null,\"valueImage\":[],\"valueFiles\":[{\"url\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230924193044754_avatar.jpg\", \"path\":\"20230924193044754_avatar.jpg\"}]}",
+    "filteredMessage":
+        "{\"key\":\"form\",\"value\":null,\"valueImage\":[],\"valueFiles\":[{\"url\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230924193044754_avatar.jpg\", \"path\":\"20230924193044754_avatar.jpg\"}]}",
+    "attachmentType": "image",
+    "attachment": null,
+    "linkPreview": "",
+    "username": "Cardoctor1Drr",
+    "groupName": "GR_1693357083059",
+    "type": 6,
+    "createdAtStr": "2023-09-08T17:45:59",
+    "updatedAtStr": "2023-09-08T17:45:59",
+    "createdAt": "2023-09-08T17:45:59",
+    "updatedAt": "2023-09-08T17:45:59"
+  },
+  {
+    "id": 735,
+    "groupId": 41,
+    "userId": 15,
+    "profileName": "Car Doctor Expert",
+    "originalMessage":
+        "{\"key\":\"form\",\"value\":null,\"valueImage\":[],\"valueFiles\":[{\"url\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230924193044754_avatar.jpg\", \"path\":\"20230924193044754_avatar.jpg\"}]}",
+    "filteredMessage":
+        "{\"key\":\"form\",\"value\":null,\"valueImage\":[],\"valueFiles\":[{\"url\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230924193044754_avatar.jpg\", \"path\":\"20230924193044754_avatar.jpg\"}]}",
+    "attachmentType": "image",
+    "attachment": null,
+    "linkPreview": "",
+    "username": "Cardoctor1Driver",
+    "groupName": "GR_1693357083059",
+    "type": 6,
     "createdAtStr": "2023-09-08T17:45:59",
     "updatedAtStr": "2023-09-08T17:45:59",
     "createdAt": "2023-09-08T17:45:59",

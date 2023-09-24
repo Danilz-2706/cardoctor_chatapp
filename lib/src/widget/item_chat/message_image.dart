@@ -16,93 +16,82 @@ class MessageImage extends StatelessWidget {
   final List<String> listImages;
   final SendMessageResponse data;
   final bool isLeft;
+  final String noImageAvailable =
+      "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
 
   @override
   Widget build(BuildContext context) {
     var key = UniqueKey().toString();
     return Align(
       alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-            // maxWidth: isLeft
-            //     ? MediaQuery.of(context).size.width - 100
-            //     : MediaQuery.of(context).size.width - 100,
-            ),
-        child: SizedBox(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment:
-                isLeft ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-            children: List.generate(
-              listImages.length,
-              (index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ImageChatScreen(
-                          id: key,
-                          url: listImages[index],
+      child: SizedBox(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment:
+              isLeft ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          children: List.generate(
+            listImages.length,
+            (index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ImageChatScreen(
+                        id: key,
+                        url: listImages[index],
+                      ),
+                    ),
+                  );
+                },
+                child: Stack(
+                  children: [
+                    Hero(
+                      tag: key,
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            Image.network(noImageAvailable, fit: BoxFit.cover),
+                        errorWidget: (context, url, error) =>
+                            Image.network(noImageAvailable, fit: BoxFit.cover),
+                        imageUrl: listImages[index],
+                        imageBuilder: (context, imageProvider) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              listImages[index],
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              fit: BoxFit.fill,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      right: isLeft ? 8 : null,
+                      left: !isLeft ? 8 : null,
+                      bottom: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: const BoxDecoration(
+                          color: Color.fromRGBO(255, 255, 255, 0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: Text(
+                          data.createdAtStr != null
+                              ? DateFormat('HH:mm')
+                                  .format(DateTime.parse(data.createdAtStr!))
+                              : DateFormat('HH:mm').format(DateTime.now()),
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: Color.fromRGBO(139, 141, 140, 1)),
                         ),
                       ),
-                    );
-                  },
-                  child: Stack(
-                    children: [
-                      Hero(
-                        tag: key,
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) => SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: const CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) => SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: const Icon(Icons.error),
-                          ),
-                          imageUrl: listImages[index],
-                          imageBuilder: (context, imageProvider) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                listImages[index],
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                fit: BoxFit.fill,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        right: isLeft ? 8 : null,
-                        left: !isLeft ? 8 : null,
-                        bottom: 8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(255, 255, 255, 0.5),
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: Text(
-                            data.createdAtStr != null
-                                ? DateFormat('HH:mm')
-                                    .format(DateTime.parse(data.createdAtStr!))
-                                : DateFormat('HH:mm').format(DateTime.now()),
-                            style: const TextStyle(
-                                fontSize: 12,
-                                color: Color.fromRGBO(139, 141, 140, 1)),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
+                    )
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),

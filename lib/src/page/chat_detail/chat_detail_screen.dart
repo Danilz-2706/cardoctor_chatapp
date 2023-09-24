@@ -219,6 +219,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             if (widget.stackWidget != null) widget.stackWidget!,
             const SizedBox(height: 8),
             if (typing) widget.typingChat,
+            const SizedBox(height: 8),
             InputChatApp(
               color: widget.color,
               typing: (p0) {

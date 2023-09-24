@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'open_file.dart';
+import 'package:open_filex/open_filex.dart';
 
 abstract class DownloadService {
   Future<void> download(
@@ -53,7 +53,7 @@ class MobileDownloadService implements DownloadService {
           Future.delayed(
             const Duration(milliseconds: 500),
             () {
-              OpenFile.open('${dir.path}/$fileName',
+              OpenFilex.open('${dir.path}/$fileName',
                   type: getDocumentType(fileName));
             },
           );

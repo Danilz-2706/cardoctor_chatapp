@@ -15,6 +15,8 @@ class MessageForm extends StatelessWidget {
     required this.data,
     required this.isLeft,
   }) : super(key: key);
+  final String noImageAvailable =
+      "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +85,12 @@ class MessageForm extends StatelessWidget {
                       child: Hero(
                         tag: key,
                         child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          placeholder: (context, url) => Image.network(
+                              noImageAvailable,
+                              fit: BoxFit.cover),
+                          errorWidget: (context, url, error) => Image.network(
+                              noImageAvailable,
+                              fit: BoxFit.cover),
                           imageUrl: data[index].text ?? '',
                         ),
                       ),

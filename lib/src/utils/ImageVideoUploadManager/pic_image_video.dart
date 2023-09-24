@@ -353,18 +353,6 @@ class PickImagesUtils {
                               .copyWith(color: Color(0xFF24138A)))),
                   CupertinoActionSheetAction(
                       onPressed: () async {
-                        takeVideoGallery(context,
-                            imagePicker: imagePicker,
-                            onResultVideoFromGallery: onResultVideoFromGallery);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_pick_video,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
                         takePictureFromCamera(context,
                             imagePicker: imagePicker,
                             onResultImageFromCamera: onResultImageFromCamera);
@@ -377,16 +365,29 @@ class PickImagesUtils {
                               .copyWith(color: Color(0xFF24138A)))),
                   CupertinoActionSheetAction(
                       onPressed: () async {
-                        recordVideo(context,
+                        takeVideoGallery(context,
                             imagePicker: imagePicker,
-                            onResultRecordVideo: onResultRecordVideo);
+                            onResultVideoFromGallery: onResultVideoFromGallery);
                         Navigator.of(context).pop();
                       },
-                      child: Text(label_record_video,
+                      child: Text(label_pick_video,
                           style: Theme.of(context)
                               .textTheme
                               .subTitle
-                              .copyWith(color: Color(0xFF24138A))))
+                              .copyWith(color: Color(0xFF24138A)))),
+
+                  // CupertinoActionSheetAction(
+                  //     onPressed: () async {
+                  //       recordVideo(context,
+                  //           imagePicker: imagePicker,
+                  //           onResultRecordVideo: onResultRecordVideo);
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: Text(label_record_video,
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .subTitle
+                  //             .copyWith(color: Color(0xFF24138A))))
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
