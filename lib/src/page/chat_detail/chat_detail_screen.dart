@@ -171,7 +171,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 package: Consts.packageName,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 widget.nameTitle ?? '',
@@ -187,7 +187,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () async {},
+            onTap: () async {
+              pending(context);
+            },
             child: SvgPicture.asset(
               'assets/imgs/call-calling.svg',
               semanticsLabel: 'Acme Logo',
@@ -198,7 +200,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           SizedBox(width: 16),
           GestureDetector(
-            onTap: () async {},
+            onTap: () async {
+              pending(context);
+            },
             child: SvgPicture.asset(
               'assets/imgs/video.svg',
               semanticsLabel: 'Acme Logo',
@@ -257,6 +261,62 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> pending(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => Dialog(
+        insetPadding: EdgeInsets.all(20),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(24))),
+        backgroundColor: Colors.white,
+        child: Container(
+          width: 343,
+          height: 170,
+          padding: const EdgeInsets.all(24),
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            shadows: [
+              BoxShadow(
+                color: Color(0x19000000),
+                blurRadius: 15,
+                offset: Offset(0, 0),
+                spreadRadius: 0,
+              )
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 295,
+                child: Text(
+                  'Chức năng đang phát triển',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Thoát'),
+              ),
+            ],
+          ),
         ),
       ),
     );
