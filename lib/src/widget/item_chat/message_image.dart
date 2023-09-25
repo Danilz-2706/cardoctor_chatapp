@@ -49,10 +49,16 @@ class MessageImage extends StatelessWidget {
                     Hero(
                       tag: key,
                       child: CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            Image.network(noImageAvailable, fit: BoxFit.cover),
-                        errorWidget: (context, url, error) =>
-                            Image.network(noImageAvailable, fit: BoxFit.cover),
+                        placeholder: (context, url) => SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            child: Image.network(noImageAvailable,
+                                fit: BoxFit.cover)),
+                        errorWidget: (context, url, error) => SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            child: Image.network(noImageAvailable,
+                                fit: BoxFit.cover)),
                         imageUrl: listImages[index],
                         imageBuilder: (context, imageProvider) {
                           return ClipRRect(
