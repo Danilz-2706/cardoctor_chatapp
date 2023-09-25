@@ -59,7 +59,8 @@ class _ReceiverCardState extends State<ReceiverCard>
             video: Uri.parse(widget.urlVideo).toString(),
             thumbnailPath: (await getTemporaryDirectory()).path,
             imageFormat: ImageFormat.WEBP);
-        if (mounted) setState(() {});
+        // if (mounted)
+        setState(() {});
       }
     } catch (e) {
       print("Loi");
