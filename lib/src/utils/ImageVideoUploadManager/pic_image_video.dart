@@ -364,18 +364,18 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: Color(0xFF24138A)))),
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
-                        takeVideoGallery(context,
-                            imagePicker: imagePicker,
-                            onResultVideoFromGallery: onResultVideoFromGallery);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_pick_video,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
+                  // CupertinoActionSheetAction(
+                  //     onPressed: () async {
+                  //       takeVideoGallery(context,
+                  //           imagePicker: imagePicker,
+                  //           onResultVideoFromGallery: onResultVideoFromGallery);
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: Text(label_pick_video,
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .subTitle
+                  //             .copyWith(color: Color(0xFF24138A)))),
                   // CupertinoActionSheetAction(
                   //     onPressed: () async {
                   //       recordVideo(context,
