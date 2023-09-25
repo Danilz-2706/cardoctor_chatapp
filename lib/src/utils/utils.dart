@@ -74,9 +74,9 @@ class Utils {
           now.difference(DateTime(date.year, date.month, date.day));
 
       if (difference.inDays == 0) {
-        return "today";
+        return "Hôm nay";
       } else if (difference.inDays == 1) {
-        return "yesterday";
+        return "Hôm qua";
       } else {
         return DateFormat(
           "HH:mm, dd 'tháng' MM",
