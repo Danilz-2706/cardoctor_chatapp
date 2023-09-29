@@ -44,6 +44,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) pressPickVideo;
+  final Function(Map<String, dynamic>) pressCallAudio;
+  final Function(Map<String, dynamic>) pressCallVideo;
 
   final Function(Map<String, dynamic>) loadMoreHistory;
   final Function(Map<String, dynamic>) typing;
@@ -69,6 +71,8 @@ class ChatDetailScreen extends StatefulWidget {
     required this.typingChat,
     required this.color,
     required this.pressPickVideo,
+    required this.pressCallAudio,
+    required this.pressCallVideo,
   }) : super(key: key);
 
   @override
@@ -188,7 +192,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         actions: [
           GestureDetector(
             onTap: () async {
-              pending(context);
+              widget.pressCallAudio;
             },
             child: SvgPicture.asset(
               'assets/imgs/call-calling.svg',
@@ -201,7 +205,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           SizedBox(width: 16),
           GestureDetector(
             onTap: () async {
-              pending(context);
+              widget.pressCallVideo;
             },
             child: SvgPicture.asset(
               'assets/imgs/video.svg',
