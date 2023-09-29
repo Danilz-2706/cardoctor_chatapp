@@ -44,8 +44,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) pressPickVideo;
-  final Function(Map<String, dynamic>) pressCallAudio;
-  final Function(Map<String, dynamic>) pressCallVideo;
+  final VoidCallback pressCallAudio;
+  final VoidCallback pressCallVideo;
 
   final Function(Map<String, dynamic>) loadMoreHistory;
   final Function(Map<String, dynamic>) typing;
@@ -191,9 +191,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () async {
-              widget.pressCallAudio;
-            },
+            onTap: widget.pressCallAudio,
             child: SvgPicture.asset(
               'assets/imgs/call-calling.svg',
               semanticsLabel: 'Acme Logo',
@@ -204,9 +202,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           SizedBox(width: 16),
           GestureDetector(
-            onTap: () async {
-              widget.pressCallVideo;
-            },
+            onTap: widget.pressCallVideo,
             child: SvgPicture.asset(
               'assets/imgs/video.svg',
               semanticsLabel: 'Acme Logo',
