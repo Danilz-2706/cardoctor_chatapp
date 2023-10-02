@@ -32,6 +32,7 @@ class MessageForm extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          margin: const EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -92,6 +93,7 @@ class MessageForm extends StatelessWidget {
                               noImageAvailable,
                               fit: BoxFit.cover),
                           imageUrl: data[index].text ?? '',
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

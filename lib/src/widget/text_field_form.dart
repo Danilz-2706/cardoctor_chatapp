@@ -18,6 +18,7 @@ class TextFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (listForm.label != null)
           RichText(
@@ -46,6 +47,7 @@ class TextFieldForm extends StatelessWidget {
         if (listForm.label != null) const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          alignment: Alignment.centerLeft,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -62,6 +64,7 @@ class TextFieldForm extends StatelessWidget {
           ),
           child: Text(
             listForm.text ?? '',
+            textAlign: TextAlign.left,
             style: GoogleFonts.inter(
               color: const Color(0xFF282828),
               fontWeight: FontWeight.w400,

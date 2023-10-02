@@ -130,6 +130,7 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.listForm,
                 isLeft: false,
               ),
+              
             if (widget.listImages.isNotEmpty)
               MessageImage(
                 listImages: widget.listImages,
