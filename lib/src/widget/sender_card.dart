@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cardoctor_chatapp/src/widget/item_chat/message_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as p;
 
@@ -33,6 +34,7 @@ class SenderCard extends StatefulWidget {
   final List<FormItem> listForm;
   final List<String> listImages;
   final List<FormFile> listFiles;
+  final List<FormService> listService;
   final String urlVideo;
 
   final bool old;
@@ -48,6 +50,7 @@ class SenderCard extends StatefulWidget {
     required this.listForm,
     required this.listImages,
     required this.listFiles,
+    required this.listService,
     required this.old,
     required this.statusMessage,
     required this.urlVideo,
@@ -72,12 +75,14 @@ class _SenderCardState extends State<SenderCard>
       if (widget.urlVideo != null) {
         print("*********");
         print(widget.urlVideo);
-        _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-            video: Uri.parse(widget.urlVideo).toString(),
-            thumbnailPath: (await getTemporaryDirectory()).path,
-            imageFormat: ImageFormat.WEBP);
-        // if (mounted)
-        setState(() {});
+        if (widget.urlVideo.isNotEmpty) {
+          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+              video: Uri.parse(widget.urlVideo).toString(),
+              thumbnailPath: (await getTemporaryDirectory()).path,
+              imageFormat: ImageFormat.WEBP);
+          // if (mounted)
+          setState(() {});
+        }
       }
     } catch (e) {
       print("Loi");
@@ -112,7 +117,10 @@ class _SenderCardState extends State<SenderCard>
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (widget.listImages.isEmpty && widget.urlVideo.isEmpty)
+            if (widget.listImages.isEmpty &&
+                widget.urlVideo.isEmpty &&
+                widget.listService.isEmpty &&
+                widget.listForm.isEmpty)
               MessageTime(
                 data: widget.data,
               ),
@@ -128,6 +136,11 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.data,
                 isLeft: false,
               ),
+            if (widget.listService.isNotEmpty)
+              MessageService(
+                  listService: widget.listService,
+                  data: widget.data,
+                  isLeft: false),
             if (widget.listFiles.isNotEmpty)
               MessageFile(
                 listFiles: widget.listFiles,
@@ -143,6 +156,7 @@ class _SenderCardState extends State<SenderCard>
             if (widget.listForm.isEmpty &&
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
+                widget.listService.isEmpty &&
                 widget.urlVideo.isEmpty)
               MessageText(
                 background: widget.senderBackground,

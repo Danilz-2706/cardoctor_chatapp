@@ -9,6 +9,7 @@ class FormItem {
   final String? type;
   final String? drop;
   final String? value2;
+  final bool? required;
 
   FormItem({
     this.text,
@@ -17,6 +18,7 @@ class FormItem {
     this.type,
     this.drop,
     this.value2,
+    this.required = true,
   });
 
   factory FormItem.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class FormItem {
       type: json['type'],
       drop: json['drop'],
       value2: json['value2'],
+      required: json['required'],
     );
   }
 }
@@ -62,12 +65,30 @@ class FormFile {
   }
 }
 
+class FormService {
+  final String? image;
+  final String? title;
+
+  FormService({
+    this.image,
+    this.title,
+  });
+
+  factory FormService.fromJson(Map<String, dynamic> json) {
+    return FormService(
+      image: json['image'],
+      title: json['title'],
+    );
+  }
+}
+
 class FormData {
   final String? key;
   final String? urlVideo;
   final List<FormItem>? value;
   final List<FormImage>? valueImage;
   final List<FormFile>? valueFiles;
+  final List<FormService>? valueServices;
 
   FormData({
     this.key,
@@ -75,6 +96,7 @@ class FormData {
     this.urlVideo,
     this.valueImage,
     this.valueFiles,
+    this.valueServices,
   });
 
   factory FormData.fromJson(Map<String, dynamic> json) {
@@ -93,12 +115,18 @@ class FormData {
       return FormFile.fromJson(itemJson);
     }).toList();
 
+    final List<dynamic>? valueJson3 = json['valueServices'];
+    final List<FormService>? formItems3 = valueJson3?.map((itemJson) {
+      return FormService.fromJson(itemJson);
+    }).toList();
+
     return FormData(
       key: json['key'],
       urlVideo: json['urlVideo'] ?? '',
       value: formItems,
       valueImage: formItems1,
       valueFiles: formItems2,
+      valueServices: formItems3,
     );
   }
 }

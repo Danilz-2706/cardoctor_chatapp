@@ -1,3 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 class FormItem {
   final String? text;
   final String? label;
@@ -99,16 +104,42 @@ class FormFile {
   }
 }
 
+class FormService {
+  final String? image;
+  final String? title;
+
+  FormService({
+    this.image,
+    this.title,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'image': image,
+      'title': title,
+    };
+  }
+
+  factory FormService.fromMap(Map<String, dynamic> map) {
+    return FormService(
+      image: map['image'] != null ? map['image'] as String : null,
+      title: map['title'] != null ? map['title'] as String : null,
+    );
+  }
+}
+
 class FormData {
   final String? key;
   final List<FormItem>? value;
   final List<FormImage>? valueImage;
   final List<FormFile>? valueFiles;
+  final List<FormService>? valueService;
 
   FormData({
     this.key,
     this.value,
     this.valueImage,
+    this.valueService,
     this.valueFiles,
   });
 
@@ -123,10 +154,16 @@ class FormData {
       return FormImage.fromJson(itemJson);
     }).toList();
 
+    final List<dynamic>? valueJson2 = json['valueService'];
+    final List<FormService>? formItems2 = valueJson2?.map((itemJson) {
+      return FormService.fromMap(itemJson);
+    }).toList();
+
     return FormData(
       key: json['key'],
       value: formItems,
       valueImage: formItems1,
+      valueService: formItems2,
     );
   }
 
@@ -136,6 +173,7 @@ class FormData {
       'value': value?.map((x) => x?.toMap()).toList(),
       'valueImage': valueImage?.map((x) => x?.toMap()).toList(),
       'valueFiles': valueFiles?.map((x) => x?.toMap()).toList(),
+      'valueService': valueService?.map((x) => x?.toMap()).toList(),
     };
   }
 }

@@ -9,6 +9,7 @@ import 'item_chat/message_avatar.dart';
 import 'item_chat/message_file.dart';
 import 'item_chat/message_form.dart';
 import 'item_chat/message_image.dart';
+import 'item_chat/message_service.dart';
 import 'item_chat/message_text.dart';
 import 'item_chat/message_time.dart';
 import 'item_chat/message_video.dart';
@@ -22,6 +23,7 @@ class ReceiverCard extends StatefulWidget {
   final String urlVideo;
   final bool old;
   final bool seen;
+  final List<FormService> listService;
 
   final Color? receiverBackground;
   final Color? receiverTextColor;
@@ -37,6 +39,7 @@ class ReceiverCard extends StatefulWidget {
     required this.old,
     required this.seen,
     required this.urlVideo,
+    required this.listService,
     this.receiverBackground,
     this.receiverTextColor,
     this.receiverLinear,
@@ -150,6 +153,7 @@ class _ReceiverCardState extends State<ReceiverCard>
             if (widget.listForm.isEmpty &&
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
+                widget.listService.isEmpty &&
                 widget.urlVideo.isEmpty)
               MessageText(
                 background: widget.receiverBackground,
@@ -170,6 +174,11 @@ class _ReceiverCardState extends State<ReceiverCard>
                 data: widget.listForm,
                 isLeft: true,
               ),
+            if (widget.listService.isNotEmpty)
+              MessageService(
+                  listService: widget.listService,
+                  data: widget.data,
+                  isLeft: true),
             if (widget.listImages.isNotEmpty)
               MessageImage(
                 listImages: widget.listImages,
@@ -189,7 +198,10 @@ class _ReceiverCardState extends State<ReceiverCard>
                 data: widget.data,
               ),
             const SizedBox(width: 8),
-            if (widget.listImages.isEmpty && widget.urlVideo.isEmpty)
+            if (widget.listImages.isEmpty &&
+                widget.urlVideo.isEmpty &&
+                widget.listService.isEmpty &&
+                widget.listForm.isEmpty)
               MessageTime(
                 data: widget.data,
               ),

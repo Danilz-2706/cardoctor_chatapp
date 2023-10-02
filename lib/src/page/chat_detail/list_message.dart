@@ -206,6 +206,7 @@ class _ListMessageState extends State<ListMessage> {
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -230,11 +231,18 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
 
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: SenderCard(
+                              listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
                               senderTextColor: widget.senderTextColor,
@@ -255,6 +263,7 @@ class _ListMessageState extends State<ListMessage> {
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -279,11 +288,18 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
 
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
                               senderTextColor: widget.senderTextColor,
@@ -301,6 +317,7 @@ class _ListMessageState extends State<ListMessage> {
                             widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -325,10 +342,17 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
                               senderTextColor: widget.senderTextColor,
@@ -351,6 +375,7 @@ class _ListMessageState extends State<ListMessage> {
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -375,10 +400,17 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
                               receiverTextColor: widget.receiverTextColor,
@@ -400,6 +432,7 @@ class _ListMessageState extends State<ListMessage> {
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -424,10 +457,17 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: ReceiverCard(
+                              listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
                               receiverTextColor: widget.receiverTextColor,
@@ -449,6 +489,7 @@ class _ListMessageState extends State<ListMessage> {
                                 widget.data.userIDReal) {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -473,10 +514,17 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
                               receiverTextColor: widget.receiverTextColor,
@@ -493,6 +541,7 @@ class _ListMessageState extends State<ListMessage> {
                         } else {
                           List<FormFile> sampleFile = [];
                           List<FormItem> sample = [];
+                          List<FormService> sampleServices = [];
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
@@ -517,10 +566,17 @@ class _ListMessageState extends State<ListMessage> {
                             var x = FormData.fromJson(json
                                 .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
+                          } else if (listMessage[index].type == 8) {
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
+                            for (var e in x.valueServices!) {
+                              sampleServices.add(e);
+                            }
                           }
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
                               receiverTextColor: widget.receiverTextColor,

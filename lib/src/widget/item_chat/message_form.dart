@@ -28,7 +28,7 @@ class MessageForm extends StatelessWidget {
         constraints: BoxConstraints(
           maxWidth: isLeft
               ? MediaQuery.of(context).size.width - 160
-              : MediaQuery.of(context).size.width - 100,
+              : MediaQuery.of(context).size.width - 60,
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

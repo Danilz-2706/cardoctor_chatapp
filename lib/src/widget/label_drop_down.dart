@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../model/form_text.dart';
 import '../page/contains.dart';
@@ -20,18 +21,23 @@ class LabelDropDownForm extends StatelessWidget {
           textAlign: TextAlign.start,
           text: TextSpan(
             text: listForm.label,
-            style: const TextStyle(
+            style: GoogleFonts.inter(
+              color: const Color(0xFF0A0B09),
+              fontWeight: FontWeight.w600,
               fontSize: 14,
-              color: Color.fromRGBO(10, 11, 9, 1),
             ),
-            children: [
-              const TextSpan(
-                  text: " *",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromRGBO(10, 11, 9, 1),
-                  )),
-            ],
+            children: listForm.required != null && listForm.required == true
+                ? [
+                    TextSpan(
+                      text: " *",
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF0A0B09),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ),
         const SizedBox(height: 8),
@@ -56,9 +62,10 @@ class LabelDropDownForm extends StatelessWidget {
               Expanded(
                 child: Text(
                   listForm.hintText ?? '',
-                  style: const TextStyle(
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF282828),
+                    fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    color: Color.fromRGBO(107, 109, 108, 1),
                   ),
                 ),
               ),
@@ -76,7 +83,9 @@ class LabelDropDownForm extends StatelessWidget {
                 Image.asset(
                   listForm.drop == 'drop'
                       ? 'assets/imgs/arrow-down.png'
-                      : 'assets/imgs/edit.png',
+                      : listForm.drop == 'km'
+                          ? 'assets/imgs/Km.png'
+                          : 'assets/imgs/edit.png',
                   height: 20,
                   width: 20,
                   package: Consts.packageName,
