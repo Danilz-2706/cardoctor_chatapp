@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/form_text.dart';
@@ -84,9 +85,10 @@ class MessageService extends StatelessWidget {
                         listService[index].title ?? '',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: const TextStyle(
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF0A0B09),
+                          fontWeight: FontWeight.w600,
                           fontSize: 14,
-                          color: Color.fromRGBO(10, 11, 9, 1),
                         ),
                       ),
                     ),

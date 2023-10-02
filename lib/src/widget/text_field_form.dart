@@ -48,6 +48,7 @@ class TextFieldForm extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
           alignment: Alignment.centerLeft,
+          width: double.infinity,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
