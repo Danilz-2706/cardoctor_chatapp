@@ -23,13 +23,7 @@ class MessageService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var key = UniqueKey().toString();
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&');
-    print(listService[0].title);
-    print(listService[1].title);
-    print(listService[2].title);
-    print(listService[0].image);
-    print(listService[1].image);
-    print(listService[2].image);
+
     return Align(
       alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
       child: ConstrainedBox(
