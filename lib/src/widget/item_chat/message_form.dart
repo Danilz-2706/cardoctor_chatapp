@@ -23,7 +23,7 @@ class MessageForm extends StatelessWidget {
     var key = UniqueKey().toString();
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
       child: Align(
         alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
         child: ConstrainedBox(
