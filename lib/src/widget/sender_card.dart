@@ -38,7 +38,8 @@ class SenderCard extends StatefulWidget {
   final String urlVideo;
 
   final bool old;
-  final StatusMessage statusMessage;
+  final String statusMessage;
+  // final List<String>
 
   final Color? senderBackground;
   final Color? senderTextColor;
@@ -96,6 +97,9 @@ class _SenderCardState extends State<SenderCard>
     generateThumbnail();
   }
 
+  final String noImageAvailable =
+      "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -130,7 +134,6 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.listForm,
                 isLeft: false,
               ),
-              
             if (widget.listImages.isNotEmpty)
               MessageImage(
                 listImages: widget.listImages,
@@ -175,6 +178,52 @@ class _SenderCardState extends State<SenderCard>
               ),
           ],
         ),
+        if (widget.statusMessage == StatusMessage.sending.name)
+          Container(
+            alignment: Alignment.centerRight,
+            height: 12,
+            width: 12,
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: widget.senderTextColor,
+            ),
+          ),
+        if (widget.statusMessage == StatusMessage.send.name)
+          Container(
+            alignment: Alignment.centerRight,
+            height: 12,
+            width: 12,
+            child: Image.asset(
+              'assets/imgs/ic_send.png',
+              package: Consts.packageName,
+            ),
+          ),
+        if (widget.statusMessage == StatusMessage.error.name)
+          Container(
+            alignment: Alignment.centerRight,
+            height: 12,
+            width: 12,
+            child: Image.asset(
+              'assets/imgs/ic_warning.png',
+              package: Consts.packageName,
+            ),
+          ),
+        if (widget.statusMessage == StatusMessage.seen.name)
+          Container(
+            alignment: Alignment.centerRight,
+            height: 12,
+            width: 12,
+            child: CachedNetworkImage(
+              placeholder: (context, url) => SizedBox(
+                  height: 12,
+                  width: 12,
+                  child: Image.network(noImageAvailable, fit: BoxFit.cover)),
+              errorWidget: (context, url, error) => SizedBox(
+                  height: 12,
+                  width: 12,
+                  child: Image.network(noImageAvailable, fit: BoxFit.cover)),
+              imageUrl: noImageAvailable,
+            ),
+          ),
         // if (widget.old || hidden)
         //   Row(
         //     mainAxisAlignment: MainAxisAlignment.end,
