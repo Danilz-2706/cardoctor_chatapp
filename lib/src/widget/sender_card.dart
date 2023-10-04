@@ -21,6 +21,7 @@ import 'item_chat/message_file.dart';
 import 'item_chat/message_form.dart';
 import 'item_chat/message_image.dart';
 import 'item_chat/message_text.dart';
+import 'package:flutter/material.dart';
 import 'item_chat/message_time.dart';
 import 'item_chat/message_video.dart';
 import 'label_drop_down.dart';
@@ -179,13 +180,18 @@ class _SenderCardState extends State<SenderCard>
           ],
         ),
         if (widget.statusMessage == StatusMessage.sending.name)
-          Container(
-            alignment: Alignment.centerRight,
-            height: 12,
-            width: 12,
-            child: CircularProgressIndicator.adaptive(
-              backgroundColor: widget.senderTextColor,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 12,
+                width: 12,
+                child: CircularProgressIndicator(
+                  color: Colors.green,
+                ),
+              ),
+              SizedBox(width: 2),
+            ],
           ),
         if (widget.statusMessage == StatusMessage.send.name)
           Container(
@@ -198,32 +204,52 @@ class _SenderCardState extends State<SenderCard>
             ),
           ),
         if (widget.statusMessage == StatusMessage.error.name)
-          Container(
-            alignment: Alignment.centerRight,
-            height: 12,
-            width: 12,
-            child: Image.asset(
-              'assets/imgs/ic_warning.png',
-              package: Consts.packageName,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  alignment: Alignment.centerRight,
+                  height: 12,
+                  width: 12,
+                  child: Image.asset(
+                    'assets/imgs/ic_warning.png',
+                    package: Consts.packageName,
+                  ),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'Không thể gửi tin nhắn',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                  ),
+                )
+              ],
             ),
           ),
         if (widget.statusMessage == StatusMessage.seen.name)
           Container(
             alignment: Alignment.centerRight,
-            height: 12,
-            width: 12,
-            child: CachedNetworkImage(
-              placeholder: (context, url) => SizedBox(
-                  height: 12,
-                  width: 12,
-                  child: Image.network(noImageAvailable, fit: BoxFit.cover)),
-              errorWidget: (context, url, error) => SizedBox(
-                  height: 12,
-                  width: 12,
-                  child: Image.network(noImageAvailable, fit: BoxFit.cover)),
-              imageUrl: noImageAvailable,
+            height: 14,
+            width: 14,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: CachedNetworkImage(
+                placeholder: (context, url) => SizedBox(
+                    height: 12,
+                    width: 12,
+                    child: Image.network(noImageAvailable, fit: BoxFit.cover)),
+                errorWidget: (context, url, error) => SizedBox(
+                    height: 12,
+                    width: 12,
+                    child: Image.network(noImageAvailable, fit: BoxFit.cover)),
+                imageUrl: noImageAvailable,
+              ),
             ),
           ),
+
         // if (widget.old || hidden)
         //   Row(
         //     mainAxisAlignment: MainAxisAlignment.end,
