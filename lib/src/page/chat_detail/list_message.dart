@@ -26,6 +26,7 @@ class ListMessage extends StatefulWidget {
   final Color? senderTextColor;
   final LinearGradient? senderLinear;
   final List<Map<String, dynamic>> listMessageLoadMore;
+  final ValueChanged<Map<String, dynamic>> userInRoomChat;
 
   ListMessage({
     Key? key,
@@ -40,6 +41,7 @@ class ListMessage extends StatefulWidget {
     this.receiverLinear,
     this.senderLinear,
     required this.listMessageLoadMore,
+    required this.userInRoomChat,
   }) : super(key: key);
 
   @override
@@ -135,8 +137,13 @@ class _ListMessageState extends State<ListMessage> {
                 print(message);
                 typing = true;
               } else {
-                listMessage.insert(
-                    0, SendMessageResponse.fromMap(json.decode(message)));
+                var x = SendMessageResponse.fromMap(json.decode(message));
+                listMessage.insert(0, x);
+                widget.userInRoomChat.call({
+                  'groupName': x.groupName,
+                  'username': x.username,
+                  'messageId': x.id,
+                });
               }
 
               setState(() {});
