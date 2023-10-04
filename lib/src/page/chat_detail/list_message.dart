@@ -192,10 +192,8 @@ class _ListMessageState extends State<ListMessage> {
                         if (index == listMessage.length - 1) {
                         } else {
                           if (Utils.formatMessageDateCheck(
-                              listMessage[index].createdAtStr ??
-                                  DateTime.now().toString(),
-                              listMessage[index + 1].createdAtStr ??
-                                  DateTime.now().toString())) {
+                              listMessage[index].createdAtStr!,
+                              listMessage[index + 1].createdAtStr!)) {
                             old = false;
                           } else {
                             old = true;
@@ -212,30 +210,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -269,30 +267,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -323,30 +321,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -381,30 +379,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -438,30 +436,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -495,30 +493,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
@@ -547,30 +545,30 @@ class _ListMessageState extends State<ListMessage> {
                           List<String> images = [];
                           String urlVideo = '';
                           if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.value!) {
                               sample.add(e);
                             }
                           } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueImage!) {
                               images.add(e.image!);
                             }
                           } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueFiles!) {
                               sampleFile.add(e);
                             }
                           } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             urlVideo = x.urlVideo ?? '';
                           } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json.decode(
-                                listMessage[index].originalMessage ?? ''));
+                            var x = FormData.fromJson(json
+                                .decode(listMessage[index].originalMessage!));
                             for (var e in x.valueServices!) {
                               sampleServices.add(e);
                             }
