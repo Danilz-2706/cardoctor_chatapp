@@ -139,13 +139,11 @@ class _ListMessageState extends State<ListMessage> {
               } else {
                 var x = SendMessageResponse.fromMap(json.decode(message));
                 listMessage.insert(0, x);
-                if (x.username != widget.data.userIDReal) {
-                  widget.userInRoomChat.call({
+                widget.userInRoomChat.call({
                     'groupName': x.groupName,
                     'username': x.username,
                     'messageId': x.id,
                   });
-                }
               }
 
               setState(() {});
