@@ -120,10 +120,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 } else {
                   print('aaaa');
                 }
-                if (mounted) {
-                  setState(() {});
-                }
               }
+
+              setState(() {});
             },
             cancelOnError: true,
             onError: (error) {

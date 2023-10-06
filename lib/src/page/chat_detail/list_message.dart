@@ -133,6 +133,9 @@ class _ListMessageState extends State<ListMessage> {
               print(message);
               var x = json.decode(message);
               if (x['typing'] != null) {
+                print("typing");
+                print(message);
+                typing = true;
               } else {
                 var x = SendMessageResponse.fromMap(json.decode(message));
                 listMessage.insert(0, x);
@@ -141,10 +144,9 @@ class _ListMessageState extends State<ListMessage> {
                   'username': x.username,
                   'messageId': x.id,
                 });
-                if (mounted) {
-                  setState(() {});
-                }
               }
+
+              setState(() {});
             },
             cancelOnError: true,
             onError: (error) {
@@ -160,11 +162,6 @@ class _ListMessageState extends State<ListMessage> {
         print(e);
       }
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override

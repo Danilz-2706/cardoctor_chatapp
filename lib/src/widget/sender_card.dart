@@ -35,7 +35,7 @@ class SenderCard extends StatefulWidget {
   final List<String> listImages;
   final List<FormFile> listFiles;
   final List<FormService> listService;
-  final String? urlVideo;
+  final String urlVideo;
 
   final bool old;
   final StatusMessage statusMessage;
@@ -53,7 +53,7 @@ class SenderCard extends StatefulWidget {
     required this.listService,
     required this.old,
     required this.statusMessage,
-    this.urlVideo,
+    required this.urlVideo,
     this.senderBackground,
     this.senderTextColor,
     this.senderLinear,
@@ -75,11 +75,12 @@ class _SenderCardState extends State<SenderCard>
       if (widget.urlVideo != null) {
         print("*********");
         print(widget.urlVideo);
-        _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-            video: Uri.parse(widget.urlVideo ?? '').toString(),
-            thumbnailPath: (await getTemporaryDirectory()).path,
-            imageFormat: ImageFormat.WEBP);
-        if (mounted) {
+        if (widget.urlVideo.isNotEmpty) {
+          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+              video: Uri.parse(widget.urlVideo).toString(),
+              thumbnailPath: (await getTemporaryDirectory()).path,
+              imageFormat: ImageFormat.WEBP);
+          // if (mounted)
           setState(() {});
         }
       }
@@ -117,7 +118,7 @@ class _SenderCardState extends State<SenderCard>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (widget.listImages.isEmpty &&
-                widget.urlVideo == null &&
+                widget.urlVideo.isEmpty &&
                 widget.listService.isEmpty &&
                 widget.listForm.isEmpty)
               MessageTime(
@@ -129,6 +130,7 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.listForm,
                 isLeft: false,
               ),
+              
             if (widget.listImages.isNotEmpty)
               MessageImage(
                 listImages: widget.listImages,
@@ -145,9 +147,9 @@ class _SenderCardState extends State<SenderCard>
                 listFiles: widget.listFiles,
                 isLeft: false,
               ),
-            if (widget.urlVideo != null && _thumbnailUrl != null)
+            if (widget.urlVideo.isNotEmpty && _thumbnailUrl != null)
               MessageVideo(
-                urlVideo: widget.urlVideo ?? '',
+                urlVideo: widget.urlVideo,
                 isLeft: false,
                 thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
@@ -156,7 +158,7 @@ class _SenderCardState extends State<SenderCard>
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
                 widget.listService.isEmpty &&
-                widget.urlVideo == null)
+                widget.urlVideo.isEmpty)
               MessageText(
                 background: widget.senderBackground,
                 textColor: widget.senderTextColor,
