@@ -20,7 +20,7 @@ class ReceiverCard extends StatefulWidget {
   final List<String> listImages;
   final List<FormFile> listFiles;
   final List<FormItem> listForm;
-  final String? urlVideo;
+  final String urlVideo;
   final bool old;
   final bool seen;
   final List<FormService> listService;
@@ -38,7 +38,7 @@ class ReceiverCard extends StatefulWidget {
     required this.listForm,
     required this.old,
     required this.seen,
-    this.urlVideo,
+    required this.urlVideo,
     required this.listService,
     this.receiverBackground,
     this.receiverTextColor,
@@ -56,13 +56,14 @@ class _ReceiverCardState extends State<ReceiverCard>
   void generateThumbnail() async {
     try {
       if (widget.urlVideo != null) {
+        print("*********");
+        print(widget.urlVideo);
         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-            video: Uri.parse(widget.urlVideo ?? '').toString(),
+            video: Uri.parse(widget.urlVideo).toString(),
             thumbnailPath: (await getTemporaryDirectory()).path,
             imageFormat: ImageFormat.WEBP);
-        if (mounted) {
-          setState(() {});
-        }
+        // if (mounted)
+        setState(() {});
       }
     } catch (e) {
       print("Loi");
@@ -153,7 +154,7 @@ class _ReceiverCardState extends State<ReceiverCard>
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
                 widget.listService.isEmpty &&
-                widget.urlVideo == null)
+                widget.urlVideo.isEmpty)
               MessageText(
                 background: widget.receiverBackground,
                 textColor: widget.receiverTextColor,
@@ -189,16 +190,16 @@ class _ReceiverCardState extends State<ReceiverCard>
                 listFiles: widget.listFiles,
                 isLeft: true,
               ),
-            if (widget.urlVideo != null)
+            if (widget.urlVideo.isNotEmpty)
               MessageVideo(
-                urlVideo: widget.urlVideo ?? '',
+                urlVideo: widget.urlVideo,
                 isLeft: true,
                 thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
               ),
             const SizedBox(width: 8),
             if (widget.listImages.isEmpty &&
-                widget.urlVideo == null &&
+                widget.urlVideo.isEmpty &&
                 widget.listService.isEmpty &&
                 widget.listForm.isEmpty)
               MessageTime(
