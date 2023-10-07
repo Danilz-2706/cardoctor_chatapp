@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +13,9 @@ class MessageImage extends StatelessWidget {
     required this.listImages,
     required this.data,
     required this.isLeft,
+    this.local = false,
   }) : super(key: key);
+  final bool local;
 
   final List<String> listImages;
   final SendMessageResponse data;
@@ -21,6 +25,8 @@ class MessageImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('-------------------');
+    print(listImages);
     var key = UniqueKey().toString();
     return Align(
       alignment: isLeft ? Alignment.centerLeft : Alignment.centerRight,
@@ -48,29 +54,43 @@ class MessageImage extends StatelessWidget {
                   children: [
                     Hero(
                       tag: key,
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: MediaQuery.of(context).size.width * 0.4,
-                            child: Image.network(noImageAvailable,
-                                fit: BoxFit.cover)),
-                        errorWidget: (context, url, error) => SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: MediaQuery.of(context).size.width * 0.4,
-                            child: Image.network(noImageAvailable,
-                                fit: BoxFit.cover)),
-                        imageUrl: listImages[index],
-                        imageBuilder: (context, imageProvider) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              listImages[index],
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              fit: BoxFit.fill,
+                      child: local
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.file(
+                                File(listImages[index]),
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : CachedNetworkImage(
+                              placeholder: (context, url) => SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Image.network(noImageAvailable,
+                                      fit: BoxFit.cover)),
+                              errorWidget: (context, url, error) => SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Image.network(noImageAvailable,
+                                      fit: BoxFit.cover)),
+                              imageUrl: listImages[index],
+                              imageBuilder: (context, imageProvider) {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    listImages[index],
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    fit: BoxFit.fill,
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                     Positioned(
                       right: isLeft ? 8 : null,

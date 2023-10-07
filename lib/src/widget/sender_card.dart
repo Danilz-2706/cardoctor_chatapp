@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cardoctor_chatapp/src/widget/item_chat/message_service.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as p;
 
@@ -36,7 +38,7 @@ class SenderCard extends StatefulWidget {
   final List<String> listImages;
   final List<FormFile> listFiles;
   final List<FormService> listService;
-  final String urlVideo;
+  final String? urlVideo;
 
   final bool old;
   final String statusMessage;
@@ -45,6 +47,7 @@ class SenderCard extends StatefulWidget {
   final Color? senderBackground;
   final Color? senderTextColor;
   final LinearGradient? senderLinear;
+  final bool? local;
 
   const SenderCard({
     super.key,
@@ -55,10 +58,11 @@ class SenderCard extends StatefulWidget {
     required this.listService,
     required this.old,
     required this.statusMessage,
-    required this.urlVideo,
+    this.urlVideo,
     this.senderBackground,
     this.senderTextColor,
     this.senderLinear,
+    this.local = false,
   });
 
   @override
@@ -72,19 +76,37 @@ class _SenderCardState extends State<SenderCard>
   bool hidden = false;
   late String dateTime;
   String? _thumbnailUrl;
+  Uint8List? _bytes;
+
+  String? _thumbnailFile;
+
+  Uint8List? _thumbnailData;
+
   void generateThumbnail() async {
     try {
+      print('lam thumbnail moi2');
+
       if (widget.urlVideo != null) {
-        print("*********");
-        print(widget.urlVideo);
-        if (widget.urlVideo.isNotEmpty) {
+        if (widget.local!) {
+          print('yyyyyyyyyy');
+          print(widget.urlVideo);
+
           _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-              video: Uri.parse(widget.urlVideo).toString(),
-              thumbnailPath: (await getTemporaryDirectory()).path,
-              imageFormat: ImageFormat.WEBP);
+            video: widget.urlVideo ?? '',
+            thumbnailPath: (await getTemporaryDirectory()).path,
+            imageFormat: ImageFormat.PNG,
+          );
+          print('yyyyyyyyyy');
+          print(_thumbnailUrl);
+        } else if (widget.urlVideo!.isNotEmpty) {
+          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+            video: Uri.parse(widget.urlVideo ?? '').toString(),
+            thumbnailPath: (await getTemporaryDirectory()).path,
+            imageFormat: ImageFormat.WEBP,
+          );
           // if (mounted)
-          setState(() {});
         }
+        setState(() {});
       }
     } catch (e) {
       print("Loi");
@@ -95,6 +117,7 @@ class _SenderCardState extends State<SenderCard>
   @override
   void initState() {
     super.initState();
+    print('lam thumbnail moi');
     generateThumbnail();
   }
 
@@ -123,7 +146,7 @@ class _SenderCardState extends State<SenderCard>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (widget.listImages.isEmpty &&
-                widget.urlVideo.isEmpty &&
+                widget.urlVideo == null &&
                 widget.listService.isEmpty &&
                 widget.listForm.isEmpty)
               MessageTime(
@@ -135,12 +158,12 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.listForm,
                 isLeft: false,
               ),
-              
             if (widget.listImages.isNotEmpty)
               MessageImage(
                 listImages: widget.listImages,
                 data: widget.data,
                 isLeft: false,
+                local: widget.local ?? false,
               ),
             if (widget.listService.isNotEmpty)
               MessageService(
@@ -152,18 +175,20 @@ class _SenderCardState extends State<SenderCard>
                 listFiles: widget.listFiles,
                 isLeft: false,
               ),
-            if (widget.urlVideo.isNotEmpty && _thumbnailUrl != null)
+            if (widget.urlVideo != null &&
+                (_thumbnailUrl != null || _bytes != null))
               MessageVideo(
-                urlVideo: widget.urlVideo,
+                urlVideo: widget.urlVideo ?? '',
                 isLeft: false,
                 thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
+                local: widget.local ?? false,
               ),
             if (widget.listForm.isEmpty &&
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
                 widget.listService.isEmpty &&
-                widget.urlVideo.isEmpty)
+                widget.urlVideo == null)
               MessageText(
                 background: widget.senderBackground,
                 textColor: widget.senderTextColor,

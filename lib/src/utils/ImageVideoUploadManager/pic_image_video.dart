@@ -114,7 +114,6 @@ class PickImagesUtils {
         });
       }
     } catch (e) {
-      print('*****************');
       print('Loi khi thao tac voi image_picker');
       print(e);
     }
@@ -188,7 +187,6 @@ class PickImagesUtils {
           return;
         }
 
-        //ios
         if ((Platform.isAndroid && permission.isGranted)) {
           imagePicker.pickMultiImage().then((files) {
             print('binary images');
@@ -364,18 +362,18 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: Color(0xFF24138A)))),
-                  // CupertinoActionSheetAction(
-                  //     onPressed: () async {
-                  //       takeVideoGallery(context,
-                  //           imagePicker: imagePicker,
-                  //           onResultVideoFromGallery: onResultVideoFromGallery);
-                  //       Navigator.of(context).pop();
-                  //     },
-                  //     child: Text(label_pick_video,
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .subTitle
-                  //             .copyWith(color: Color(0xFF24138A)))),
+                  CupertinoActionSheetAction(
+                      onPressed: () async {
+                        takeVideoGallery(context,
+                            imagePicker: imagePicker,
+                            onResultVideoFromGallery: onResultVideoFromGallery);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(label_pick_video,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subTitle
+                              .copyWith(color: Color(0xFF24138A)))),
                   // CupertinoActionSheetAction(
                   //     onPressed: () async {
                   //       recordVideo(context,

@@ -130,28 +130,10 @@ class _HomePageState extends State<HomePage> {
             print(listMessage.length);
           },
           listMessage: listMessage,
+          userInRoomChat: (Map<String, dynamic> value) {},
         ),
         loadMoreHistory: (p0) async {},
-        pressPickImage: (p0) async {
-          if (p0['list'].isNotEmpty) {
-            final List<FormImage> list = [];
-            for (final e in list_image) {
-              list.add(FormImage(image: e));
-            }
-            final i = FormData(key: 'form', valueImage: list);
-
-            addMessage(
-              SendMessageRequest(
-                type: 5,
-                linkPreview: '',
-                groupName: 'GR_1693357083059',
-                attachmentType: 'image',
-                username: 'Cardoctor1Driver',
-                originalMessage: json.encode(i.toMap()),
-              ),
-            );
-          }
-        },
+        pressPickImage: (p0) async {},
         pressPickFiles: (p0) async {
           if (p0['list'].isNotEmpty) {
             final List<FormFile> list = [];
@@ -181,7 +163,7 @@ class _HomePageState extends State<HomePage> {
         data: data,
         press: (value) {
           print("123");
-          addMessage(addMessage(dataSend[0]));
+          // addMessage(addMessage(dataSend[0]));
         },
         dataRoom: data,
         idSender: 'Cardoctor1Driver',
