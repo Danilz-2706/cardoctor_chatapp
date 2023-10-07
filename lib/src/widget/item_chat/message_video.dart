@@ -15,6 +15,7 @@ class MessageVideo extends StatefulWidget {
   final bool isLeft;
   final String thumbnailUrl;
   final SendMessageResponse data;
+  final bool local;
 
   const MessageVideo({
     Key? key,
@@ -22,6 +23,7 @@ class MessageVideo extends StatefulWidget {
     required this.isLeft,
     required this.thumbnailUrl,
     required this.data,
+    this.local = false,
   }) : super(key: key);
 
   @override

@@ -13,6 +13,7 @@ import '../../utils/utils.dart';
 import '../../widget/receiver_card.dart';
 import '../../widget/sender_card.dart';
 import '../contains.dart';
+import 'package:collection/collection.dart';
 
 class ListMessage extends StatefulWidget {
   final List<Map<String, dynamic>> listMessage;
@@ -138,12 +139,23 @@ class _ListMessageState extends State<ListMessage> {
                 typing = true;
               } else {
                 var x = SendMessageResponse.fromMap(json.decode(message));
-                listMessage.insert(0, x);
-                widget.userInRoomChat.call({
-                  'groupName': x.groupName,
-                  'username': x.username,
-                  'messageId': x.id,
-                });
+                if (x.id == null || x.username != widget.data.userIDReal) {
+                  listMessage.insert(0, x);
+                } else {
+                  var data = listMessage.firstWhereOrNull(
+                    (e) =>
+                        json.decode(e.originalMessage ?? '')['key'] ==
+                        json.decode(x.originalMessage ?? '')['key'],
+                  );
+
+                  if (data != null) {
+                    widget.userInRoomChat.call({
+                      'groupName': data.groupName,
+                      'username': data.username,
+                      'messageId': data.id,
+                    });
+                  }
+                }
               }
 
               setState(() {});
@@ -260,6 +272,7 @@ class _ListMessageState extends State<ListMessage> {
                               urlVideo: urlVideo,
                               old: old,
                               statusMessage: StatusMessage.sending,
+                              local: listMessage[index].id == null,
                             ),
                           );
                         }
@@ -317,6 +330,7 @@ class _ListMessageState extends State<ListMessage> {
                               listImages: images,
                               old: old,
                               statusMessage: StatusMessage.sending,
+                              local: listMessage[index].id == null,
                             ),
                           );
                         }
@@ -370,6 +384,7 @@ class _ListMessageState extends State<ListMessage> {
                               listImages: images,
                               old: old,
                               statusMessage: StatusMessage.sending,
+                              local: listMessage[index].id == null,
                             ),
                           );
                         }

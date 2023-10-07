@@ -105,29 +105,33 @@ class _InputChatAppState extends State<InputChatApp> {
                 imagePicker: picker,
                 onResultImagesFromGallery: (images) async {
                   try {
-                    var x =
-                        await Utils.onResultListMedia(context, images, true);
-                    print(x);
-                    print('ra ket qua');
-                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
-                      Utils.showToast(
-                        context,
-                        x['text'],
-                        type: ToastType.ERROR,
-                      );
-                    } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
-                      Utils.showToast(
-                        context,
-                        x['text'],
-                        type: ToastType.ERROR,
-                      );
-                    } else {
-                      var message = {
-                        'key': 'files',
-                        'list': images,
-                      };
-                      widget.pressPickImage(message);
-                    }
+                    // var x =
+                    //     await Utils.onResultListMedia(context, images, true);
+
+                    // if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                    //   Utils.showToast(
+                    //     context,
+                    //     x['text'],
+                    //     type: ToastType.ERROR,
+                    //   );
+                    // } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                    //   Utils.showToast(
+                    //     context,
+                    //     x['text'],
+                    //     type: ToastType.ERROR,
+                    //   );
+                    // } else {
+                    //   var message = {
+                    //     'key': 'files',
+                    //     'list': images,
+                    //   };
+                    //   widget.pressPickImage(message);
+                    // }
+                    var message = {
+                      'key': 'files',
+                      'list': images,
+                    };
+                    widget.pressPickImage(message);
                   } catch (e) {
                     print('dddd');
                   }
@@ -135,23 +139,28 @@ class _InputChatAppState extends State<InputChatApp> {
                 onResultVideoFromGallery: (file) async {
                   if (file != null) {
                     try {
-                      var x =
-                          await Utils.onResultListMedia(context, [file], true);
-                      print(x);
-                      print('ra ket qua');
-                      if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
-                        Utils.showToast(
-                          context,
-                          x['text'],
-                          type: ToastType.ERROR,
-                        );
-                      } else {
-                        var message = {
-                          'key': 'files',
-                          'list': [file],
-                        };
-                        widget.pressPickVideo(message);
-                      }
+                      // var x =
+                      //     await Utils.onResultListMedia(context, [file], true);
+                      // print(x);
+                      // print('ra ket qua');
+                      // if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      //   Utils.showToast(
+                      //     context,
+                      //     x['text'],
+                      //     type: ToastType.ERROR,
+                      //   );
+                      // } else {
+                      //   var message = {
+                      //     'key': 'files',
+                      //     'list': [file],
+                      //   };
+                      //   widget.pressPickVideo(message);
+                      // }
+                      var message = {
+                        'key': 'files',
+                        'list': file,
+                      };
+                      widget.pressPickVideo(message);
                     } catch (e) {
                       print('dddd');
                     }

@@ -248,15 +248,61 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 widget.pressPickFiles(p0);
               },
               pressPickImage: (p0) {
-                print('press to send Image');
-                print(p0);
+                var images = [];
+                for (var e in p0['list']) {
+                  var x = json.encode({
+                    'image': e.path,
+                  });
+                  images.add(x);
+                }
+                addMessage(
+                  {
+                    "id": null,
+                    "groupId": null,
+                    "userId": null,
+                    "profileName": "",
+                    "originalMessage":
+                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                    "filteredMessage":
+                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                    "attachmentType": "image",
+                    "attachment": null,
+                    "linkPreview": "",
+                    "username": widget.data.userIDReal,
+                    "groupName": widget.data.groupName,
+                    "type": 5,
+                    "createdAtStr": DateTime.now().toString(),
+                    "updatedAtStr": DateTime.now().toString(),
+                    "createdAt": DateTime.now().toString(),
+                    "updatedAt": DateTime.now().toString()
+                  },
+                );
                 widget.pressPickImage(p0);
-                // addMessage(SendMessageRequest.fromMap(p0));
               },
               dataRoom: widget.dataRoom,
               pressPickVideo: (p0) {
-                print('press to send Image');
-                print(p0);
+                addMessage(
+                  {
+                    "id": null,
+                    "groupId": null,
+                    "userId": null,
+                    "profileName": "",
+                    "originalMessage":
+                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(p0['list'].path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
+                    "filteredMessage":
+                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(p0['list'].path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
+                    "attachmentType": "image",
+                    "attachment": null,
+                    "linkPreview": "",
+                    "username": widget.data.userIDReal,
+                    "groupName": widget.data.groupName,
+                    "type": 7,
+                    "createdAtStr": DateTime.now().toString(),
+                    "updatedAtStr": DateTime.now().toString(),
+                    "createdAt": DateTime.now().toString(),
+                    "updatedAt": DateTime.now().toString()
+                  },
+                );
                 widget.pressPickVideo(p0);
               },
             ),

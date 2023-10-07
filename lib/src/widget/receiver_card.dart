@@ -56,8 +56,6 @@ class _ReceiverCardState extends State<ReceiverCard>
   void generateThumbnail() async {
     try {
       if (widget.urlVideo != null) {
-        print("*********");
-        print(widget.urlVideo);
         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
             video: Uri.parse(widget.urlVideo).toString(),
             thumbnailPath: (await getTemporaryDirectory()).path,
