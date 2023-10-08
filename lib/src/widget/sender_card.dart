@@ -41,13 +41,14 @@ class SenderCard extends StatefulWidget {
   final String? urlVideo;
 
   final bool old;
-  final String statusMessage;
+  final StatusMessage statusMessage;
   // final List<String>
 
   final Color? senderBackground;
   final Color? senderTextColor;
   final LinearGradient? senderLinear;
   final bool? local;
+  final bool newMessage;
 
   const SenderCard({
     super.key,
@@ -63,6 +64,7 @@ class SenderCard extends StatefulWidget {
     this.senderTextColor,
     this.senderLinear,
     this.local = false,
+    this.newMessage = false,
   });
 
   @override
@@ -142,7 +144,6 @@ class _SenderCardState extends State<SenderCard>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (widget.listImages.isEmpty &&
-                widget.urlVideo == null &&
                 widget.urlVideo == '' &&
                 widget.listService.isEmpty &&
                 widget.listForm.isEmpty)
@@ -161,6 +162,8 @@ class _SenderCardState extends State<SenderCard>
                 data: widget.data,
                 isLeft: false,
                 local: widget.local ?? false,
+                loading: widget.statusMessage == StatusMessage.sending ||
+                    widget.statusMessage == StatusMessage.error,
               ),
             if (widget.listService.isNotEmpty)
               MessageService(
@@ -171,10 +174,9 @@ class _SenderCardState extends State<SenderCard>
               MessageFile(
                 listFiles: widget.listFiles,
                 isLeft: false,
+                local: widget.local ?? false,
               ),
             if (widget.urlVideo != null && widget.urlVideo != '')
-              // &&
-              // _thumbnailUrl != null)
               MessageVideo(
                 urlVideo: widget.urlVideo ?? '',
                 isLeft: false,
@@ -186,7 +188,6 @@ class _SenderCardState extends State<SenderCard>
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
                 widget.listService.isEmpty &&
-                widget.urlVideo == null &&
                 widget.urlVideo == '')
               MessageText(
                 background: widget.senderBackground,
@@ -194,86 +195,92 @@ class _SenderCardState extends State<SenderCard>
                 linear: widget.senderLinear,
                 data: widget.data,
                 press: () {
-                  if (!widget.old) {
-                    setState(() {
-                      hidden ? hidden = false : hidden = true;
-                    });
-                  }
+                  setState(() {
+                    hidden ? hidden = false : hidden = true;
+                  });
                 },
                 isLeft: false,
               ),
           ],
         ),
-        if (widget.statusMessage == StatusMessage.sending.name)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: 12,
-                width: 12,
-                child: CircularProgressIndicator(
-                  color: Colors.green,
-                ),
-              ),
-              SizedBox(width: 2),
-            ],
-          ),
-        if (widget.statusMessage == StatusMessage.send.name)
-          Container(
-            alignment: Alignment.centerRight,
-            height: 12,
-            width: 12,
-            child: Image.asset(
-              'assets/imgs/ic_send.png',
-              package: Consts.packageName,
-            ),
-          ),
-        if (widget.statusMessage == StatusMessage.error.name)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Row(
+
+        const SizedBox(height: 4),
+        if (widget.newMessage || hidden)
+          if (widget.statusMessage == StatusMessage.sending)
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  alignment: Alignment.centerRight,
+              children: const [
+                SizedBox(
                   height: 12,
                   width: 12,
-                  child: Image.asset(
-                    'assets/imgs/ic_warning.png',
-                    package: Consts.packageName,
+                  child: CircularProgressIndicator(
+                    color: Colors.green,
                   ),
                 ),
-                SizedBox(width: 4),
-                Text(
-                  'Không thể gửi tin nhắn',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 12,
-                  ),
-                )
+                SizedBox(width: 2),
               ],
             ),
-          ),
-        if (widget.statusMessage == StatusMessage.seen.name)
-          Container(
-            alignment: Alignment.centerRight,
-            height: 14,
-            width: 14,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: CachedNetworkImage(
-                placeholder: (context, url) => SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: Image.network(noImageAvailable, fit: BoxFit.cover)),
-                errorWidget: (context, url, error) => SizedBox(
-                    height: 12,
-                    width: 12,
-                    child: Image.network(noImageAvailable, fit: BoxFit.cover)),
-                imageUrl: noImageAvailable,
+        if (widget.newMessage || hidden)
+          if (widget.statusMessage == StatusMessage.send)
+            Container(
+              alignment: Alignment.centerRight,
+              height: 12,
+              width: 12,
+              child: Image.asset(
+                'assets/imgs/ic_send.png',
+                package: Consts.packageName,
               ),
             ),
-          ),
+        if (widget.newMessage || hidden)
+          if (widget.statusMessage == StatusMessage.error)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    alignment: Alignment.centerRight,
+                    height: 12,
+                    width: 12,
+                    child: Image.asset(
+                      'assets/imgs/ic_warning.png',
+                      package: Consts.packageName,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'Không thể gửi tin nhắn',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  )
+                ],
+              ),
+            ),
+        if (widget.newMessage || hidden)
+          if (widget.statusMessage == StatusMessage.seen)
+            Container(
+              alignment: Alignment.centerRight,
+              height: 14,
+              width: 14,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => SizedBox(
+                      height: 12,
+                      width: 12,
+                      child:
+                          Image.network(noImageAvailable, fit: BoxFit.cover)),
+                  errorWidget: (context, url, error) => SizedBox(
+                      height: 12,
+                      width: 12,
+                      child:
+                          Image.network(noImageAvailable, fit: BoxFit.cover)),
+                  imageUrl: noImageAvailable,
+                ),
+              ),
+            ),
 
         // if (widget.old || hidden)
         //   Row(

@@ -14,9 +14,10 @@ class MessageImage extends StatelessWidget {
     required this.data,
     required this.isLeft,
     this.local = false,
+    this.loading = false,
   }) : super(key: key);
   final bool local;
-
+  final bool loading;
   final List<String> listImages;
   final SendMessageResponse data;
   final bool isLeft;
@@ -39,18 +40,20 @@ class MessageImage extends StatelessWidget {
             listImages.length,
             (index) {
               return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ImageChatScreen(
-                        local: local,
-                        id: key,
-                        url: listImages[index],
-                      ),
-                    ),
-                  );
-                },
+                onTap: loading
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ImageChatScreen(
+                              local: local,
+                              id: key,
+                              url: listImages[index],
+                            ),
+                          ),
+                        );
+                      },
                 child: Stack(
                   children: [
                     Hero(
@@ -114,7 +117,36 @@ class MessageImage extends StatelessWidget {
                               color: Color.fromRGBO(139, 141, 140, 1)),
                         ),
                       ),
-                    )
+                    ),
+                    if (loading)
+                      Positioned(
+                        right: 0,
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                        ),
+                      ),
+                    if (loading)
+                      Positioned(
+                        right: 0,
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               );

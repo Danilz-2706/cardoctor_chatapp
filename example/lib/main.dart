@@ -174,9 +174,30 @@ class _HomePageState extends State<HomePage> {
         nameTitle:
             'Testing chatTes Testing chatTesTesting chatTesTesting chatTesTesting chatTesTesting chatTes Testing chatTes',
         data: data,
-        press: (value) {
-          print("123");
-          // addMessage(addMessage(dataSend[0]));
+        press: (value) async {
+          await Future.delayed(Duration(seconds: 4));
+          addMessage(
+            {
+              "id": 123,
+              "groupId": null,
+              "userId": null,
+              "profileName": "",
+              "originalMessage": "${value['originalMessage']}",
+              "filteredMessage": "bng",
+              // "attachmentType": "${DateTime.now().millisecondsSinceEpoch}",
+              "attachmentType": "${value['attachmentType']}",
+
+              "attachment": null,
+              "linkPreview": "",
+              "username": 'Cardoctor1Driver',
+              "groupName": 'GR_1694157629801',
+              "type": null,
+              "createdAtStr": DateTime.now().toString(),
+              "updatedAtStr": DateTime.now().toString(),
+              "createdAt": DateTime.now().toString(),
+              "updatedAt": DateTime.now().toString()
+            },
+          );
         },
         dataRoom: data,
         idSender: 'Cardoctor1Driver',

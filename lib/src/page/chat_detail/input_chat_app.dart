@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -106,21 +107,33 @@ class _InputChatAppState extends State<InputChatApp> {
               PickImagesUtils.pickCameraOrRecordVideo(
                 context,
                 imagePicker: picker,
-                onResultImagesFromGallery: (images) async {
+                onResultImagesFromGallery: (file) async {
                   try {
-                    var x =
-                        await Utils.onResultListMedia(context, images, true);
+                    var x = await Utils.onResultListMedia(context, file, true);
 
                     if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
                       widget.errorGetFile.call(x);
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
                     } else {
-                      var message = {
-                        'key': 'files',
-                        'list': images,
-                      };
-                      widget.pressPickImage(message);
+                      var images = [];
+                      for (var e in file) {
+                        var x = json.encode({
+                          'image': e.path,
+                        });
+                        images.add(x);
+                      }
+                      var message = SendMessageRequest(
+                        originalMessage:
+                            "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                        attachmentType:
+                            '${DateTime.now().millisecondsSinceEpoch}',
+                        linkPreview: "",
+                        username: widget.idSender,
+                        groupName: widget.data.groupName,
+                        type: 5,
+                      );
+                      widget.pressPickImage(message.toMap());
                     }
                   } catch (e) {
                     if (kDebugMode) {
@@ -137,11 +150,18 @@ class _InputChatAppState extends State<InputChatApp> {
                       if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                         widget.errorGetFile.call(x);
                       } else {
-                        var message = {
-                          'key': 'files',
-                          'list': file,
-                        };
-                        widget.pressPickVideo(message);
+                        var message = SendMessageRequest(
+                          originalMessage:
+                              "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(file.path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
+                          attachmentType:
+                              '${DateTime.now().millisecondsSinceEpoch}',
+                          linkPreview: "",
+                          username: widget.idSender,
+                          groupName: widget.data.groupName,
+                          type: 7,
+                        );
+
+                        widget.pressPickVideo(message.toMap());
                       }
                     } catch (e) {
                       if (kDebugMode) {
@@ -160,11 +180,24 @@ class _InputChatAppState extends State<InputChatApp> {
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
                     } else {
-                      var message = {
-                        'key': 'files',
-                        'list': [file],
-                      };
-                      widget.pressPickImage(message);
+                      var images = [];
+                      for (var e in [file]) {
+                        var x = json.encode({
+                          'image': e.path,
+                        });
+                        images.add(x);
+                      }
+                      var message = SendMessageRequest(
+                        originalMessage:
+                            "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                        attachmentType:
+                            '${DateTime.now().millisecondsSinceEpoch}',
+                        linkPreview: "",
+                        username: widget.idSender,
+                        groupName: widget.data.groupName,
+                        type: 5,
+                      );
+                      widget.pressPickImage(message.toMap());
                     }
                   } catch (e) {
                     if (kDebugMode) {
@@ -203,11 +236,24 @@ class _InputChatAppState extends State<InputChatApp> {
           GestureDetector(
             onTap: () async {
               await getFile();
-              var message = {
-                'key': 'files',
-                'list': filesList,
-              };
-              widget.pressPickFiles(message);
+              var files = [];
+              for (var e in filesList) {
+                var x = json.encode({
+                  'url': e.path,
+                  'path': e.path,
+                });
+                files.add(x);
+              }
+              var message = SendMessageRequest(
+                originalMessage:
+                    "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":[],\"valueFiles\":$files,\"valueServices\":[]}",
+                attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
+                linkPreview: "",
+                username: widget.idSender,
+                groupName: widget.data.groupName,
+                type: 6,
+              );
+              widget.pressPickFiles(message.toMap());
             },
             child: SvgPicture.asset(
               'assets/imgs/link.svg',
@@ -268,7 +314,7 @@ class _InputChatAppState extends State<InputChatApp> {
               if (controller.text != '') {
                 var message = SendMessageRequest(
                   originalMessage: controller.text,
-                  attachmentType: '',
+                  attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
                   linkPreview: "",
                   username: widget.idSender,
                   groupName: widget.data.groupName,

@@ -242,31 +242,63 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     typing = false;
                   });
                 }
-
-                widget.press(p0);
-              },
-              pressPickFiles: (p0) {
-                widget.pressPickFiles(p0);
-              },
-              pressPickImage: (p0) {
-                var images = [];
-                for (var e in p0['list']) {
-                  var x = json.encode({
-                    'image': e.path,
-                  });
-                  images.add(x);
-                }
                 addMessage(
                   {
                     "id": null,
                     "groupId": null,
                     "userId": null,
                     "profileName": "",
-                    "originalMessage":
-                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
-                    "filteredMessage":
-                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
-                    "attachmentType": "image",
+                    "originalMessage": "${p0['originalMessage']}",
+                    "filteredMessage": "${p0['originalMessage']}",
+                    "attachmentType": "${p0['attachmentType']}",
+                    "attachment": null,
+                    "linkPreview": "",
+                    "username": widget.data.userIDReal,
+                    "groupName": widget.data.groupName,
+                    "type": null,
+                    "createdAtStr": DateTime.now().toString(),
+                    "updatedAtStr": DateTime.now().toString(),
+                    "createdAt": DateTime.now().toString(),
+                    "updatedAt": DateTime.now().toString()
+                  },
+                );
+
+                widget.press(p0);
+              },
+              pressPickFiles: (p0) {
+                addMessage(
+                  {
+                    "id": null,
+                    "groupId": null,
+                    "userId": null,
+                    "profileName": "",
+                    "originalMessage": "${p0['originalMessage']}",
+                    "filteredMessage": "${p0['originalMessage']}",
+                    "attachmentType": "${p0['attachmentType']}",
+                    // "attachmentType": "123",
+                    "attachment": null,
+                    "linkPreview": "",
+                    "username": widget.data.userIDReal,
+                    "groupName": widget.data.groupName,
+                    "type": 6,
+                    "createdAtStr": DateTime.now().toString(),
+                    "updatedAtStr": DateTime.now().toString(),
+                    "createdAt": DateTime.now().toString(),
+                    "updatedAt": DateTime.now().toString()
+                  },
+                );
+                widget.pressPickFiles(p0);
+              },
+              pressPickImage: (p0) {
+                addMessage(
+                  {
+                    "id": null,
+                    "groupId": null,
+                    "userId": null,
+                    "profileName": "",
+                    "originalMessage": "${p0['originalMessage']}",
+                    "filteredMessage": "${p0['originalMessage']}",
+                    "attachmentType": "${p0['attachmentType']}",
                     "attachment": null,
                     "linkPreview": "",
                     "username": widget.data.userIDReal,
@@ -288,11 +320,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     "groupId": null,
                     "userId": null,
                     "profileName": "",
-                    "originalMessage":
-                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(p0['list'].path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
-                    "filteredMessage":
-                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(p0['list'].path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
-                    "attachmentType": "image",
+                    "originalMessage": "${p0['originalMessage']}",
+                    "filteredMessage": "${p0['originalMessage']}",
+                    "attachmentType": "${p0['attachmentType']}",
                     "attachment": null,
                     "linkPreview": "",
                     "username": widget.data.userIDReal,

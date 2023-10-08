@@ -9,10 +9,12 @@ class MessageFile extends StatefulWidget {
     Key? key,
     required this.listFiles,
     required this.isLeft,
+    this.local = false,
   }) : super(key: key);
 
   final List<FormFile> listFiles;
   final bool isLeft;
+  final bool local;
 
   @override
   State<MessageFile> createState() => _MessageFileState();
@@ -35,21 +37,23 @@ class _MessageFileState extends State<MessageFile> {
             widget.listFiles.length,
             (index) {
               return InkWell(
-                onTap: process == true
-                    ? () {}
-                    : () async {
-                        await MobileDownloadService().download(
-                          url: widget.listFiles[index].url!,
-                          fileName: basename(widget.listFiles[index].path!),
-                          context: this.context,
-                          isOpenAfterDownload: true,
-                          downloading: (p0) {
-                            setState(() {
-                              process = p0;
-                            });
+                onTap: widget.local
+                    ? null
+                    : process == true
+                        ? () {}
+                        : () async {
+                            await MobileDownloadService().download(
+                              url: widget.listFiles[index].url!,
+                              fileName: basename(widget.listFiles[index].path!),
+                              context: this.context,
+                              isOpenAfterDownload: true,
+                              downloading: (p0) {
+                                setState(() {
+                                  process = p0;
+                                });
+                              },
+                            );
                           },
-                        );
-                      },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

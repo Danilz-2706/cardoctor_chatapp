@@ -143,19 +143,18 @@ class _ListMessageState extends State<ListMessage> {
                     (x.username != widget.data.userIDReal && x.id != null)) {
                   listMessage.insert(0, x);
                 } else {
-                  var data = listMessage.firstWhereOrNull(
-                    (e) =>
-                        json.decode(e.originalMessage ?? '')['key'] ==
-                        json.decode(x.originalMessage ?? '')['key'],
-                  );
-
-                  if (data != null) {
-                    widget.userInRoomChat.call({
-                      'groupName': data.groupName,
-                      'username': data.username,
-                      'messageId': data.id,
-                    });
+                  for (int i = 0; i < listMessage.length; i++) {
+                    if (listMessage[i].attachmentType == x.attachmentType) {
+                      listMessage[i] = x;
+                    }
                   }
+                }
+                if (x.id != null) {
+                  widget.userInRoomChat.call({
+                    'groupName': x.groupName,
+                    'username': x.username,
+                    'messageId': x.id,
+                  });
                 }
               }
               if (mounted) setState(() {});
@@ -271,7 +270,9 @@ class _ListMessageState extends State<ListMessage> {
                               listImages: images,
                               urlVideo: urlVideo,
                               old: old,
-                              statusMessage: StatusMessage.sending,
+                              statusMessage: listMessage[index].id == null
+                                  ? StatusMessage.sending
+                                  : StatusMessage.send,
                               local: listMessage[index].id == null,
                             ),
                           );
@@ -329,7 +330,9 @@ class _ListMessageState extends State<ListMessage> {
                               listForm: sample,
                               listImages: images,
                               old: old,
-                              statusMessage: StatusMessage.sending,
+                              statusMessage: listMessage[index].id == null
+                                  ? StatusMessage.sending
+                                  : StatusMessage.send,
                               local: listMessage[index].id == null,
                             ),
                           );
@@ -374,6 +377,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              newMessage: true,
                               listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
@@ -384,7 +388,9 @@ class _ListMessageState extends State<ListMessage> {
                               listForm: sample,
                               listImages: images,
                               old: old,
-                              statusMessage: StatusMessage.sending,
+                              statusMessage: listMessage[index].id == null
+                                  ? StatusMessage.sending
+                                  : StatusMessage.send,
                               local: listMessage[index].id == null,
                             ),
                           );
