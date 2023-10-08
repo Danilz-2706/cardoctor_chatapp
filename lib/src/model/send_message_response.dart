@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class 
-SendMessageResponse {
+class SendMessageResponse {
   int? id;
 
   int? groupId;
@@ -97,4 +96,9 @@ SendMessageResponse {
   }
 
   static fromJson(Map<String, dynamic> map) {}
+
+  @override
+  String toString() {
+    return 'SendMessageResponse(id: $id, groupId: $groupId, userId: $userId, profileName: $profileName, originalMessage: $originalMessage, filteredMessage: $filteredMessage, attachmentType: $attachmentType, attachment: $attachment, linkPreview: $linkPreview, username: $username, groupName: $groupName, type: $type, createdAtStr: $createdAtStr, updatedAtStr: $updatedAtStr)';
+  }
 }

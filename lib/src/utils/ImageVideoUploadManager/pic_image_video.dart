@@ -17,10 +17,10 @@ const int LIMIT_CHAT_VIDEO_IN_MB = 100;
 
 class PickImagesUtils {
   static String msg_open_image_setting =
-      "Làm ơn mở cài đặt ứng dụng và cho phép truy cập máy ảnh và bộ sưu tập.";
-  static String take_photo = "Chụp ảnh";
+      "Vui lòng cho phép ứng dụng truy cập vào bộ sưu tập và máy ảnh";
   static String open_gallery = "Chọn trong thư viện";
   static String cancel = "Huỷ";
+  static String take_photo = "Chụp ảnh";
   static String label_pick_image = "Chọn ảnh";
   static String label_pick_video = "Chọn video";
   static String label_record_video = "Quay video";
@@ -103,12 +103,8 @@ class PickImagesUtils {
         return;
       }
       if (permission.isGranted) {
-        print('vao chup anh');
-
         await imagePicker.pickImage(source: ImageSource.camera).then((file) {
           if (!isEmpty(file)) {
-            print('binary images');
-
             onResultImageFromCamera?.call(file!);
           }
         });
@@ -124,46 +120,65 @@ class PickImagesUtils {
     ValueChanged<XFile>? onResultRecordVideo,
     required ImagePicker imagePicker,
   }) async {
-    if (Platform.isIOS &&
-        (await Permission.camera.isPermanentlyDenied ||
-            await Permission.microphone.isPermanentlyDenied)) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
-          });
-      return;
-    }
-    var permissionCamera = await Permission.camera.request();
-    var permissionMicro = await Permission.microphone.request();
-    if (Platform.isAndroid &&
-        (permissionCamera.isPermanentlyDenied ||
-            permissionMicro.isPermanentlyDenied)) {
-      showPopupYesNoButton(
-          context: context,
-          contentText: msg_open_image_setting,
-          submitCallback: () {
-            openAppSettings();
-          });
-      return;
-    }
-    if (permissionCamera.isGranted && permissionMicro.isGranted) {
-      print('vao camera');
-      await imagePicker
-          .pickVideo(
-        source: ImageSource.camera,
-        maxDuration: const Duration(minutes: 1),
-        preferredCameraDevice: CameraDevice.rear,
-      )
-          .then((file) {
-        print('binary video');
+    try {
+      if (Platform.isIOS &&
+          (await Permission.camera.isPermanentlyDenied ||
+              await Permission.microphone.isPermanentlyDenied)) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      var permissionCamera = await Permission.camera.request();
+      var permissionMicro = await Permission.microphone.request();
+      var permissionStorage = await Permission.storage.request();
 
-        print(file);
-        if (!isEmpty(file)) {
-          onResultRecordVideo?.call(file!);
-        }
-      });
+      if (Platform.isAndroid &&
+          (permissionCamera.isPermanentlyDenied ||
+              permissionMicro.isPermanentlyDenied ||
+              permissionStorage.isPermanentlyDenied)) {
+        showPopupYesNoButton(
+            context: context,
+            contentText: msg_open_image_setting,
+            submitCallback: () {
+              openAppSettings();
+            });
+        return;
+      }
+      if (permissionCamera.isGranted &&
+          permissionMicro.isGranted &&
+          permissionStorage.isGranted) {
+        print('vao camera');
+
+        imagePicker.pickVideo(source: ImageSource.camera).then((file) {
+          print("ra gi day");
+          print(file);
+          if (!isEmpty(file)) {
+            onResultRecordVideo?.call(file!);
+          }
+        });
+
+        // var x = await imagePicker.pickVideo(
+        //   source: ImageSource.camera,
+        //   maxDuration: const Duration(minutes: 1),
+        //   // preferredCameraDevice: CameraDevice.rear,
+        // );
+
+        //     .then((file) {
+        //   print('binary video');
+
+        //   print(file);
+        //   if (!isEmpty(file)) {
+        //     onResultRecordVideo?.call(file!);
+        //   }
+        // });
+      }
+    } catch (e) {
+      print('bug');
+      print(e);
     }
   }
 
@@ -189,7 +204,6 @@ class PickImagesUtils {
 
         if ((Platform.isAndroid && permission.isGranted)) {
           imagePicker.pickMultiImage().then((files) {
-            print('binary images');
             onResultImagesFromGallery?.call(files);
           });
           return;
@@ -289,8 +303,6 @@ class PickImagesUtils {
                   source: ImageSource.gallery,
                   maxDuration: const Duration(minutes: 1))
               .then((files) {
-            print('binary images');
-
             onResultVideoFromGallery?.call(files);
           });
           return;
@@ -349,7 +361,7 @@ class PickImagesUtils {
                           style: Theme.of(context)
                               .textTheme
                               .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
+                              .copyWith(color: const Color(0xFF24138A)))),
                   CupertinoActionSheetAction(
                       onPressed: () async {
                         takePictureFromCamera(context,
@@ -361,7 +373,7 @@ class PickImagesUtils {
                           style: Theme.of(context)
                               .textTheme
                               .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
+                              .copyWith(color: const Color(0xFF24138A)))),
                   CupertinoActionSheetAction(
                       onPressed: () async {
                         takeVideoGallery(context,
@@ -373,7 +385,7 @@ class PickImagesUtils {
                           style: Theme.of(context)
                               .textTheme
                               .subTitle
-                              .copyWith(color: Color(0xFF24138A)))),
+                              .copyWith(color: const Color(0xFF24138A)))),
                   // CupertinoActionSheetAction(
                   //     onPressed: () async {
                   //       recordVideo(context,
@@ -385,7 +397,7 @@ class PickImagesUtils {
                   //         style: Theme.of(context)
                   //             .textTheme
                   //             .subTitle
-                  //             .copyWith(color: Color(0xFF24138A))))
+                  //             .copyWith(color: const Color(0xFF24138A))))
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {
@@ -434,7 +446,7 @@ class PickImagesUtils {
                 style: Theme.of(context)
                     .textTheme
                     .subTitle
-                    .copyWith(color: Color(0xFF0A0B09)),
+                    .copyWith(color: const Color(0xFF0A0B09)),
               ),
               actions: [
                 Row(

@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../page/contains.dart';
-import 'ImageVideoUploadManager/pic_image_video.dart';
-
 enum ToastType { SUCCESS, WARNING, ERROR, INFORM }
 
 class Utils {
@@ -113,56 +110,50 @@ class Utils {
 
   static void showToast(BuildContext context, String? text,
       {ToastType? type = ToastType.ERROR, bool? isPrefixIcon = true}) {
-    Color backgroundColor = Color(0xFFFEECEF);
-    Color iconColor = Color(0xFFF14C68);
-    Color textColor = Color(0xFF2D2D2D);
-
     onWidgetDidBuild(() {
-      print('vao day');
       FToast fToast = FToast();
       fToast.init(context);
       fToast.removeQueuedCustomToasts();
       Widget toast = Container(
-        width: 1,
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        padding: EdgeInsets.all(12),
+        width: MediaQuery.of(context).size.width * 0.8,
+        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8), color: backgroundColor),
+            borderRadius: BorderRadius.circular(16), color: Color(0xFFFFCACA)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             isPrefixIcon == true
-                ? Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Image.asset(
-                      'assets/imgs/ic_warning.png',
-                      height: 24,
-                      color: iconColor,
-                      package: Consts.packageName,
-                    ),
-                  )
-                : Container(),
+                ? Image.asset('assets/imgs/ic_warning.png',
+                    height: 20, width: 20)
+                : const SizedBox.shrink(),
             Expanded(
-              child: Text(text ?? "",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subTitle
-                      .copyWith(color: textColor)),
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 8,
+                ),
+                child: Text(text ?? '',
+                    style: Theme.of(context)
+                        .textTheme
+                        .body2Bold
+                        .copyWith(color: Color(0xFFFF0000))),
+              ),
             ),
           ],
         ),
       );
-
-      print('text');
+      print('text null ?');
       print(text);
-      if (text != null && text.isNotEmpty) {
-        fToast.showToast(
+
+      if (!Utils.isEmpty(text)) {
+        print('vao duoc day');
+        return fToast.showToast(
           child: toast,
           gravity: ToastGravity.TOP,
-          positionedToastBuilder: (_, child) {
+          positionedToastBuilder: (context, child) {
             return Positioned(
-              top: MediaQuery.of(_).padding.top,
+              top: MediaQuery.of(context).padding.top,
               left: 0,
               right: 0,
               child: child,
@@ -174,29 +165,66 @@ class Utils {
     });
   }
 
-  static Future<Map<String, dynamic>> onResultListMedia(
-      BuildContext context, List<XFile> images, bool isImage) async {
-    if (images.isEmpty) return {};
-    if (images.length > MAX_SEND_IMAGE_CHAT) {
-      return {
-        'type': 'MAX_SEND_IMAGE_CHAT',
-        'text':
-            'Chỉ được tải lên tối đa ${MAX_SEND_IMAGE_CHAT.toString()} ${isImage ? "ảnh" : "video"}!'
-      };
-    }
-    bool isValidSize = await PickImagesUtils.isValidSizeOfFiles(
-        files: images, limitSizeInMB: LIMIT_CHAT_IMAGES_IN_MB);
-    if (!isValidSize) {
-      return {
-        'type': 'LIMIT_CHAT_IMAGES_IN_MB',
-        'text': 'Tệp vượt quá giới hạn, xin vui lòng thử lại'
-      };
-    }
+  // static void showToast(BuildContext context, String? text,
+  //     {ToastType? type = ToastType.ERROR, bool? isPrefixIcon = true}) {
+  //   Color backgroundColor = Color(0xFFFEECEF);
+  //   Color iconColor = Color(0xFFF14C68);
+  //   Color textColor = Color(0xFF2D2D2D);
 
-    return {
-      'type': 'done',
-      'key': 'files',
-      'list': images,
-    };
-  }
+  //   onWidgetDidBuild(() {
+  //     print('vao day');
+  //     FToast fToast = FToast();
+  //     fToast.init(context);
+  //     fToast.removeQueuedCustomToasts();
+  //     Widget toast = Container(
+  //       width: 1,
+  //       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+  //       padding: EdgeInsets.all(12),
+  //       decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(8), color: backgroundColor),
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.min,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           isPrefixIcon == true
+  //               ? Container(
+  //                   margin: EdgeInsets.only(right: 10),
+  //                   child: Image.asset(
+  //                     'assets/imgs/ic_warning.png',
+  //                     height: 24,
+  //                     color: iconColor,
+  //                     // package: Consts.packageName,
+  //                   ),
+  //                 )
+  //               : Container(),
+  //           Expanded(
+  //             child: Text(text ?? "",
+  //                 style: Theme.of(context)
+  //                     .textTheme
+  //                     .subTitle
+  //                     .copyWith(color: textColor)),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+
+  //     print('text');
+  //     print(text);
+  //     if (text != null && text.isNotEmpty) {
+  //       fToast.showToast(
+  //         child: toast,
+  //         gravity: ToastGravity.TOP,
+  //         positionedToastBuilder: (_, child) {
+  //           return Positioned(
+  //             top: MediaQuery.of(_).padding.top,
+  //             left: 0,
+  //             right: 0,
+  //             child: child,
+  //           );
+  //         },
+  //         toastDuration: const Duration(seconds: 3),
+  //       );
+  //     }
+  //   });
+  // }
 }

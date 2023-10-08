@@ -25,7 +25,8 @@ dependencies:
   gallery_saver: ^2.3.2
   google_fonts: ^3.0.1
   holding_gesture: 1.1.0
-  image_picker: ^0.8.7+5
+  image_picker: 1.0.2
+  # image_picker: ^0.8.7+5
   intl: ^0.18.0
   path: ^1.8.2
   fluttertoast: ^8.1.2

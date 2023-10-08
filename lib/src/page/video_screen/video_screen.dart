@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -6,9 +8,10 @@ import 'package:video_player/video_player.dart';
 import '../../utils/DownloadManager/download_all_file_type.dart';
 
 class VideoScreen extends StatefulWidget {
-  // final String id;
+  final bool local;
+
   final String url;
-  const VideoScreen({super.key, required this.url});
+  const VideoScreen({super.key, required this.url, this.local = false});
 
   @override
   State<VideoScreen> createState() => _VideoScreenState();
@@ -23,12 +26,18 @@ class _VideoScreenState extends State<VideoScreen>
   void initState() {
     super.initState();
     if (widget.url.isNotEmpty) {
-      _videoController = VideoPlayerController.networkUrl(Uri.parse(widget.url))
-        ..initialize().then((_) {
-          var duration = _videoController.value.duration;
-
-          setState(() {});
-        });
+      if (widget.local) {
+        _videoController = VideoPlayerController.file(File(widget.url))
+          ..initialize().then((_) {
+            setState(() {});
+          });
+      } else {
+        _videoController =
+            VideoPlayerController.networkUrl(Uri.parse(widget.url))
+              ..initialize().then((_) {
+                setState(() {});
+              });
+      }
       _videoController.addListener(() {
         if (_videoController.value.position ==
             _videoController.value.duration) {
@@ -57,9 +66,11 @@ class _VideoScreenState extends State<VideoScreen>
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Center(
-                child: _videoController.value.isInitialized
-                    ? AspectRatio(
+              _videoController.value.isInitialized
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: AspectRatio(
+                        // aspectRatio: 16 / 9,
                         aspectRatio: _videoController.value.aspectRatio,
                         child: GestureDetector(
                           onTap: () {
@@ -89,9 +100,11 @@ class _VideoScreenState extends State<VideoScreen>
                             ],
                           ),
                         ),
-                      )
-                    : CircularProgressIndicator(),
-              ),
+                      ),
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator()),
               Positioned(
                 top: 0,
                 right: 0,
@@ -142,20 +155,21 @@ class _VideoScreenState extends State<VideoScreen>
               ),
               if (process)
                 Positioned(
-                    top: 0,
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    child: Container(
-                      color: Color.fromARGB(95, 139, 139, 139),
-                      child: const Center(
-                        child: SizedBox(
-                          height: 50,
-                          width: 50,
-                          child: CircularProgressIndicator(),
-                        ),
+                  top: 0,
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Container(
+                    color: const Color.fromARGB(95, 139, 139, 139),
+                    child: const Center(
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(),
                       ),
-                    ))
+                    ),
+                  ),
+                )
             ],
           ),
         ),

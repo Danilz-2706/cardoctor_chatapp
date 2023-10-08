@@ -44,6 +44,7 @@ class MessageImage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => ImageChatScreen(
+                        local: local,
                         id: key,
                         url: listImages[index],
                       ),
