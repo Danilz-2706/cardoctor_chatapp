@@ -50,7 +50,6 @@ class ListMessage extends StatefulWidget {
 }
 
 class _ListMessageState extends State<ListMessage> {
-  bool typing = false;
   final ScrollController _defaultScrollController = ScrollController();
 
   ScrollController get _scrollController =>
@@ -74,15 +73,19 @@ class _ListMessageState extends State<ListMessage> {
       if (_scrollController.offset ==
           _scrollController.position.minScrollExtent) {
         if (_isVisible) {
-          setState(() {
-            _isVisible = false;
-          });
+          if (mounted) {
+            setState(() {
+              _isVisible = false;
+            });
+          }
         }
       } else {
         if (!_isVisible) {
-          setState(() {
-            _isVisible = true;
-          });
+          if (mounted) {
+            setState(() {
+              _isVisible = true;
+            });
+          }
         }
       }
       if (_scrollController.position.maxScrollExtent ==
@@ -93,9 +96,11 @@ class _ListMessageState extends State<ListMessage> {
         var listMessageOld = widget.listMessageLoadMore
             .map((map) => SendMessageResponse.fromMap(map))
             .toList();
-        setState(() {
-          listMessage.addAll(listMessageOld);
-        });
+        if (mounted) {
+          setState(() {
+            listMessage.addAll(listMessageOld);
+          });
+        }
         _loadMoreCompleter!.complete();
       }
     }
@@ -130,16 +135,12 @@ class _ListMessageState extends State<ListMessage> {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
-              print("data get");
-              print(message);
               var x = json.decode(message);
               if (x['typing'] != null) {
-                print("typing");
-                print(message);
-                typing = true;
               } else {
                 var x = SendMessageResponse.fromMap(json.decode(message));
-                if (x.id == null || x.username != widget.data.userIDReal) {
+                if ((x.id == null && x.username == widget.data.userIDReal) ||
+                    (x.username != widget.data.userIDReal && x.id != null)) {
                   listMessage.insert(0, x);
                 } else {
                   var data = listMessage.firstWhereOrNull(
@@ -157,8 +158,7 @@ class _ListMessageState extends State<ListMessage> {
                   }
                 }
               }
-
-              setState(() {});
+              if (mounted) setState(() {});
             },
             cancelOnError: true,
             onError: (error) {
@@ -370,6 +370,7 @@ class _ListMessageState extends State<ListMessage> {
                               sampleServices.add(e);
                             }
                           }
+
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:example/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:cardoctor_chatapp/cardoctor_chatapp.dart';
 
@@ -75,6 +76,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // List<Map<String, dynamic>> listMessage = [];
     List<Map<String, dynamic>> listMessage = dataSend;
 
     ChatAppCarDoctorUtilOption data = ChatAppCarDoctorUtilOption(
@@ -86,12 +88,26 @@ class _HomePageState extends State<HomePage> {
         userIDReal: 'Cardoctor1Driver');
     return SafeArea(
       child: ChatDetailScreen(
+        errorGetFile: (p0) {
+          if (p0['type'] == 'MAX_SEND_IMAGE_CHAT') {
+            setState(() {
+              Utils.showToast(
+                context,
+                p0['text'],
+                type: ToastType.ERROR,
+              );
+            });
+          } else if (p0['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+            Utils.showToast(
+              context,
+              p0['text'],
+              type: ToastType.ERROR,
+            );
+          }
+        },
         pressCallAudio: () {},
         pressCallVideo: () {},
-        pressPickVideo: (p0) {
-          print('object');
-          print(p0);
-        },
+        pressPickVideo: (p0) {},
         color: Color(0xFF2E72BA),
         typingChat: Container(
           height: 28,
@@ -120,14 +136,11 @@ class _HomePageState extends State<HomePage> {
           listMessageLoadMore: [],
           data: data,
           loadMoreHistory: (p0) {
-            print('data load more');
-            print(listMessage.length);
-
-            setState(() {
-              listMessage.add(listMessage[2]);
-            });
-            print('data load more');
-            print(listMessage.length);
+            if (mounted) {
+              setState(() {
+                listMessage.add(listMessage[2]);
+              });
+            }
           },
           listMessage: listMessage,
           userInRoomChat: (Map<String, dynamic> value) {},

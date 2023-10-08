@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:cardoctor_chatapp/src/utils/custom_theme.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +20,7 @@ class InputChatApp extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickVideo;
   final Function(Map<String, dynamic>) pressPickFiles;
+  final Function(Map<String, dynamic>) errorGetFile;
   final ChatAppCarDoctorUtilOption data;
   final Function(Map<String, dynamic>) typing;
   final Color? color;
@@ -34,7 +36,8 @@ class InputChatApp extends StatefulWidget {
       required this.typing,
       this.dataRoom,
       required this.idSender,
-      this.color});
+      this.color,
+      required this.errorGetFile});
 
   @override
   State<InputChatApp> createState() => _InputChatAppState();
@@ -105,87 +108,85 @@ class _InputChatAppState extends State<InputChatApp> {
                 imagePicker: picker,
                 onResultImagesFromGallery: (images) async {
                   try {
-                    // var x =
-                    //     await Utils.onResultListMedia(context, images, true);
+                    var x =
+                        await Utils.onResultListMedia(context, images, true);
 
-                    // if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
-                    //   Utils.showToast(
-                    //     context,
-                    //     x['text'],
-                    //     type: ToastType.ERROR,
-                    //   );
-                    // } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
-                    //   Utils.showToast(
-                    //     context,
-                    //     x['text'],
-                    //     type: ToastType.ERROR,
-                    //   );
-                    // } else {
-                    //   var message = {
-                    //     'key': 'files',
-                    //     'list': images,
-                    //   };
-                    //   widget.pressPickImage(message);
-                    // }
-                    var message = {
-                      'key': 'files',
-                      'list': images,
-                    };
-                    widget.pressPickImage(message);
+                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                      widget.errorGetFile.call(x);
+                    } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      widget.errorGetFile.call({'type': x['type']});
+                    } else {
+                      var message = {
+                        'key': 'files',
+                        'list': images,
+                      };
+                      widget.pressPickImage(message);
+                    }
                   } catch (e) {
-                    print('dddd');
+                    if (kDebugMode) {
+                      print('Bug - pick images');
+                      print(e);
+                    }
                   }
                 },
                 onResultVideoFromGallery: (file) async {
                   if (file != null) {
                     try {
-                      // var x =
-                      //     await Utils.onResultListMedia(context, [file], true);
-                      // print(x);
-                      // print('ra ket qua');
-                      // if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
-                      //   Utils.showToast(
-                      //     context,
-                      //     x['text'],
-                      //     type: ToastType.ERROR,
-                      //   );
-                      // } else {
-                      //   var message = {
-                      //     'key': 'files',
-                      //     'list': [file],
-                      //   };
-                      //   widget.pressPickVideo(message);
-                      // }
+                      var x =
+                          await Utils.onResultListMedia(context, [file], true);
+                      if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                        widget.errorGetFile.call(x);
+                      } else {
+                        var message = {
+                          'key': 'files',
+                          'list': file,
+                        };
+                        widget.pressPickVideo(message);
+                      }
+                    } catch (e) {
+                      if (kDebugMode) {
+                        print('Bug - pick videos');
+                        print(e);
+                      }
+                    }
+                  }
+                },
+                onResultImageFromCamera: (file) async {
+                  try {
+                    var x =
+                        await Utils.onResultListMedia(context, [file], true);
+                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                      widget.errorGetFile.call(x);
+                    } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      widget.errorGetFile.call({'type': x['type']});
+                    } else {
+                      var message = {
+                        'key': 'files',
+                        'list': [file],
+                      };
+                      widget.pressPickImage(message);
+                    }
+                  } catch (e) {
+                    if (kDebugMode) {
+                      print('Bug - pick images - camera');
+                      print(e);
+                    }
+                  }
+                },
+                onResultRecordVideo: (file) async {
+                  if (file != null) {
+                    var x =
+                        await Utils.onResultListMedia(context, [file], true);
+                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                    } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      widget.errorGetFile.call({'type': x['type']});
+                    } else {
                       var message = {
                         'key': 'files',
                         'list': file,
                       };
                       widget.pressPickVideo(message);
-                    } catch (e) {
-                      print('dddd');
                     }
-                  }
-                },
-                onResultImageFromCamera: (file) async {
-                  if (file != null) {
-                    print('Hinh dc chup');
-                    print(file);
-                    var message = {
-                      'key': 'files',
-                      'list': [file],
-                    };
-                    widget.pressPickImage(message);
-                  }
-                },
-                onResultRecordVideo: (file) async {
-                  if (file != null) {
-                    print('Video dc chup');
-                    print(file);
-                    var message = {
-                      'key': 'files',
-                      'list': [file],
-                    };
-                    widget.pressPickVideo(message);
                   }
                 },
               );
@@ -278,11 +279,12 @@ class _InputChatAppState extends State<InputChatApp> {
                 });
 
                 widget.press(message.toMap());
-
-                setState(() {
-                  controller.text = '';
-                  controller.clear();
-                });
+                if (mounted) {
+                  setState(() {
+                    controller.text = '';
+                    controller.clear();
+                  });
+                }
               }
             },
             child: SvgPicture.asset(

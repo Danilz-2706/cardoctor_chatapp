@@ -71,54 +71,50 @@ class SenderCard extends StatefulWidget {
 
 class _SenderCardState extends State<SenderCard>
     with AutomaticKeepAliveClientMixin {
-  // List<FormItem> listForm = [];
   bool process = false;
   bool hidden = false;
   late String dateTime;
-  String? _thumbnailUrl;
-  Uint8List? _bytes;
+  // String? _thumbnailUrl;
 
-  String? _thumbnailFile;
+  // void generateThumbnail() async {
+  //   try {
+  //     print('lam thumbnail moi2');
+  //     print(widget.urlVideo);
 
-  Uint8List? _thumbnailData;
+  //     if (widget.urlVideo != null && widget.urlVideo != '') {
+  //       if (widget.local!) {
+  //         print('yyyyyyyyyy');
+  //         print(widget.urlVideo);
 
-  void generateThumbnail() async {
-    try {
-      print('lam thumbnail moi2');
-
-      if (widget.urlVideo != null) {
-        if (widget.local!) {
-          print('yyyyyyyyyy');
-          print(widget.urlVideo);
-
-          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-            video: widget.urlVideo ?? '',
-            thumbnailPath: (await getTemporaryDirectory()).path,
-            imageFormat: ImageFormat.PNG,
-          );
-          print('yyyyyyyyyy');
-          print(_thumbnailUrl);
-        } else if (widget.urlVideo!.isNotEmpty) {
-          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-            video: Uri.parse(widget.urlVideo ?? '').toString(),
-            thumbnailPath: (await getTemporaryDirectory()).path,
-            imageFormat: ImageFormat.WEBP,
-          );
-          // if (mounted)
-        }
-        setState(() {});
-      }
-    } catch (e) {
-      print("Loi");
-      print(e);
-    }
-  }
+  //         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+  //           video: widget.urlVideo ?? '',
+  //           thumbnailPath: (await getTemporaryDirectory()).path,
+  //           imageFormat: ImageFormat.PNG,
+  //         );
+  //         print('yyyyyyyyyy');
+  //         print(_thumbnailUrl);
+  //       } else if (widget.urlVideo!.isNotEmpty) {
+  //         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+  //           video: Uri.parse(widget.urlVideo ?? '').toString(),
+  //           thumbnailPath: (await getTemporaryDirectory()).path,
+  //           imageFormat: ImageFormat.WEBP,
+  //         );
+  //         // if (mounted)
+  //       }
+  //       setState(() {});
+  //       // if (mounted) setState(() {});
+  //     }
+  //   } catch (e) {
+  //     print("Loi");
+  //     print(e);
+  //   }
+  // }
 
   @override
   void initState() {
+    // generateThumbnail();
     super.initState();
-    print('lam thumbnail moi');
-    generateThumbnail();
+    // WidgetsBinding.instance.addPostFrameCallback((_) => generateThumbnail());
   }
 
   final String noImageAvailable =
@@ -147,6 +143,7 @@ class _SenderCardState extends State<SenderCard>
           children: [
             if (widget.listImages.isEmpty &&
                 widget.urlVideo == null &&
+                widget.urlVideo == '' &&
                 widget.listService.isEmpty &&
                 widget.listForm.isEmpty)
               MessageTime(
@@ -175,12 +172,13 @@ class _SenderCardState extends State<SenderCard>
                 listFiles: widget.listFiles,
                 isLeft: false,
               ),
-            if (widget.urlVideo != null &&
-                (_thumbnailUrl != null || _bytes != null))
+            if (widget.urlVideo != null && widget.urlVideo != '')
+              // &&
+              // _thumbnailUrl != null)
               MessageVideo(
                 urlVideo: widget.urlVideo ?? '',
                 isLeft: false,
-                thumbnailUrl: _thumbnailUrl ?? '',
+                // thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
                 local: widget.local ?? false,
               ),
@@ -188,7 +186,8 @@ class _SenderCardState extends State<SenderCard>
                 widget.listImages.isEmpty &&
                 widget.listFiles.isEmpty &&
                 widget.listService.isEmpty &&
-                widget.urlVideo == null)
+                widget.urlVideo == null &&
+                widget.urlVideo == '')
               MessageText(
                 background: widget.senderBackground,
                 textColor: widget.senderTextColor,
@@ -299,7 +298,6 @@ class _SenderCardState extends State<SenderCard>
       DateTime now = DateTime.now();
       Duration difference =
           now.difference(DateTime(date.year, date.month, date.day));
-
       if (difference.inDays == 0) {
         return "today";
       } else if (difference.inDays == 1) {

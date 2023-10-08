@@ -13,7 +13,7 @@ import '../../model/send_message_response.dart';
 class MessageVideo extends StatefulWidget {
   final String urlVideo;
   final bool isLeft;
-  final String thumbnailUrl;
+  // final String thumbnailUrl;
   final SendMessageResponse data;
   final bool local;
 
@@ -21,7 +21,7 @@ class MessageVideo extends StatefulWidget {
     Key? key,
     required this.urlVideo,
     required this.isLeft,
-    required this.thumbnailUrl,
+    // required this.thumbnailUrl,
     required this.data,
     this.local = false,
   }) : super(key: key);
@@ -32,10 +32,46 @@ class MessageVideo extends StatefulWidget {
 
 class _MessageVideoState extends State<MessageVideo> {
   String formattedDuration = '';
+  String? _thumbnailUrl;
+
+  void generateThumbnail() async {
+    try {
+      print('lam thumbnail moi2');
+      print(widget.urlVideo);
+
+      if (widget.urlVideo != null && widget.urlVideo != '') {
+        if (widget.local!) {
+          print('yyyyyyyyyy');
+          print(widget.urlVideo);
+
+          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+            video: widget.urlVideo ?? '',
+            thumbnailPath: (await getTemporaryDirectory()).path,
+            imageFormat: ImageFormat.PNG,
+          );
+          print('yyyyyyyyyy');
+          print(_thumbnailUrl);
+        } else if (widget.urlVideo!.isNotEmpty) {
+          _thumbnailUrl = await VideoThumbnail.thumbnailFile(
+            video: Uri.parse(widget.urlVideo ?? '').toString(),
+            thumbnailPath: (await getTemporaryDirectory()).path,
+            imageFormat: ImageFormat.WEBP,
+          );
+          // if (mounted)
+        }
+        setState(() {});
+        // if (mounted) setState(() {});
+      }
+    } catch (e) {
+      print("Loi");
+      print(e);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    generateThumbnail();
   }
 
   @override
@@ -47,7 +83,7 @@ class _MessageVideoState extends State<MessageVideo> {
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 100),
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.65,
-          child: widget.thumbnailUrl != null
+          child: _thumbnailUrl != null
               ? AspectRatio(
                   aspectRatio: 16 / 9,
                   child: GestureDetector(
@@ -68,7 +104,12 @@ class _MessageVideoState extends State<MessageVideo> {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(16),
                           ),
-                          child: Image.file(File(widget.thumbnailUrl)),
+                          child: Center(
+                            child: Image.file(
+                              File(_thumbnailUrl ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         // if (!_videoController.value.isPlaying)
                         Container(

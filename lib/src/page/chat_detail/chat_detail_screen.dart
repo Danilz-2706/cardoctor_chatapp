@@ -44,6 +44,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickImage;
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) pressPickVideo;
+  final Function(Map<String, dynamic>) errorGetFile;
+
   final VoidCallback pressCallAudio;
   final VoidCallback pressCallVideo;
 
@@ -73,6 +75,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressPickVideo,
     required this.pressCallAudio,
     required this.pressCallVideo,
+    required this.errorGetFile,
   }) : super(key: key);
 
   @override
@@ -113,22 +116,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             (message) {
               var x = json.decode(message);
               if (x['typing'] != null) {
-                print("typing");
-                print(message);
                 if (x['id'] != widget.idSender) {
                   typing = x['typing'];
                 } else {
-                  print('aaaa');
+                  print('bug in typing - package chat app');
                 }
               }
-
-              setState(() {});
+              if (mounted) {
+                setState(() {});
+              }
             },
             cancelOnError: true,
             onError: (error) {
               if (kDebugMode) {
                 print('loi ket noi socket');
-
                 print(error);
               }
             },
@@ -225,6 +226,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             if (typing) widget.typingChat,
             const SizedBox(height: 8),
             InputChatApp(
+              errorGetFile: (p0) {
+                widget.errorGetFile.call(p0);
+              },
               color: widget.color,
               typing: (p0) {
                 widget.typing(p0);
@@ -233,18 +237,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               data: widget.data,
               idSender: widget.idSender,
               press: (p0) {
-                print('press to send Text');
-                print(p0);
-                setState(() {
-                  typing = false;
-                });
-                print(typing);
+                if (mounted) {
+                  setState(() {
+                    typing = false;
+                  });
+                }
 
                 widget.press(p0);
               },
               pressPickFiles: (p0) {
-                print('press to send Files');
-                print(p0);
                 widget.pressPickFiles(p0);
               },
               pressPickImage: (p0) {

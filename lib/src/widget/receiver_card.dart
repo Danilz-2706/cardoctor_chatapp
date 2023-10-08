@@ -192,7 +192,7 @@ class _ReceiverCardState extends State<ReceiverCard>
               MessageVideo(
                 urlVideo: widget.urlVideo,
                 isLeft: true,
-                thumbnailUrl: _thumbnailUrl ?? '',
+                // thumbnailUrl: _thumbnailUrl ?? '',
                 data: widget.data,
               ),
             const SizedBox(width: 8),

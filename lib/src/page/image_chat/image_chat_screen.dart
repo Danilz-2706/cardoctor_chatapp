@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -6,8 +8,10 @@ import '../../utils/DownloadManager/download_all_file_type.dart';
 
 class ImageChatScreen extends StatefulWidget {
   final String id;
+  final bool local;
   final String url;
-  const ImageChatScreen({super.key, required this.id, required this.url});
+  const ImageChatScreen(
+      {super.key, required this.id, required this.url, this.local = false});
 
   @override
   State<ImageChatScreen> createState() => _ImageChatScreenState();
@@ -84,33 +88,43 @@ class _ImageChatScreenState extends State<ImageChatScreen>
                   child: InteractiveViewer(
                     transformationController: controller,
                     scaleEnabled: true,
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) => SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: const CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) => SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: const Icon(Icons.error),
-                      ),
-                      imageUrl: widget.url,
-                      imageBuilder: (context, imageProvider) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: const [],
-                            image: DecorationImage(
-                              onError: (exception, stackTrace) {},
-                              isAntiAlias: true,
-                              image: imageProvider,
+                    child: widget.local
+                        ? SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Image.file(
+                              File(widget.url),
+                              width: MediaQuery.of(context).size.width * 0.4,
                               fit: BoxFit.contain,
                             ),
+                          )
+                        : CachedNetworkImage(
+                            placeholder: (context, url) => SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: const CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) => SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: const Icon(Icons.error),
+                            ),
+                            imageUrl: widget.url,
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: const [],
+                                  image: DecorationImage(
+                                    onError: (exception, stackTrace) {},
+                                    isAntiAlias: true,
+                                    image: imageProvider,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ),
               ),
