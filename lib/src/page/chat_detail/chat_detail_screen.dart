@@ -180,6 +180,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             Expanded(
               child: Text(
                 widget.nameTitle ?? '',
+                maxLines: 2,
+                overflow: null,
                 style: GoogleFonts.inter(
                     color: const Color(0xFF0A0B09),
                     fontSize: 16,

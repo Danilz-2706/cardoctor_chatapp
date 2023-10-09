@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
           }
         },
         nameTitle:
-            'Testing chatTes Testing chatTesTesting chatTesTesting chatTesTesting chatTesTesting chatTes Testing chatTes',
+            '57bf11111 - Garage Ô Tô Hải Phương',
         data: data,
         press: (value) async {
           await Future.delayed(Duration(seconds: 4));
