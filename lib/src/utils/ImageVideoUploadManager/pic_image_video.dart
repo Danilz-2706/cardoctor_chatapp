@@ -309,6 +309,7 @@ class PickImagesUtils {
         }
       }
     } else if (Platform.isIOS) {
+      final permission = await Permission.storage.request();
       if (Platform.isIOS &&
           (await Permission.videos.isPermanentlyDenied ||
               await Permission.videos.isPermanentlyDenied)) {

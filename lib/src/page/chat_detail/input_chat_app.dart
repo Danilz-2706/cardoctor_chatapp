@@ -111,7 +111,10 @@ class _InputChatAppState extends State<InputChatApp> {
                   try {
                     var x = await Utils.onResultListMedia(context, file, true);
 
-                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                    if(x['empty']=='EMPTY'){
+
+                    }
+                    else if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
                       widget.errorGetFile.call(x);
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
@@ -123,17 +126,20 @@ class _InputChatAppState extends State<InputChatApp> {
                         });
                         images.add(x);
                       }
-                      var message = SendMessageRequest(
-                        originalMessage:
-                            "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
-                        attachmentType:
-                            '${DateTime.now().millisecondsSinceEpoch}',
-                        linkPreview: "",
-                        username: widget.idSender,
-                        groupName: widget.data.groupName,
-                        type: 5,
-                      );
-                      widget.pressPickImage(message.toMap());
+                      if(images.isNotEmpty){
+                        var message = SendMessageRequest(
+                          originalMessage:
+                          "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                          attachmentType:
+                          '${DateTime.now().millisecondsSinceEpoch}',
+                          linkPreview: "",
+                          username: widget.idSender,
+                          groupName: widget.data.groupName,
+                          type: 5,
+                        );
+                        widget.pressPickImage(message.toMap());
+                      }
+
                     }
                   } catch (e) {
                     if (kDebugMode) {
@@ -147,20 +153,22 @@ class _InputChatAppState extends State<InputChatApp> {
                     try {
                       var x =
                           await Utils.onResultListMedia(context, [file], true);
-                      if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
+                      if(x['empty']=='EMPTY'){
+
+                      }
+                      else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                         widget.errorGetFile.call(x);
                       } else {
                         var message = SendMessageRequest(
                           originalMessage:
-                              "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(file.path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
+                          "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(file.path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
                           attachmentType:
-                              '${DateTime.now().millisecondsSinceEpoch}',
+                          '${DateTime.now().millisecondsSinceEpoch}',
                           linkPreview: "",
                           username: widget.idSender,
                           groupName: widget.data.groupName,
                           type: 7,
                         );
-
                         widget.pressPickVideo(message.toMap());
                       }
                     } catch (e) {
@@ -175,7 +183,10 @@ class _InputChatAppState extends State<InputChatApp> {
                   try {
                     var x =
                         await Utils.onResultListMedia(context, [file], true);
-                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                    if(x['empty']=='EMPTY'){
+
+                    }
+                    else if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
                       widget.errorGetFile.call(x);
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
@@ -187,17 +198,20 @@ class _InputChatAppState extends State<InputChatApp> {
                         });
                         images.add(x);
                       }
-                      var message = SendMessageRequest(
-                        originalMessage:
-                            "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
-                        attachmentType:
-                            '${DateTime.now().millisecondsSinceEpoch}',
-                        linkPreview: "",
-                        username: widget.idSender,
-                        groupName: widget.data.groupName,
-                        type: 5,
-                      );
-                      widget.pressPickImage(message.toMap());
+                      if(images.isNotEmpty){
+                        var message = SendMessageRequest(
+                          originalMessage:
+                          "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":$images,\"valueFiles\":null,\"valueServices\":[]}",
+                          attachmentType:
+                          '${DateTime.now().millisecondsSinceEpoch}',
+                          linkPreview: "",
+                          username: widget.idSender,
+                          groupName: widget.data.groupName,
+                          type: 5,
+                        );
+                        widget.pressPickImage(message.toMap());
+                      }
+
                     }
                   } catch (e) {
                     if (kDebugMode) {
@@ -210,7 +224,10 @@ class _InputChatAppState extends State<InputChatApp> {
                   if (file != null) {
                     var x =
                         await Utils.onResultListMedia(context, [file], true);
-                    if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
+                    if(x['empty']=='EMPTY'){
+
+                    }
+                    else if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
                     } else {

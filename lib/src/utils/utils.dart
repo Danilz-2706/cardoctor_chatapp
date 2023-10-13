@@ -176,7 +176,13 @@ class Utils {
 
   static Future<Map<String, dynamic>> onResultListMedia(
       BuildContext context, List<XFile> images, bool isImage) async {
-    if (images.isEmpty) return {};
+    if (images.isEmpty) {
+      return {
+        'type': 'EMPTY',
+        'key': 'files',
+        'list': [],
+      };
+    }
     if (images.length > MAX_SEND_IMAGE_CHAT) {
       return {
         'type': 'MAX_SEND_IMAGE_CHAT',
