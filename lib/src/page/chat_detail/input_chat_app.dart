@@ -261,16 +261,19 @@ class _InputChatAppState extends State<InputChatApp> {
                 });
                 files.add(x);
               }
-              var message = SendMessageRequest(
-                originalMessage:
-                    "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":[],\"valueFiles\":$files,\"valueServices\":[]}",
-                attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
-                linkPreview: "",
-                username: widget.idSender,
-                groupName: widget.data.groupName,
-                type: 6,
-              );
-              widget.pressPickFiles(message.toMap());
+              if(files.isNotEmpty){
+                var message = SendMessageRequest(
+                  originalMessage:
+                  "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":[],\"valueFiles\":$files,\"valueServices\":[]}",
+                  attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
+                  linkPreview: "",
+                  username: widget.idSender,
+                  groupName: widget.data.groupName,
+                  type: 6,
+                );
+                widget.pressPickFiles(message.toMap());
+              }
+
             },
             child: SvgPicture.asset(
               'assets/imgs/link.svg',
