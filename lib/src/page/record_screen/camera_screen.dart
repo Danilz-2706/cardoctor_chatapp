@@ -144,7 +144,7 @@ class _CameraPageState extends State<CameraPage> {
   }
   Widget _buildTimer(){
     String minutes = second==60?'01':'00';
-    String seconds = second==60?'00':'$second';
+    String seconds = second==60?'00':second>=10?'$second':'0$second';
     return Positioned(
       top: 12,
       left: 12,
