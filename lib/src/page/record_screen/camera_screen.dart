@@ -20,8 +20,8 @@ class _CameraPageState extends State<CameraPage> {
  Duration duration = Duration();
   @override
   void initState() {
-    _initCamera();
     super.initState();
+    _initCamera();
   }
 
   @override
@@ -56,8 +56,8 @@ class _CameraPageState extends State<CameraPage> {
     } else {
       await _cameraController.prepareForVideoRecording();
       await _cameraController.startVideoRecording();
-      startTime();
       setState(() => _isRecording = true);
+      startTime();
     }
   }
 
