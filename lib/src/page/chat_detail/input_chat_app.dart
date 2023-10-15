@@ -110,9 +110,7 @@ class _InputChatAppState extends State<InputChatApp> {
                 onResultImagesFromGallery: (file) async {
                   try {
                     var x = await Utils.onResultListMedia(context, file, true);
-
                     if(x['empty']=='EMPTY'){
-
                     }
                     else if (x['type'] == 'MAX_SEND_IMAGE_CHAT') {
                       widget.errorGetFile.call(x);
@@ -221,9 +219,12 @@ class _InputChatAppState extends State<InputChatApp> {
                   }
                 },
                 onResultRecordVideo: (file) async {
+
                   if (file != null) {
+
                     var x =
                         await Utils.onResultListMedia(context, [file], true);
+
                     if(x['empty']=='EMPTY'){
 
                     }
@@ -231,11 +232,18 @@ class _InputChatAppState extends State<InputChatApp> {
                     } else if (x['type'] == 'LIMIT_CHAT_IMAGES_IN_MB') {
                       widget.errorGetFile.call({'type': x['type']});
                     } else {
-                      var message = {
-                        'key': 'files',
-                        'list': file,
-                      };
-                      widget.pressPickVideo(message);
+                      var message = SendMessageRequest(
+                        originalMessage:
+                        "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"urlVideo\":${json.encode(file.path)},\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[]}",
+                        attachmentType:
+                        '${DateTime.now().millisecondsSinceEpoch}',
+                        linkPreview: "",
+                        username: widget.idSender,
+                        groupName: widget.data.groupName,
+                        type: 7,
+                      );
+                      widget.pressPickVideo(message.toMap());
+
                     }
                   }
                 },

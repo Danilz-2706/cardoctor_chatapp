@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../page/record_screen/camera_screen.dart';
 import '../../widget/single_tap_detector.dart';
 import '../utils.dart';
 
@@ -121,6 +123,9 @@ class PickImagesUtils {
     required ImagePicker imagePicker,
   }) async {
     try {
+      var permissionCamera = await Permission.camera.request();
+      var permissionMicro = await Permission.microphone.request();
+      var permissionStorage = await Permission.storage.request();
       if (Platform.isIOS &&
           (await Permission.camera.isPermanentlyDenied ||
               await Permission.microphone.isPermanentlyDenied)) {
@@ -132,9 +137,7 @@ class PickImagesUtils {
             });
         return;
       }
-      var permissionCamera = await Permission.camera.request();
-      var permissionMicro = await Permission.microphone.request();
-      var permissionStorage = await Permission.storage.request();
+
 
       if (Platform.isAndroid &&
           (permissionCamera.isPermanentlyDenied ||
@@ -309,7 +312,8 @@ class PickImagesUtils {
         }
       }
     } else if (Platform.isIOS) {
-      final permission = await Permission.storage.request();
+      await Permission.storage.request();
+      await Permission.videos.request();
       if (Platform.isIOS &&
           (await Permission.videos.isPermanentlyDenied ||
               await Permission.videos.isPermanentlyDenied)) {
@@ -387,18 +391,25 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: const Color(0xFF24138A)))),
-                  // CupertinoActionSheetAction(
-                  //     onPressed: () async {
-                  //       recordVideo(context,
-                  //           imagePicker: imagePicker,
-                  //           onResultRecordVideo: onResultRecordVideo);
-                  //       Navigator.of(context).pop();
-                  //     },
-                  //     child: Text(label_record_video,
-                  //         style: Theme.of(context)
-                  //             .textTheme
-                  //             .subTitle
-                  //             .copyWith(color: const Color(0xFF24138A))))
+                  CupertinoActionSheetAction(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (_)=>CameraPage(getVideo: (url) {
+                          if(url !=null){
+                            onResultRecordVideo?.call(XFile(url));
+                          }
+
+                        },)));
+                        // recordVideo(context,
+                        //     imagePicker: imagePicker,
+                        //     onResultRecordVideo: onResultRecordVideo);
+                        // Navigator.of(context).pop();
+                      },
+                      child: Text(label_record_video,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subTitle
+                              .copyWith(color: const Color(0xFF24138A))))
                 ],
                 cancelButton: CupertinoActionSheetAction(
                   onPressed: () {

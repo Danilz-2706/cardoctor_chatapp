@@ -316,6 +316,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               },
               dataRoom: widget.dataRoom,
               pressPickVideo: (p0) {
+
                 addMessage(
                   {
                     "id": null,

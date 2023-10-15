@@ -76,47 +76,10 @@ class _SenderCardState extends State<SenderCard>
   bool process = false;
   bool hidden = false;
   late String dateTime;
-  // String? _thumbnailUrl;
-
-  // void generateThumbnail() async {
-  //   try {
-  //     print('lam thumbnail moi2');
-  //     print(widget.urlVideo);
-
-  //     if (widget.urlVideo != null && widget.urlVideo != '') {
-  //       if (widget.local!) {
-  //         print('yyyyyyyyyy');
-  //         print(widget.urlVideo);
-
-  //         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-  //           video: widget.urlVideo ?? '',
-  //           thumbnailPath: (await getTemporaryDirectory()).path,
-  //           imageFormat: ImageFormat.PNG,
-  //         );
-  //         print('yyyyyyyyyy');
-  //         print(_thumbnailUrl);
-  //       } else if (widget.urlVideo!.isNotEmpty) {
-  //         _thumbnailUrl = await VideoThumbnail.thumbnailFile(
-  //           video: Uri.parse(widget.urlVideo ?? '').toString(),
-  //           thumbnailPath: (await getTemporaryDirectory()).path,
-  //           imageFormat: ImageFormat.WEBP,
-  //         );
-  //         // if (mounted)
-  //       }
-  //       setState(() {});
-  //       // if (mounted) setState(() {});
-  //     }
-  //   } catch (e) {
-  //     print("Loi");
-  //     print(e);
-  //   }
-  // }
 
   @override
   void initState() {
-    // generateThumbnail();
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) => generateThumbnail());
   }
 
   final String noImageAvailable =
