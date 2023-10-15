@@ -145,7 +145,7 @@ class _ListMessageState extends State<ListMessage> {
                 } else {
                   for (int i = 0; i < listMessage.length; i++) {
                     if (listMessage[i].attachmentType == x.attachmentType) {
-                      // listMessage[i].id = x.id;
+                      listMessage[i].id = x.id;
                       listMessage[i].createdAtStr = x.createdAtStr;
                     }
                   }
@@ -274,7 +274,7 @@ class _ListMessageState extends State<ListMessage> {
                               statusMessage: listMessage[index].id == null
                                   ? StatusMessage.sending
                                   : StatusMessage.send,
-                              local: listMessage[index].id == null,
+                              local: listMessage[index].groupId == null,
                             ),
                           );
                         }
@@ -334,7 +334,7 @@ class _ListMessageState extends State<ListMessage> {
                               statusMessage: listMessage[index].id == null
                                   ? StatusMessage.sending
                                   : StatusMessage.send,
-                              local: listMessage[index].id == null,
+                              local: listMessage[index].groupId == null,
                             ),
                           );
                         }
@@ -392,7 +392,7 @@ class _ListMessageState extends State<ListMessage> {
                               statusMessage: listMessage[index].id == null
                                   ? StatusMessage.sending
                                   : StatusMessage.send,
-                              local: listMessage[index].id == null,
+                              local: listMessage[index].groupId == null,
                             ),
                           );
                         }

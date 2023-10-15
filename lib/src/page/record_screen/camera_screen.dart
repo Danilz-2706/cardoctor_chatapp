@@ -50,7 +50,6 @@ class _CameraPageState extends State<CameraPage> {
         fullscreenDialog: true,
         builder: (_) => PreviewRecord(filePath: file.path, getVideo: (String? url) {
           widget.getVideo.call(url);
-
         },),
       );
       Navigator.push(context, route);
@@ -94,7 +93,6 @@ class _CameraPageState extends State<CameraPage> {
       fullscreenDialog: true,
       builder: (_) => PreviewRecord(filePath: file.path, getVideo: (String? url) {
         widget.getVideo.call(url);
-
       },),
     );
     Navigator.push(context, route);

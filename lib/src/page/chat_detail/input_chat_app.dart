@@ -219,9 +219,8 @@ class _InputChatAppState extends State<InputChatApp> {
                   }
                 },
                 onResultRecordVideo: (file) async {
-
+                  Navigator.pop(context);
                   if (file != null) {
-
                     var x =
                         await Utils.onResultListMedia(context, [file], true);
 
