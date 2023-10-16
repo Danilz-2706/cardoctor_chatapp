@@ -60,7 +60,6 @@ class _CameraPageState extends State<CameraPage> {
       startTime();
     }
   }
-
   static const maxSecond = 60;
   int second = maxSecond;
   Timer? timer;
