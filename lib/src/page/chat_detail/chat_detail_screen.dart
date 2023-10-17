@@ -102,6 +102,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             widget.data.apiKey +
             '&notify_self=1'),
       );
+
       print('Connect socket');
       connectWebsocket();
     } catch (e) {
@@ -109,7 +110,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       print(e);
     }
   }
-
+  
   connectWebsocket() {
     try {
       channel.stream.asBroadcastStream().listen(
@@ -316,7 +317,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               },
               dataRoom: widget.dataRoom,
               pressPickVideo: (p0) {
-
                 addMessage(
                   {
                     "id": null,

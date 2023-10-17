@@ -338,7 +338,8 @@ class _InputChatAppState extends State<InputChatApp> {
           const SizedBox(width: 16),
           GestureDetector(
             onTap: () {
-              if (controller.text != '') {
+              var x = controller.text.replaceAll(' ', '');
+              if (x != '') {
                 var message = SendMessageRequest(
                   originalMessage: controller.text,
                   attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
