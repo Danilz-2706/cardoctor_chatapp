@@ -39,6 +39,7 @@ class SenderCard extends StatefulWidget {
   final List<FormFile> listFiles;
   final List<FormService> listService;
   final String? urlVideo;
+  final Color color;
 
   final bool old;
   final StatusMessage statusMessage;
@@ -65,6 +66,7 @@ class SenderCard extends StatefulWidget {
     this.senderLinear,
     this.local = false,
     this.newMessage = false,
+    required this.color,
   });
 
   @override
@@ -118,6 +120,7 @@ class _SenderCardState extends State<SenderCard>
               MessageForm(
                 data: widget.listForm,
                 isLeft: false,
+                color: widget.color,
               ),
             if (widget.listImages.isNotEmpty)
               MessageImage(

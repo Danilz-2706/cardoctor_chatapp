@@ -28,6 +28,7 @@ class ReceiverCard extends StatefulWidget {
   final Color? receiverBackground;
   final Color? receiverTextColor;
   final LinearGradient? receiverLinear;
+  final Color color;
 
   const ReceiverCard({
     Key? key,
@@ -43,6 +44,7 @@ class ReceiverCard extends StatefulWidget {
     this.receiverBackground,
     this.receiverTextColor,
     this.receiverLinear,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -171,6 +173,7 @@ class _ReceiverCardState extends State<ReceiverCard>
               MessageForm(
                 data: widget.listForm,
                 isLeft: true,
+                color: widget.color,
               ),
             if (widget.listService.isNotEmpty)
               MessageService(

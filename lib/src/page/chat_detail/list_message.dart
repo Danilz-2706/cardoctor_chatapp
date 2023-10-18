@@ -261,6 +261,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 2),
                             child: SenderCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
@@ -321,6 +322,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
@@ -379,6 +381,7 @@ class _ListMessageState extends State<ListMessage> {
                             padding: const EdgeInsets.only(bottom: 24),
                             child: SenderCard(
                               newMessage: true,
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               senderBackground: widget.senderBackground,
                               senderLinear: widget.senderLinear,
@@ -440,6 +443,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
@@ -497,6 +501,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: ReceiverCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
@@ -554,6 +559,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,
@@ -606,6 +612,7 @@ class _ListMessageState extends State<ListMessage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 24),
                             child: ReceiverCard(
+                              color: widget.receiverBackground ?? Colors.black,
                               listService: sampleServices,
                               receiverBackground: widget.receiverBackground,
                               receiverLinear: widget.receiverLinear,

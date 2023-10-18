@@ -10,10 +10,12 @@ import '../title_form.dart';
 class MessageForm extends StatelessWidget {
   final bool isLeft;
   final List<FormItem> data;
+  final Color color;
   const MessageForm({
     Key? key,
     required this.data,
     required this.isLeft,
+    required this.color,
   }) : super(key: key);
   final String noImageAvailable =
       "https://www.esm.rochester.edu/uploads/NoPhotoAvailable.jpg";
@@ -60,7 +62,8 @@ class MessageForm extends StatelessWidget {
                   if (data[index].type == 'dropdown') {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
-                      child: LabelDropDownForm(listForm: data[index]),
+                      child: LabelDropDownForm(
+                          listForm: data[index], color: color),
                     );
                   }
                   if (data[index].type == 'textfield') {

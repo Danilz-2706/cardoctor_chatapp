@@ -8,9 +8,11 @@ class LabelDropDownForm extends StatelessWidget {
   const LabelDropDownForm({
     Key? key,
     required this.listForm,
+    required this.color,
   }) : super(key: key);
 
   final FormItem listForm;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +74,8 @@ class LabelDropDownForm extends StatelessWidget {
               if (listForm.drop != 'empty')
                 Text(
                   listForm.value2 ?? '',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(255, 141, 78, 1),
+                  style: TextStyle(
+                    color: color,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,6 +90,9 @@ class LabelDropDownForm extends StatelessWidget {
                           : 'assets/imgs/edit.png',
                   height: 20,
                   width: 20,
+                  color: listForm.drop != 'drop' && listForm.drop != 'km'
+                      ? color
+                      : null,
                   package: Consts.packageName,
                 ),
             ],
