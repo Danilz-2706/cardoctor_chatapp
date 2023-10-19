@@ -17,11 +17,12 @@ class _CameraPageState extends State<CameraPage> {
   bool _isLoading = true;
   bool _isRecording = false;
   late CameraController _cameraController;
- Duration duration = Duration();
+  Duration duration = Duration();
   @override
   void initState() {
     super.initState();
     _initCamera();
+    // initializationCamera();
   }
 
   @override
@@ -32,25 +33,38 @@ class _CameraPageState extends State<CameraPage> {
 
   _initCamera() async {
     final cameras = await availableCameras();
-    final front = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
-    _cameraController = CameraController(front, ResolutionPreset.max);
+    final back = cameras.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.back);
+    _cameraController = CameraController(back, ResolutionPreset.max);
     await _cameraController.initialize();
     setState(() => _isLoading = false);
+
+    // var cameras = await availableCameras();
+    // _cameraController = CameraController(
+    //   cameras[EnumCameraDescription.front.index],
+    //   ResolutionPreset.medium,
+    //   imageFormatGroup: ImageFormatGroup.yuv420,
+    // );
+    // await _cameraController.initialize();
+    // setState(() => _isLoading = false);
   }
 
   _recordVideo() async {
     if (_isRecording) {
       final file = await _cameraController.stopVideoRecording();
       setState(() {
-        second=maxSecond;
+        second = maxSecond;
         timer?.cancel();
         _isRecording = false;
       });
       final route = MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (_) => PreviewRecord(filePath: file.path, getVideo: (String? url) {
-          widget.getVideo.call(url);
-        },),
+        builder: (_) => PreviewRecord(
+          filePath: file.path,
+          getVideo: (String? url) {
+            widget.getVideo.call(url);
+          },
+        ),
       );
       Navigator.push(context, route);
     } else {
@@ -60,27 +74,28 @@ class _CameraPageState extends State<CameraPage> {
       startTime();
     }
   }
+
   static const maxSecond = 60;
   int second = maxSecond;
   Timer? timer;
 
-  void resetTime()=> setState(() {
-    second=maxSecond;
-  });
-  void startTime(){
+  void resetTime() => setState(() {
+        second = maxSecond;
+      });
+  void startTime() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if(second >0){
+      if (second > 0) {
         setState(() {
           second--;
         });
-      }
-      else{
+      } else {
         stopTime();
       }
     });
   }
-  void stopTime({bool reset = true}) async{
-    if(reset){
+
+  void stopTime({bool reset = true}) async {
+    if (reset) {
       resetTime();
     }
     timer?.cancel();
@@ -90,9 +105,12 @@ class _CameraPageState extends State<CameraPage> {
     setState(() => _isRecording = false);
     final route = MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (_) => PreviewRecord(filePath: file.path, getVideo: (String? url) {
-        widget.getVideo.call(url);
-      },),
+      builder: (_) => PreviewRecord(
+        filePath: file.path,
+        getVideo: (String? url) {
+          widget.getVideo.call(url);
+        },
+      ),
     );
     Navigator.push(context, route);
   }
@@ -112,14 +130,25 @@ class _CameraPageState extends State<CameraPage> {
           title: const Text('Camera'),
           elevation: 0,
           backgroundColor: Colors.black26,
-
         ),
         body: Center(
           child: Stack(
             // alignment: Alignment.bottomCenter,
             children: [
+              // FutureBuilder(
+              //   future: initializationCamera(),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.done) {
+              //       return CameraPreview(_cameraController);
+              //     } else {
+              //       return const Center(
+              //         child: CircularProgressIndicator(),
+              //       );
+              //     }
+              //   },
+              // ),
               CameraPreview(_cameraController),
-             _buildTimer(),
+              _buildTimer(),
               Positioned(
                 bottom: 4,
                 right: 0,
@@ -127,12 +156,11 @@ class _CameraPageState extends State<CameraPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(25),
                   child: FloatingActionButton(
-                    backgroundColor: Colors.red,
-                    child: Icon(_isRecording ? Icons.stop : Icons.circle),
-                    onPressed: () {
-                      _recordVideo();
-                    }
-                  ),
+                      backgroundColor: Colors.red,
+                      child: Icon(_isRecording ? Icons.stop : Icons.circle),
+                      onPressed: () {
+                        _recordVideo();
+                      }),
                 ),
               ),
             ],
@@ -141,20 +169,41 @@ class _CameraPageState extends State<CameraPage> {
       );
     }
   }
-  Widget _buildTimer(){
-    String minutes = second==60?'01':'00';
-    String seconds = second==60?'00':second>=10?'$second':'0$second';
+
+  Future<void> initializationCamera() async {
+    var cameras = await availableCameras();
+    _cameraController = CameraController(
+      cameras[EnumCameraDescription.front.index],
+      ResolutionPreset.medium,
+      imageFormatGroup: ImageFormatGroup.yuv420,
+    );
+    await _cameraController.initialize();
+  }
+
+  Widget _buildTimer() {
+    String minutes = second == 60 ? '01' : '00';
+    String seconds = second == 60
+        ? '00'
+        : second >= 10
+            ? '$second'
+            : '0$second';
     return Positioned(
       top: 12,
       left: 12,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-        decoration:const  BoxDecoration(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: const BoxDecoration(
           color: Colors.red,
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
-        child: Text('$minutes : $seconds', style:const TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.w500),),
+        child: Text(
+          '$minutes : $seconds',
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }
 }
+
+enum EnumCameraDescription { front, back }
