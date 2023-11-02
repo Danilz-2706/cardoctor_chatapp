@@ -138,7 +138,6 @@ class PickImagesUtils {
         return;
       }
 
-
       if (Platform.isAndroid &&
           (permissionCamera.isPermanentlyDenied ||
               permissionMicro.isPermanentlyDenied ||
@@ -379,27 +378,31 @@ class PickImagesUtils {
                               .textTheme
                               .subTitle
                               .copyWith(color: const Color(0xFF24138A)))),
-                  CupertinoActionSheetAction(
-                      onPressed: () async {
-                        takeVideoGallery(context,
-                            imagePicker: imagePicker,
-                            onResultVideoFromGallery: onResultVideoFromGallery);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(label_pick_video,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subTitle
-                              .copyWith(color: const Color(0xFF24138A)))),
+                  // CupertinoActionSheetAction(
+                  //     onPressed: () async {
+                  //       takeVideoGallery(context,
+                  //           imagePicker: imagePicker,
+                  //           onResultVideoFromGallery: onResultVideoFromGallery);
+                  //       Navigator.of(context).pop();
+                  //     },
+                  //     child: Text(label_pick_video,
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .subTitle
+                  //             .copyWith(color: const Color(0xFF24138A)))),
                   CupertinoActionSheetAction(
                       onPressed: () async {
                         Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=>CameraPage(getVideo: (url) {
-                          if(url !=null){
-                            onResultRecordVideo?.call(XFile(url));
-                          }
-
-                        },)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => CameraPage(
+                                      getVideo: (url) {
+                                        if (url != null) {
+                                          onResultRecordVideo?.call(XFile(url));
+                                        }
+                                      },
+                                    )));
                         // recordVideo(context,
                         //     imagePicker: imagePicker,
                         //     onResultRecordVideo: onResultRecordVideo);
