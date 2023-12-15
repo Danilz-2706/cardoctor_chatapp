@@ -77,6 +77,8 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressCallAudio,
     required this.pressCallVideo,
     required this.errorGetFile,
+    this.pressBiding,
+    this.isBiding = false,
   }) : super(key: key);
 
   @override
