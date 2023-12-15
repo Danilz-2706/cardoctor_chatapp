@@ -48,7 +48,8 @@ class ChatDetailScreen extends StatefulWidget {
 
   final VoidCallback pressCallAudio;
   final VoidCallback pressCallVideo;
-
+  final VoidCallback ? pressBiding;
+  final bool isBiding;
   final Function(Map<String, dynamic>) loadMoreHistory;
   final Function(Map<String, dynamic>) typing;
   final Widget listHistoryChat;
@@ -194,6 +195,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         ),
         centerTitle: true,
         actions: [
+          if(widget.isBiding == true) ...[
+            GestureDetector(
+              onTap: widget.pressBiding,
+              child: SvgPicture.asset(
+                'assets/imgs/ic_bidding.svg',
+                semanticsLabel: 'Acme Logo',
+                height: 24,
+                width: 24,
+                package: Consts.packageName,
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
           GestureDetector(
             onTap: widget.pressCallAudio,
             child: SvgPicture.asset(
