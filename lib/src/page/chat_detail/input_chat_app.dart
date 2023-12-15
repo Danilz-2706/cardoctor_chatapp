@@ -256,40 +256,40 @@ class _InputChatAppState extends State<InputChatApp> {
               package: Consts.packageName,
             ),
           ),
-          const SizedBox(width: 20),
-          GestureDetector(
-            onTap: () async {
-              await getFile();
-              var files = [];
-              for (var e in filesList) {
-                var x = json.encode({
-                  'url': e.path,
-                  'path': e.path,
-                });
-                files.add(x);
-              }
-              if(files.isNotEmpty){
-                var message = SendMessageRequest(
-                  originalMessage:
-                  "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":[],\"valueFiles\":$files,\"valueServices\":[]}",
-                  attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
-                  linkPreview: "",
-                  username: widget.idSender,
-                  groupName: widget.data.groupName,
-                  type: 6,
-                );
-                widget.pressPickFiles(message.toMap());
-              }
-
-            },
-            child: SvgPicture.asset(
-              'assets/imgs/link.svg',
-              semanticsLabel: 'Acme Logo',
-              height: 23,
-              width: 23,
-              package: Consts.packageName,
-            ),
-          ),
+          // const SizedBox(width: 20),
+          // GestureDetector(
+          //   onTap: () async {
+          //     await getFile();
+          //     var files = [];
+          //     for (var e in filesList) {
+          //       var x = json.encode({
+          //         'url': e.path,
+          //         'path': e.path,
+          //       });
+          //       files.add(x);
+          //     }
+          //     if(files.isNotEmpty){
+          //       var message = SendMessageRequest(
+          //         originalMessage:
+          //         "{\"key\":\"${DateTime.now().millisecondsSinceEpoch}\",\"value\":null,\"valueImage\":[],\"valueFiles\":$files,\"valueServices\":[]}",
+          //         attachmentType: '${DateTime.now().millisecondsSinceEpoch}',
+          //         linkPreview: "",
+          //         username: widget.idSender,
+          //         groupName: widget.data.groupName,
+          //         type: 6,
+          //       );
+          //       widget.pressPickFiles(message.toMap());
+          //     }
+          //
+          //   },
+          //   child: SvgPicture.asset(
+          //     'assets/imgs/link.svg',
+          //     semanticsLabel: 'Acme Logo',
+          //     height: 23,
+          //     width: 23,
+          //     package: Consts.packageName,
+          //   ),
+          // ),
           const SizedBox(width: 18),
           Expanded(
             child: TextField(
