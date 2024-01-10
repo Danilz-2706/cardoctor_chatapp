@@ -56,7 +56,7 @@ class ChatDetailScreen extends StatefulWidget {
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
-  final AppBar? appBarCustom;
+  final Widget? appBarCustom;
   const ChatDetailScreen({
     Key? key,
     required this.data,
@@ -163,7 +163,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColors,
-      appBar:widget.appBarCustom?? AppBar(
+      appBar:widget.appBarCustom!=null?null: AppBar(
         backgroundColor: const Color(0xFFF6F6F6),
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
@@ -230,12 +230,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 8.0),
-            widget.listHistoryChat,
-            if (widget.stackWidget != null) widget.stackWidget!,
-            const SizedBox(height: 8),
-            if (typing) widget.typingChat,
-            const SizedBox(height: 8),
+            if(widget.appBarCustom != null)
+              widget.appBarCustom!,
+            Expanded(child:
+            SingleChildScrollView(
+              child: Column(
+                  children: [
+                    const SizedBox(height: 8.0),
+                    widget.listHistoryChat,
+                    if (widget.stackWidget != null) widget.stackWidget!,
+                    const SizedBox(height: 8),
+                    if (typing) widget.typingChat,
+                    const SizedBox(height: 8),
+                  ],
+              ),
+            )),
             InputChatApp(
               errorGetFile: (p0) {
                 widget.errorGetFile.call(p0);
