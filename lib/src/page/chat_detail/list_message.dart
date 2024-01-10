@@ -107,6 +107,27 @@ class _ListMessageState extends State<ListMessage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    channel = IOWebSocketChannel.connect(
+      Uri.parse(
+        'wss://' +
+            widget.data.cluseterID +
+            '.piesocket.com/v3/' +
+            widget.data.groupName +
+            '?api_key=' +
+            widget.data.apiKey +
+            '&notify_self=1',
+
+      ),
+      pingInterval: const Duration(seconds: 30),
+    );
+
+    print('Connect socket');
+    connectWebsocket();
+  }
+
+  @override
   void initState() {
     super.initState();
     _scrollController.addListener(scrollControllerListener);
@@ -115,13 +136,16 @@ class _ListMessageState extends State<ListMessage> {
         .toList();
     try {
       channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://' +
-            widget.data.cluseterID +
-            '.piesocket.com/v3/' +
-            widget.data.groupName +
-            '?api_key=' +
-            widget.data.apiKey +
-            '&notify_self=1'),
+        Uri.parse(
+            'wss://' +
+              widget.data.cluseterID +
+              '.piesocket.com/v3/' +
+              widget.data.groupName +
+              '?api_key=' +
+              widget.data.apiKey +
+              '&notify_self=1'
+            ),
+        pingInterval: const Duration(seconds: 30),
       );
       print('Connect socket');
       connectWebsocket();
@@ -135,6 +159,8 @@ class _ListMessageState extends State<ListMessage> {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
+              print('message13231232');
+              print(message);
               var x = json.decode(message);
               if (x['typing'] != null) {
               } else {

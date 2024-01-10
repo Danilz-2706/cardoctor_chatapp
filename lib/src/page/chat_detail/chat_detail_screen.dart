@@ -56,6 +56,7 @@ class ChatDetailScreen extends StatefulWidget {
   final VoidCallback pressBack;
   final Widget? stackWidget;
   final String? nameTitle;
+  final AppBar? appBarCustom;
   const ChatDetailScreen({
     Key? key,
     required this.data,
@@ -75,7 +76,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressPickVideo,
     required this.pressCallAudio,
     required this.pressCallVideo,
-    required this.errorGetFile,
+    required this.errorGetFile, this.appBarCustom,
   }) : super(key: key);
 
   @override
@@ -87,20 +88,43 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late final IOWebSocketChannel channel;
 
   bool typing = false;
+@override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    channel = IOWebSocketChannel.connect(
+      Uri.parse(
+        'wss://' +
+            widget.data.cluseterID +
+            '.piesocket.com/v3/' +
+            widget.data.groupName +
+            '?api_key=' +
+            widget.data.apiKey +
+            '&notify_self=1',
 
+      ),
+      pingInterval: const Duration(seconds: 30),
+    );
+
+    print('Connect socket');
+    connectWebsocket();
+  }
   @override
   void initState() {
     super.initState();
 
     try {
       channel = IOWebSocketChannel.connect(
-        Uri.parse('wss://' +
-            widget.data.cluseterID +
-            '.piesocket.com/v3/' +
-            widget.data.groupName +
-            '?api_key=' +
-            widget.data.apiKey +
-            '&notify_self=1'),
+        Uri.parse(
+            'wss://' +
+              widget.data.cluseterID +
+              '.piesocket.com/v3/' +
+              widget.data.groupName +
+              '?api_key=' +
+              widget.data.apiKey +
+              '&notify_self=1',
+
+            ),
+        pingInterval: const Duration(seconds: 30),
       );
 
       print('Connect socket');
@@ -110,11 +134,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       print(e);
     }
   }
-  
+
+
   connectWebsocket() {
     try {
       channel.stream.asBroadcastStream().listen(
             (message) {
+              print('message13231232');
+              print(message);
               var x = json.decode(message);
               if (x['typing'] != null) {
                 if (x['id'] != widget.idSender) {
@@ -155,7 +182,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColors,
-      appBar: AppBar(
+      appBar:widget.appBarCustom?? AppBar(
         backgroundColor: const Color(0xFFF6F6F6),
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),

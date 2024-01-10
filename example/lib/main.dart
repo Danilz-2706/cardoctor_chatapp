@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> {
         userIDReal: 'Cardoctor1Driver');
     return SafeArea(
       child: ChatDetailScreen(
+        appBarCustom: AppBar(),
         errorGetFile: (p0) {
           if (p0['type'] == 'MAX_SEND_IMAGE_CHAT') {
             setState(() {
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
         pressCallAudio: () {},
         pressCallVideo: () {},
         pressPickVideo: (p0) {},
-        color: Color(0xFF2E72BA),
+        color: Color(0xFF0052FF),
         typingChat: Container(
           height: 28,
           width: double.infinity,
@@ -132,7 +133,7 @@ class _HomePageState extends State<HomePage> {
         },
         listHistoryChat: ListMessage(
           senderTextColor: Colors.white,
-          senderBackground: Color(0xFF2E72BA),
+          senderBackground: Color(0xFF0052FF),
           listMessageLoadMore: [],
           data: data,
           loadMoreHistory: (p0) {
@@ -171,8 +172,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
-        nameTitle:
-            '57bf11111 - Garage Ô Tô Hải Phương',
+        nameTitle: '57bf11111 - Garage Ô Tô Hải Phương',
         data: data,
         press: (value) async {
           await Future.delayed(Duration(seconds: 4));
@@ -199,7 +199,6 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
-        
         dataRoom: data,
         idSender: 'Cardoctor1Driver',
         pressBack: () {
