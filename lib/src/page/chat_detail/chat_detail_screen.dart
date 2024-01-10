@@ -226,139 +226,137 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           SizedBox(width: 16),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if(widget.appBarCustom != null)
-              widget.appBarCustom!,
-            Expanded(child:
-            SingleChildScrollView(
-              child: Column(
-                  children: [
-                    const SizedBox(height: 8.0),
-                    widget.listHistoryChat,
-                    if (widget.stackWidget != null) widget.stackWidget!,
-                    const SizedBox(height: 8),
-                    if (typing) widget.typingChat,
-                    const SizedBox(height: 8),
-                  ],
-              ),
-            )),
-            InputChatApp(
-              errorGetFile: (p0) {
-                widget.errorGetFile.call(p0);
-              },
-              color: widget.color,
-              typing: (p0) {
-                widget.typing(p0);
-                addMessage(p0);
-              },
-              data: widget.data,
-              idSender: widget.idSender,
-              press: (p0) {
-                if (mounted) {
-                  setState(() {
-                    typing = false;
-                  });
-                }
-                addMessage(
-                  {
-                    "id": null,
-                    "groupId": null,
-                    "userId": null,
-                    "profileName": "",
-                    "originalMessage": "${p0['originalMessage']}",
-                    "filteredMessage": "${p0['originalMessage']}",
-                    "attachmentType": "${p0['attachmentType']}",
-                    "attachment": null,
-                    "linkPreview": "",
-                    "username": widget.data.userIDReal,
-                    "groupName": widget.data.groupName,
-                    "type": null,
-                    "createdAtStr": DateTime.now().toString(),
-                    "updatedAtStr": DateTime.now().toString(),
-                    "createdAt": DateTime.now().toString(),
-                    "updatedAt": DateTime.now().toString()
-                  },
-                );
-
-                widget.press(p0);
-              },
-              pressPickFiles: (p0) {
-                addMessage(
-                  {
-                    "id": null,
-                    "groupId": null,
-                    "userId": null,
-                    "profileName": "",
-                    "originalMessage": "${p0['originalMessage']}",
-                    "filteredMessage": "${p0['originalMessage']}",
-                    "attachmentType": "${p0['attachmentType']}",
-                    // "attachmentType": "123",
-                    "attachment": null,
-                    "linkPreview": "",
-                    "username": widget.data.userIDReal,
-                    "groupName": widget.data.groupName,
-                    "type": 6,
-                    "createdAtStr": DateTime.now().toString(),
-                    "updatedAtStr": DateTime.now().toString(),
-                    "createdAt": DateTime.now().toString(),
-                    "updatedAt": DateTime.now().toString()
-                  },
-                );
-                widget.pressPickFiles(p0);
-              },
-              pressPickImage: (p0) {
-                addMessage(
-                  {
-                    "id": null,
-                    "groupId": null,
-                    "userId": null,
-                    "profileName": "",
-                    "originalMessage": "${p0['originalMessage']}",
-                    "filteredMessage": "${p0['originalMessage']}",
-                    "attachmentType": "${p0['attachmentType']}",
-                    "attachment": null,
-                    "linkPreview": "",
-                    "username": widget.data.userIDReal,
-                    "groupName": widget.data.groupName,
-                    "type": 5,
-                    "createdAtStr": DateTime.now().toString(),
-                    "updatedAtStr": DateTime.now().toString(),
-                    "createdAt": DateTime.now().toString(),
-                    "updatedAt": DateTime.now().toString()
-                  },
-                );
-                widget.pressPickImage(p0);
-              },
-              dataRoom: widget.dataRoom,
-              pressPickVideo: (p0) {
-                addMessage(
-                  {
-                    "id": null,
-                    "groupId": null,
-                    "userId": null,
-                    "profileName": "",
-                    "originalMessage": "${p0['originalMessage']}",
-                    "filteredMessage": "${p0['originalMessage']}",
-                    "attachmentType": "${p0['attachmentType']}",
-                    "attachment": null,
-                    "linkPreview": "",
-                    "username": widget.data.userIDReal,
-                    "groupName": widget.data.groupName,
-                    "type": 7,
-                    "createdAtStr": DateTime.now().toString(),
-                    "updatedAtStr": DateTime.now().toString(),
-                    "createdAt": DateTime.now().toString(),
-                    "updatedAt": DateTime.now().toString()
-                  },
-                );
-                widget.pressPickVideo(p0);
-              },
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if(widget.appBarCustom != null)
+            widget.appBarCustom!,
+          Expanded(child:
+          SingleChildScrollView(
+            child: Column(
+                children: [
+                  const SizedBox(height: 8.0),
+                  widget.listHistoryChat,
+                  if (widget.stackWidget != null) widget.stackWidget!,
+                  const SizedBox(height: 8),
+                  if (typing) widget.typingChat,
+                  const SizedBox(height: 8),
+                ],
             ),
-          ],
-        ),
+          )),
+          InputChatApp(
+            errorGetFile: (p0) {
+              widget.errorGetFile.call(p0);
+            },
+            color: widget.color,
+            typing: (p0) {
+              widget.typing(p0);
+              addMessage(p0);
+            },
+            data: widget.data,
+            idSender: widget.idSender,
+            press: (p0) {
+              if (mounted) {
+                setState(() {
+                  typing = false;
+                });
+              }
+              addMessage(
+                {
+                  "id": null,
+                  "groupId": null,
+                  "userId": null,
+                  "profileName": "",
+                  "originalMessage": "${p0['originalMessage']}",
+                  "filteredMessage": "${p0['originalMessage']}",
+                  "attachmentType": "${p0['attachmentType']}",
+                  "attachment": null,
+                  "linkPreview": "",
+                  "username": widget.data.userIDReal,
+                  "groupName": widget.data.groupName,
+                  "type": null,
+                  "createdAtStr": DateTime.now().toString(),
+                  "updatedAtStr": DateTime.now().toString(),
+                  "createdAt": DateTime.now().toString(),
+                  "updatedAt": DateTime.now().toString()
+                },
+              );
+
+              widget.press(p0);
+            },
+            pressPickFiles: (p0) {
+              addMessage(
+                {
+                  "id": null,
+                  "groupId": null,
+                  "userId": null,
+                  "profileName": "",
+                  "originalMessage": "${p0['originalMessage']}",
+                  "filteredMessage": "${p0['originalMessage']}",
+                  "attachmentType": "${p0['attachmentType']}",
+                  // "attachmentType": "123",
+                  "attachment": null,
+                  "linkPreview": "",
+                  "username": widget.data.userIDReal,
+                  "groupName": widget.data.groupName,
+                  "type": 6,
+                  "createdAtStr": DateTime.now().toString(),
+                  "updatedAtStr": DateTime.now().toString(),
+                  "createdAt": DateTime.now().toString(),
+                  "updatedAt": DateTime.now().toString()
+                },
+              );
+              widget.pressPickFiles(p0);
+            },
+            pressPickImage: (p0) {
+              addMessage(
+                {
+                  "id": null,
+                  "groupId": null,
+                  "userId": null,
+                  "profileName": "",
+                  "originalMessage": "${p0['originalMessage']}",
+                  "filteredMessage": "${p0['originalMessage']}",
+                  "attachmentType": "${p0['attachmentType']}",
+                  "attachment": null,
+                  "linkPreview": "",
+                  "username": widget.data.userIDReal,
+                  "groupName": widget.data.groupName,
+                  "type": 5,
+                  "createdAtStr": DateTime.now().toString(),
+                  "updatedAtStr": DateTime.now().toString(),
+                  "createdAt": DateTime.now().toString(),
+                  "updatedAt": DateTime.now().toString()
+                },
+              );
+              widget.pressPickImage(p0);
+            },
+            dataRoom: widget.dataRoom,
+            pressPickVideo: (p0) {
+              addMessage(
+                {
+                  "id": null,
+                  "groupId": null,
+                  "userId": null,
+                  "profileName": "",
+                  "originalMessage": "${p0['originalMessage']}",
+                  "filteredMessage": "${p0['originalMessage']}",
+                  "attachmentType": "${p0['attachmentType']}",
+                  "attachment": null,
+                  "linkPreview": "",
+                  "username": widget.data.userIDReal,
+                  "groupName": widget.data.groupName,
+                  "type": 7,
+                  "createdAtStr": DateTime.now().toString(),
+                  "updatedAtStr": DateTime.now().toString(),
+                  "createdAt": DateTime.now().toString(),
+                  "updatedAt": DateTime.now().toString()
+                },
+              );
+              widget.pressPickVideo(p0);
+            },
+          ),
+        ],
       ),
     );
   }
