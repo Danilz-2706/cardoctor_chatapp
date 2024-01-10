@@ -88,26 +88,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   late final IOWebSocketChannel channel;
 
   bool typing = false;
-@override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    channel = IOWebSocketChannel.connect(
-      Uri.parse(
-        'wss://' +
-            widget.data.cluseterID +
-            '.piesocket.com/v3/' +
-            widget.data.groupName +
-            '?api_key=' +
-            widget.data.apiKey +
-            '&notify_self=1',
 
-      ),
-      pingInterval: const Duration(seconds: 30),
-    );
-
-    print('Connect socket');
-    connectWebsocket();
-  }
   @override
   void initState() {
     super.initState();
