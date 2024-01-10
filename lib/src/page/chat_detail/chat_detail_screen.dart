@@ -57,6 +57,7 @@ class ChatDetailScreen extends StatefulWidget {
   final Widget? stackWidget;
   final String? nameTitle;
   final Widget? appBarCustom;
+
   const ChatDetailScreen({
     Key? key,
     required this.data,
@@ -76,7 +77,8 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressPickVideo,
     required this.pressCallAudio,
     required this.pressCallVideo,
-    required this.errorGetFile, this.appBarCustom,
+    required this.errorGetFile,
+    this.appBarCustom,
   }) : super(key: key);
 
   @override
@@ -96,15 +98,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     try {
       channel = IOWebSocketChannel.connect(
         Uri.parse(
-            'wss://' +
+          'wss://' +
               widget.data.cluseterID +
               '.piesocket.com/v3/' +
               widget.data.groupName +
               '?api_key=' +
               widget.data.apiKey +
               '&notify_self=1',
-
-            ),
+        ),
         pingInterval: const Duration(seconds: 30),
       );
 
@@ -115,7 +116,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       print(e);
     }
   }
-
 
   connectWebsocket() {
     try {
@@ -163,87 +163,82 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColors,
-      appBar:widget.appBarCustom!=null?null: AppBar(
-        backgroundColor: const Color(0xFFF6F6F6),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_sharp, color: Color(0xFF0A0B09)),
-            onPressed: widget.pressBack,
-          ),
-        ),
-        elevation: 0,
-        title: Row(
-          children: [
-            SizedBox(
-              height: 32,
-              width: 32,
-              child: Image.asset(
-                'assets/imgs/avatar.png',
-                height: 28,
-                width: 28,
-                package: Consts.packageName,
+      appBar: widget.appBarCustom != null
+          ? null
+          : AppBar(
+              backgroundColor: const Color(0xFFF6F6F6),
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_sharp,
+                      color: Color(0xFF0A0B09)),
+                  onPressed: widget.pressBack,
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                widget.nameTitle ?? '',
-                maxLines: 2,
-                overflow: null,
-                style: GoogleFonts.inter(
-                    color: const Color(0xFF0A0B09),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    height: 22 / 16),
+              elevation: 0,
+              title: Row(
+                children: [
+                  SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset(
+                      'assets/imgs/avatar.png',
+                      height: 28,
+                      width: 28,
+                      package: Consts.packageName,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      widget.nameTitle ?? '',
+                      maxLines: 2,
+                      overflow: null,
+                      style: GoogleFonts.inter(
+                          color: const Color(0xFF0A0B09),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 22 / 16),
+                    ),
+                  ),
+                ],
               ),
+              centerTitle: true,
+              actions: [
+                GestureDetector(
+                  onTap: widget.pressCallAudio,
+                  child: SvgPicture.asset(
+                    'assets/imgs/call-calling.svg',
+                    semanticsLabel: 'Acme Logo',
+                    height: 24,
+                    width: 24,
+                    package: Consts.packageName,
+                  ),
+                ),
+                SizedBox(width: 16),
+                GestureDetector(
+                  onTap: widget.pressCallVideo,
+                  child: SvgPicture.asset(
+                    'assets/imgs/video.svg',
+                    semanticsLabel: 'Acme Logo',
+                    height: 24,
+                    width: 24,
+                    package: Consts.packageName,
+                  ),
+                ),
+                SizedBox(width: 16),
+              ],
             ),
-          ],
-        ),
-        centerTitle: true,
-        actions: [
-          GestureDetector(
-            onTap: widget.pressCallAudio,
-            child: SvgPicture.asset(
-              'assets/imgs/call-calling.svg',
-              semanticsLabel: 'Acme Logo',
-              height: 24,
-              width: 24,
-              package: Consts.packageName,
-            ),
-          ),
-          SizedBox(width: 16),
-          GestureDetector(
-            onTap: widget.pressCallVideo,
-            child: SvgPicture.asset(
-              'assets/imgs/video.svg',
-              semanticsLabel: 'Acme Logo',
-              height: 24,
-              width: 24,
-              package: Consts.packageName,
-            ),
-          ),
-          SizedBox(width: 16),
-        ],
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if(widget.appBarCustom != null)
-            widget.appBarCustom!,
-          Expanded(child:
-          SingleChildScrollView(
-            child: Column(
-                children: [
-                  const SizedBox(height: 8.0),
-                  widget.listHistoryChat,
-                  if (widget.stackWidget != null) widget.stackWidget!,
-                  const SizedBox(height: 8),
-                  if (typing) widget.typingChat,
-                  const SizedBox(height: 8),
-                ],
-            ),
-          )),
+          if (widget.appBarCustom != null) widget.appBarCustom!,
+          const SizedBox(height: 8.0),
+          Expanded(child: widget.listHistoryChat),
+          if (widget.stackWidget != null) widget.stackWidget!,
+          const SizedBox(height: 8),
+          if (typing) widget.typingChat,
+          const SizedBox(height: 8),
           InputChatApp(
             errorGetFile: (p0) {
               widget.errorGetFile.call(p0);

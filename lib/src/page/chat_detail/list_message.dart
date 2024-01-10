@@ -183,489 +183,488 @@ class _ListMessageState extends State<ListMessage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: listMessage.isEmpty
-                  ? const Padding(
-                      padding: EdgeInsets.all(24),
-                      child: Center(
-                        child: Text(
-                          "Gửi tin nhắn đến chuyên gia của chúng tôi để tư vấn nhé!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kTextGreyDarkColors,
-                            fontSize: 16,
-                          ),
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: listMessage.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.all(24),
+                    child: Center(
+                      child: Text(
+                        "Gửi tin nhắn đến chuyên gia của chúng tôi để tư vấn nhé!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: kTextGreyDarkColors,
+                          fontSize: 16,
                         ),
                       ),
-                    )
-                  : ListView.builder(
-                      controller: _scrollController,
-                      reverse: true,
-                      itemCount: listMessage.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        bool old = true;
-                        if (index == listMessage.length - 1) {
-                        } else {
-                          if (Utils.formatMessageDateCheck(
-                              listMessage[index].createdAtStr!,
-                              listMessage[index + 1].createdAtStr!)) {
-                            old = false;
-                          } else {
-                            old = true;
-                          }
-                        }
-                        if (index > 0 &&
-                            listMessage[index].username ==
-                                widget.data.userIDReal &&
-                            listMessage[index - 1].username ==
-                                widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: SenderCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              senderBackground: widget.senderBackground,
-                              senderLinear: widget.senderLinear,
-                              senderTextColor: widget.senderTextColor,
-                              listFiles: sampleFile,
-                              data: listMessage[index],
-                              listForm: sample,
-                              listImages: images,
-                              urlVideo: urlVideo,
-                              old: old,
-                              statusMessage: listMessage[index].id == null
-                                  ? StatusMessage.sending
-                                  : StatusMessage.send,
-                              local: listMessage[index].groupId == null,
-                            ),
-                          );
-                        }
-                        if (index > 0 &&
-                            listMessage[index].username ==
-                                widget.data.userIDReal &&
-                            listMessage[index - 1].username !=
-                                widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: SenderCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              senderBackground: widget.senderBackground,
-                              senderLinear: widget.senderLinear,
-                              senderTextColor: widget.senderTextColor,
-                              urlVideo: urlVideo,
-                              listFiles: sampleFile,
-                              data: listMessage[index],
-                              listForm: sample,
-                              listImages: images,
-                              old: old,
-                              statusMessage: listMessage[index].id == null
-                                  ? StatusMessage.sending
-                                  : StatusMessage.send,
-                              local: listMessage[index].groupId == null,
-                            ),
-                          );
-                        }
-                        if (listMessage[index].username ==
-                            widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: SenderCard(
-                              newMessage: true,
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              senderBackground: widget.senderBackground,
-                              senderLinear: widget.senderLinear,
-                              senderTextColor: widget.senderTextColor,
-                              urlVideo: urlVideo,
-                              listFiles: sampleFile,
-                              data: listMessage[index],
-                              listForm: sample,
-                              listImages: images,
-                              old: old,
-                              statusMessage: listMessage[index].id == null
-                                  ? StatusMessage.sending
-                                  : StatusMessage.send,
-                              local: listMessage[index].groupId == null,
-                            ),
-                          );
-                        }
-                        if (index > 0 &&
-                            listMessage[index].username !=
-                                widget.data.userIDReal &&
-                            listMessage[index].username !=
-                                listMessage[index - 1].username &&
-                            listMessage[index - 1].username !=
-                                widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: ReceiverCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              receiverBackground: widget.receiverBackground,
-                              receiverLinear: widget.receiverLinear,
-                              receiverTextColor: widget.receiverTextColor,
-                              listFiles: sampleFile,
-                              urlVideo: urlVideo,
-                              onlyOnePerson: false,
-                              listForm: sample,
-                              data: listMessage[index],
-                              listImages: images,
-                              old: old,
-                              seen: false,
-                            ),
-                          );
-                        }
-                        if (index > 0 &&
-                            listMessage[index].username !=
-                                widget.data.userIDReal &&
-                            listMessage[index - 1].username !=
-                                widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: ReceiverCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              receiverBackground: widget.receiverBackground,
-                              receiverLinear: widget.receiverLinear,
-                              receiverTextColor: widget.receiverTextColor,
-                              urlVideo: urlVideo,
-                              listFiles: sampleFile,
-                              onlyOnePerson: true,
-                              data: listMessage[index],
-                              listForm: sample,
-                              listImages: images,
-                              old: old,
-                              seen: false,
-                            ),
-                          );
-                        }
-                        if (index > 0 &&
-                            listMessage[index].username !=
-                                widget.data.userIDReal &&
-                            listMessage[index - 1].username ==
-                                widget.data.userIDReal) {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: ReceiverCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              receiverBackground: widget.receiverBackground,
-                              receiverLinear: widget.receiverLinear,
-                              receiverTextColor: widget.receiverTextColor,
-                              listFiles: sampleFile,
-                              urlVideo: urlVideo,
-                              onlyOnePerson: false,
-                              listForm: sample,
-                              data: listMessage[index],
-                              listImages: images,
-                              old: old,
-                              seen: false,
-                            ),
-                          );
-                        } else {
-                          List<FormFile> sampleFile = [];
-                          List<FormItem> sample = [];
-                          List<FormService> sampleServices = [];
-                          List<String> images = [];
-                          String urlVideo = '';
-                          if (listMessage[index].type == 2) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.value!) {
-                              sample.add(e);
-                            }
-                          } else if (listMessage[index].type == 5) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueImage!) {
-                              images.add(e.image!);
-                            }
-                          } else if (listMessage[index].type == 6) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueFiles!) {
-                              sampleFile.add(e);
-                            }
-                          } else if (listMessage[index].type == 7) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            urlVideo = x.urlVideo ?? '';
-                          } else if (listMessage[index].type == 8) {
-                            var x = FormData.fromJson(json
-                                .decode(listMessage[index].originalMessage!));
-                            for (var e in x.valueServices!) {
-                              sampleServices.add(e);
-                            }
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 24),
-                            child: ReceiverCard(
-                              color: widget.receiverBackground ?? Colors.black,
-                              listService: sampleServices,
-                              receiverBackground: widget.receiverBackground,
-                              receiverLinear: widget.receiverLinear,
-                              receiverTextColor: widget.receiverTextColor,
-                              listFiles: sampleFile,
-                              urlVideo: urlVideo,
-                              onlyOnePerson: false,
-                              listForm: sample,
-                              data: listMessage[index],
-                              listImages: images,
-                              old: old,
-                              seen: false,
-                            ),
-                          );
-                        }
-                      },
                     ),
-            ),
-          ),
-          if (_isVisible)
-            Positioned(
-              right: 28,
-              bottom: 28,
-              child: GestureDetector(
-                onTap: () {
-                  scrollToEnd();
-                },
-                child: Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: widget.senderBackground ?? Color(0xFFFF8D4E),
-                      gradient: widget.senderBackground != null
-                          ? null
-                          : widget.senderLinear != null
-                              ? widget.senderLinear
-                              : kLinearColor),
-                  child: const Icon(
-                    Icons.arrow_downward_rounded,
-                    color: Colors.white,
-                    size: 24,
+                  )
+                : ListView.builder(
+                    controller: _scrollController,
+                    reverse: true,
+                    itemCount: listMessage.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      bool old = true;
+                      if (index == listMessage.length - 1) {
+                      } else {
+                        if (Utils.formatMessageDateCheck(
+                            listMessage[index].createdAtStr!,
+                            listMessage[index + 1].createdAtStr!)) {
+                          old = false;
+                        } else {
+                          old = true;
+                        }
+                      }
+                      if (index > 0 &&
+                          listMessage[index].username ==
+                              widget.data.userIDReal &&
+                          listMessage[index - 1].username ==
+                              widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: SenderCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            senderBackground: widget.senderBackground,
+                            senderLinear: widget.senderLinear,
+                            senderTextColor: widget.senderTextColor,
+                            listFiles: sampleFile,
+                            data: listMessage[index],
+                            listForm: sample,
+                            listImages: images,
+                            urlVideo: urlVideo,
+                            old: old,
+                            statusMessage: listMessage[index].id == null
+                                ? StatusMessage.sending
+                                : StatusMessage.send,
+                            local: listMessage[index].groupId == null,
+                          ),
+                        );
+                      }
+                      if (index > 0 &&
+                          listMessage[index].username ==
+                              widget.data.userIDReal &&
+                          listMessage[index - 1].username !=
+                              widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: SenderCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            senderBackground: widget.senderBackground,
+                            senderLinear: widget.senderLinear,
+                            senderTextColor: widget.senderTextColor,
+                            urlVideo: urlVideo,
+                            listFiles: sampleFile,
+                            data: listMessage[index],
+                            listForm: sample,
+                            listImages: images,
+                            old: old,
+                            statusMessage: listMessage[index].id == null
+                                ? StatusMessage.sending
+                                : StatusMessage.send,
+                            local: listMessage[index].groupId == null,
+                          ),
+                        );
+                      }
+                      if (listMessage[index].username ==
+                          widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: SenderCard(
+                            newMessage: true,
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            senderBackground: widget.senderBackground,
+                            senderLinear: widget.senderLinear,
+                            senderTextColor: widget.senderTextColor,
+                            urlVideo: urlVideo,
+                            listFiles: sampleFile,
+                            data: listMessage[index],
+                            listForm: sample,
+                            listImages: images,
+                            old: old,
+                            statusMessage: listMessage[index].id == null
+                                ? StatusMessage.sending
+                                : StatusMessage.send,
+                            local: listMessage[index].groupId == null,
+                          ),
+                        );
+                      }
+                      if (index > 0 &&
+                          listMessage[index].username !=
+                              widget.data.userIDReal &&
+                          listMessage[index].username !=
+                              listMessage[index - 1].username &&
+                          listMessage[index - 1].username !=
+                              widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: ReceiverCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            receiverBackground: widget.receiverBackground,
+                            receiverLinear: widget.receiverLinear,
+                            receiverTextColor: widget.receiverTextColor,
+                            listFiles: sampleFile,
+                            urlVideo: urlVideo,
+                            onlyOnePerson: false,
+                            listForm: sample,
+                            data: listMessage[index],
+                            listImages: images,
+                            old: old,
+                            seen: false,
+                          ),
+                        );
+                      }
+                      if (index > 0 &&
+                          listMessage[index].username !=
+                              widget.data.userIDReal &&
+                          listMessage[index - 1].username !=
+                              widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: ReceiverCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            receiverBackground: widget.receiverBackground,
+                            receiverLinear: widget.receiverLinear,
+                            receiverTextColor: widget.receiverTextColor,
+                            urlVideo: urlVideo,
+                            listFiles: sampleFile,
+                            onlyOnePerson: true,
+                            data: listMessage[index],
+                            listForm: sample,
+                            listImages: images,
+                            old: old,
+                            seen: false,
+                          ),
+                        );
+                      }
+                      if (index > 0 &&
+                          listMessage[index].username !=
+                              widget.data.userIDReal &&
+                          listMessage[index - 1].username ==
+                              widget.data.userIDReal) {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: ReceiverCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            receiverBackground: widget.receiverBackground,
+                            receiverLinear: widget.receiverLinear,
+                            receiverTextColor: widget.receiverTextColor,
+                            listFiles: sampleFile,
+                            urlVideo: urlVideo,
+                            onlyOnePerson: false,
+                            listForm: sample,
+                            data: listMessage[index],
+                            listImages: images,
+                            old: old,
+                            seen: false,
+                          ),
+                        );
+                      } else {
+                        List<FormFile> sampleFile = [];
+                        List<FormItem> sample = [];
+                        List<FormService> sampleServices = [];
+                        List<String> images = [];
+                        String urlVideo = '';
+                        if (listMessage[index].type == 2) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.value!) {
+                            sample.add(e);
+                          }
+                        } else if (listMessage[index].type == 5) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueImage!) {
+                            images.add(e.image!);
+                          }
+                        } else if (listMessage[index].type == 6) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueFiles!) {
+                            sampleFile.add(e);
+                          }
+                        } else if (listMessage[index].type == 7) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          urlVideo = x.urlVideo ?? '';
+                        } else if (listMessage[index].type == 8) {
+                          var x = FormData.fromJson(json
+                              .decode(listMessage[index].originalMessage!));
+                          for (var e in x.valueServices!) {
+                            sampleServices.add(e);
+                          }
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: ReceiverCard(
+                            color: widget.receiverBackground ?? Colors.black,
+                            listService: sampleServices,
+                            receiverBackground: widget.receiverBackground,
+                            receiverLinear: widget.receiverLinear,
+                            receiverTextColor: widget.receiverTextColor,
+                            listFiles: sampleFile,
+                            urlVideo: urlVideo,
+                            onlyOnePerson: false,
+                            listForm: sample,
+                            data: listMessage[index],
+                            listImages: images,
+                            old: old,
+                            seen: false,
+                          ),
+                        );
+                      }
+                    },
                   ),
+          ),
+        ),
+        if (_isVisible)
+          Positioned(
+            right: 28,
+            bottom: 28,
+            child: GestureDetector(
+              onTap: () {
+                scrollToEnd();
+              },
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: widget.senderBackground ?? Color(0xFFFF8D4E),
+                    gradient: widget.senderBackground != null
+                        ? null
+                        : widget.senderLinear != null
+                            ? widget.senderLinear
+                            : kLinearColor),
+                child: const Icon(
+                  Icons.arrow_downward_rounded,
+                  color: Colors.white,
+                  size: 24,
                 ),
               ),
-            )
-        ],
-      ),
+            ),
+          )
+      ],
     );
   }
 }
