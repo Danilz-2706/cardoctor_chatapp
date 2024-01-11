@@ -235,12 +235,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.appBarCustom != null) widget.appBarCustom!,
-          const SizedBox(height: 8.0),
           Expanded(child: widget.listHistoryChat),
           if (widget.stackWidget != null) widget.stackWidget!,
-          const SizedBox(height: 8),
           if (typing) widget.typingChat,
-          const SizedBox(height: 8),
           InputChatApp(
             commingSoon: (p0) {
               widget.commingSoon.call(p0);
