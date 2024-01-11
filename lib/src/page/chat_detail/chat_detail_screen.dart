@@ -45,6 +45,8 @@ class ChatDetailScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) pressPickFiles;
   final Function(Map<String, dynamic>) pressPickVideo;
   final Function(Map<String, dynamic>) errorGetFile;
+  final Function(Map<String, dynamic>) commingSoon;
+
 
   final VoidCallback pressCallAudio;
   final VoidCallback pressCallVideo;
@@ -78,7 +80,7 @@ class ChatDetailScreen extends StatefulWidget {
     required this.pressCallAudio,
     required this.pressCallVideo,
     required this.errorGetFile,
-    this.appBarCustom,
+    this.appBarCustom, required this.commingSoon,
   }) : super(key: key);
 
   @override
@@ -240,6 +242,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           if (typing) widget.typingChat,
           const SizedBox(height: 8),
           InputChatApp(
+            commingSoon: (p0) {
+              widget.commingSoon.call(p0);
+            },
             errorGetFile: (p0) {
               widget.errorGetFile.call(p0);
             },

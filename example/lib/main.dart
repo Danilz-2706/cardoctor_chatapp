@@ -88,6 +88,16 @@ class _HomePageState extends State<HomePage> {
         userIDReal: 'Cardoctor1Driver');
     return SafeArea(
       child: ChatDetailScreen(
+        commingSoon: (p0) {
+          print('123');
+         setState(() {
+           Utils.showToast(
+             context,
+             'coming soon',
+             type: ToastType.ERROR,
+           );
+         });
+        },
         appBarCustom: Container(
           width: double.infinity,
           height: 100,
@@ -262,7 +272,7 @@ var dataSend = [
     "userId": 15,
     "profileName": "Car Doctor Expert",
     "originalMessage":
-        "{\"key\":\"form\",\"value\":null,\"valueImage\":null,\"valueFiles\":null,\"valueServices\":[{\"title\":\"Kiểm tra xe và nhận tư vấn tại garage\",\"image\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230908174558929_vidma_recorder_26082023_103014.jpg\"},{\"title\":\"Kiểm tra xe và nhận tư vấn tại gaa xe và nhận tư vấn tại gaa xe và nhận tư vấn tại garage\",\"image\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230908174558929_vidma_recorder_26082023_103014.jpg\"},{\"title\":\"Kiểm tra xe và nhận tư vấn tại garage\",\"image\":\"https://stg-api.cardoctor.com.vn/chat-service/api/v1/files/2023/09/chat-data/20230908174558929_vidma_recorder_26082023_103014.jpg\"}]}",
+        "kk",
     "filteredMessage":
         "{\"key\":\"form\",\"value\":[{\"text\":\"Th\u00f4ng tin y\u00eau c\u1ea7u\",\"label\":\"\",\"hintText\":\"\",\"type\":\"title\",\"drop\":null,\"value2\":null},{\"text\":\"\",\"label\":\"D\u00f2ng xe\",\"hintText\":\"Honda Civic: 82A-57329\",\"type\":\"dropdown\",\"drop\":\"drop\",\"value2\":null},{\"text\":\"\",\"label\":\"Lo\u1ea1i xe\",\"hintText\":\"Honda\",\"type\":\"dropdown\",\"drop\":\"drop\",\"value2\":null},{\"text\":\"\",\"label\":\"S\u1ed1 km\",\"hintText\":\"S\u1ed1 km \u0111\u00e3 ch\u1ea1y\",\"type\":\"dropdown\",\"drop\":\"image\",\"value2\":\"\"},{\"text\":\"controllerDescription.text\",\"label\":\"\",\"hintText\":\"\",\"type\":\"textfield\",\"drop\":null,\"value2\":null}],\"valueImage\":null,\"valueFiles\":null}",
     "attachmentType": "image",
@@ -270,7 +280,7 @@ var dataSend = [
     "linkPreview": "",
     "username": "Cardoctor1Driver",
     "groupName": "GR_1693357083059",
-    "type": 8,
+    "type": null,
     "createdAtStr": "2023-09-08T17:45:59",
     "updatedAtStr": "2023-09-08T17:45:59",
     "createdAt": "2023-09-08T17:45:59",
